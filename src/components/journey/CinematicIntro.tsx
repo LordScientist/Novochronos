@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { Play } from 'lucide-react';
 import { IntroScene } from '../../types/journey';
 import { IntroScene3D } from '../canvas/IntroScene3D';
 import { CinematicIntroOverlay } from './CinematicIntroOverlay';
@@ -13,37 +14,35 @@ interface CinematicIntroProps {
 }
 
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
-  // Audio & Master clock state
+  // Narration Voiceover Audio Element ref
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [hasStarted, setHasStarted] = useState<boolean>(false);
   const rafRef = useRef<number | null>(null);
-
-  // Background ambient synthesizer (Web Audio API) for rich sub-bass depth beneath the narration
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
 
   // Derive active sync cue, scene, and sentinel from the exact audio timestamp
   const activeCue = getCueForTimestamp(currentTime);
   const currentScene = activeCue.scene;
   const activeSentinelIndex = activeCue.sentinelIndex ?? 0;
 
-  // Calculate time within current scene
+  // Exact start timestamps for each scene (aligned with spoken voiceover)
   const sceneStartTimes: Record<IntroScene, number> = {
     'awakening': 0.0,
-    'sentinels': 11.8,
+    'sentinels': 11.5,
     'grand-exhibition': 55.5,
     'planetary-reveal': 65.5,
     'title-reveal': 74.5,
   };
   const timeInScene = Math.max(0, currentTime - sceneStartTimes[currentScene]);
 
-  // High-precision synchronization loop driven by requestAnimationFrame
+  // Master Clock: High-precision 60fps loop synced to narration audio.currentTime
   useEffect(() => {
     const updateLoop = () => {
-      if (audioRef.current && !audioRef.current.paused) {
-        setCurrentTime(audioRef.current.currentTime);
+      const audio = audioRef.current;
+      if (audio && !audio.paused) {
+        setCurrentTime(audio.currentTime);
       }
       rafRef.current = requestAnimationFrame(updateLoop);
     };
@@ -54,86 +53,64 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     };
   }, []);
 
-  // Initialize Web Audio sub-bass drone
-  const initAmbientSynth = useCallback(() => {
-    if (audioCtxRef.current) return;
-    try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      audioCtxRef.current = ctx;
+  // Primary function to start voiceover playback with full user gesture compliance
+  const startAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-      const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.12, ctx.currentTime);
-      masterGain.connect(ctx.destination);
-      gainNodeRef.current = masterGain;
+    audio.volume = 1.0;
+    audio.muted = isMuted;
 
-      // Sub-bass drone oscillator (55Hz A1)
-      const osc1 = ctx.createOscillator();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(55, ctx.currentTime);
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(110, ctx.currentTime);
-
-      osc1.connect(filter);
-      filter.connect(masterGain);
-      osc1.start();
-
-      // Soft cosmic harmonic shimmer (110Hz A2)
-      const osc2 = ctx.createOscillator();
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(110, ctx.currentTime);
-      const osc2Gain = ctx.createGain();
-      osc2Gain.gain.setValueAtTime(0.04, ctx.currentTime);
-      osc2.connect(osc2Gain);
-      osc2Gain.connect(masterGain);
-      osc2.start();
-    } catch {
-      // AudioContext unavailable or autoplay blocked
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          setHasStarted(true);
+        })
+        .catch((err) => {
+          console.warn('Audio playback waiting for direct user gesture:', err);
+        });
     }
   }, [isMuted]);
 
-  // Attempt autoplay on mount
+  // Attempt autoplay on mount (succeeds if browser has high user engagement or permission)
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
-      audio.currentTime = 0;
+      audio.volume = 1.0;
+      audio.muted = false;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
             setIsPlaying(true);
-            initAmbientSynth();
+            setHasStarted(true);
           })
           .catch(() => {
-            // Browser autoplay policy blocked unprompted audio; wait for user gesture
+            // Browser autoplay policy requires user gesture; show start prompt
             setIsPlaying(false);
+            setHasStarted(false);
           });
       }
     }
-  }, [initAmbientSynth]);
+  }, []);
 
   // Handle Play/Pause toggle
   const handleTogglePlay = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    initAmbientSynth();
-
     if (audio.paused) {
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
-      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-        audioCtxRef.current.resume();
-      }
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
     } else {
       audio.pause();
       setIsPlaying(false);
-      if (audioCtxRef.current && audioCtxRef.current.state === 'running') {
-        audioCtxRef.current.suspend();
-      }
     }
-  }, [initAmbientSynth]);
+  }, []);
 
   // Handle Mute toggle
   const handleToggleMute = useCallback(() => {
@@ -141,9 +118,6 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       const next = !prev;
       if (audioRef.current) {
         audioRef.current.muted = next;
-      }
-      if (gainNodeRef.current && audioCtxRef.current) {
-        gainNodeRef.current.gain.setValueAtTime(next ? 0 : 0.12, audioCtxRef.current.currentTime);
       }
       return next;
     });
@@ -160,23 +134,21 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
 
   // Jump to specific scene
   const handleSelectScene = useCallback((scene: IntroScene) => {
-    initAmbientSynth();
     const target = sceneStartTimes[scene];
     handleSeek(target);
-    if (audioRef.current && audioRef.current.paused) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    const audio = audioRef.current;
+    if (audio && audio.paused) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
     }
-  }, [handleSeek, initAmbientSynth]);
+  }, [handleSeek]);
 
   // Skip Intro immediately to Stage 1 (Command Terminal)
   const handleSkip = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
-    }
-    if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch {}
     }
     onComplete();
   }, [onComplete]);
@@ -184,21 +156,20 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
   // Replay Intro from start
   const handleReplay = useCallback(() => {
     handleSeek(0);
-    if (audioRef.current) {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    const audio = audioRef.current;
+    if (audio) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
     }
   }, [handleSeek]);
 
-  // Clean up audio on unmount
+  // Clean up on unmount
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-      }
-      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        try {
-          audioCtxRef.current.close();
-        } catch {}
       }
     };
   }, []);
@@ -209,24 +180,25 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     <div
       className="relative w-full h-screen bg-black overflow-hidden select-none"
       onClick={() => {
-        // Unlock audio on first user click if autoplay was initially blocked
-        if (audioRef.current && audioRef.current.paused && !isPlaying) {
-          audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
-          initAmbientSynth();
+        // Any click on the viewport starts voiceover playback if not yet started
+        if (!hasStarted) {
+          startAudio();
         }
       }}
     >
-      {/* Authentic Master Audio Element */}
+      {/* Authentic Master Narration Audio Element (NO SYNTH / NO BUZZING) */}
       <audio
         ref={audioRef}
         src="/audio/intro-narration.mp3"
         preload="auto"
         playsInline
-        onPlay={() => setIsPlaying(true)}
+        onPlay={() => {
+          setIsPlaying(true);
+          setHasStarted(true);
+        }}
         onPause={() => setIsPlaying(false)}
         onEnded={() => {
           setIsPlaying(false);
-          // Set position to title-reveal completion state
           setCurrentTime(INTRO_AUDIO_DURATION);
         }}
       />
@@ -250,6 +222,36 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
 
       {/* Cinematic Vignette Overlay */}
       <div className="absolute inset-0 pointer-events-none z-10 bg-radial-gradient" />
+
+      {/* Initial Start Prompt (Displayed only when browser blocks unprompted autoplay) */}
+      {!hasStarted && (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/60 backdrop-blur-md pointer-events-auto">
+          <div className="max-w-md mx-auto text-center px-6 py-8 rounded-2xl bg-slate-950/90 border border-amber-500/30 shadow-[0_0_50px_rgba(245,158,11,0.2)]">
+            <span className="font-mono text-[10px] tracking-[0.3em] text-amber-400 font-bold uppercase block mb-2">
+              STAGE 0 // NASA SPACE APPS ARCHIVE
+            </span>
+            <h1 className="font-orbitron text-2xl sm:text-3xl font-black text-white tracking-wider mb-2">
+              NOVOCHRONOS
+            </h1>
+            <p className="font-sans text-xs text-slate-300 mb-6 leading-relaxed">
+              Experience the cinematic 3D exhibition with authentic narration voiceover.
+            </p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                startAudio();
+              }}
+              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:shadow-[0_0_40px_rgba(245,158,11,0.7)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Play className="w-4 h-4 fill-slate-950" />
+              <span>START CINEMATIC INTRODUCTION</span>
+            </button>
+            <span className="font-mono text-[10px] text-slate-500 block mt-3">
+              Click anywhere on screen to enable audio
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* HTML / DOM Control & Typography Overlay */}
       <CinematicIntroOverlay

@@ -34,7 +34,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   {
     id: 'prologue-2',
     startSec: 3.5,
-    endSec: 7.2,
+    endSec: 7.0,
     scene: 'awakening',
     spokenWords: 'we sent our machines ahead into the cold dark,',
     visualSubject: 'Circular Exhibition Architecture',
@@ -43,8 +43,8 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   },
   {
     id: 'prologue-3',
-    startSec: 7.2,
-    endSec: 11.8,
+    startSec: 7.0,
+    endSec: 11.5,
     scene: 'awakening',
     spokenWords: 'built to endure and never to return.',
     visualSubject: 'Concentric Floor Rings & Pedestals',
@@ -55,7 +55,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   // 2. The Eight Sentinels Sequential Showcase
   {
     id: 'sentinel-opportunity',
-    startSec: 11.8,
+    startSec: 11.5,
     endSec: 18.2,
     scene: 'sentinels',
     sentinelIndex: 0,
@@ -63,12 +63,12 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
     spokenWords: 'Opportunity, marching an Olympic marathon through 15 years of Martian dust.',
     visualSubject: 'Opportunity Rover (MER-B / "Oppy")',
     visualAction: 'Primary key spotlight illuminates Opportunity; solar panels, Pancam mast, and rocker-bogie wheels highlighted.',
-    cameraMovement: 'Camera orbits smoothly around Opportunity’s front quarter; lower-third title card appears.',
+    cameraMovement: 'Camera glides to Opportunity front 3/4 quarter view; lower-third title card appears.',
   },
   {
     id: 'sentinel-ingenuity',
     startSec: 18.2,
-    endSec: 23.5,
+    endSec: 23.4,
     scene: 'sentinels',
     sentinelIndex: 1,
     spotlightTarget: 1,
@@ -79,7 +79,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   },
   {
     id: 'sentinel-apollo11',
-    startSec: 23.5,
+    startSec: 23.4,
     endSec: 29.2,
     scene: 'sentinels',
     sentinelIndex: 2,
@@ -92,7 +92,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   {
     id: 'sentinel-insight',
     startSec: 29.2,
-    endSec: 33.8,
+    endSec: 33.7,
     scene: 'sentinels',
     sentinelIndex: 3,
     spotlightTarget: 3,
@@ -103,7 +103,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   },
   {
     id: 'sentinel-apollo15-lrv',
-    startSec: 33.8,
+    startSec: 33.7,
     endSec: 38.6,
     scene: 'sentinels',
     sentinelIndex: 4,
@@ -116,7 +116,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   {
     id: 'sentinel-sojourner',
     startSec: 38.6,
-    endSec: 44.2,
+    endSec: 44.0,
     scene: 'sentinels',
     sentinelIndex: 5,
     spotlightTarget: 5,
@@ -127,7 +127,7 @@ export const INTRO_AUDIO_SYNC_TIMELINE: AudioSyncCue[] = [
   },
   {
     id: 'sentinel-pioneer10',
-    startSec: 44.2,
+    startSec: 44.0,
     endSec: 50.0,
     scene: 'sentinels',
     sentinelIndex: 6,

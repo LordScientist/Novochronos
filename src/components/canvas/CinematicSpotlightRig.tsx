@@ -36,20 +36,20 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
       const sentX = Math.cos(angle) * pedestalRadius;
       const sentZ = Math.sin(angle) * pedestalRadius;
 
-      // Primary key spotlight position: positioned above and slightly offset to cast depth shadows
-      const lightX = sentX + Math.cos(angle + 0.25) * 1.4;
-      const lightY = 5.2;
-      const lightZ = sentZ + Math.sin(angle + 0.25) * 1.4;
+      // Primary key spotlight position: positioned in front and above to illuminate the model's face
+      const lightX = sentX - Math.cos(angle - 0.25) * 2.2;
+      const lightY = 4.8;
+      const lightZ = sentZ - Math.sin(angle - 0.25) * 2.2;
 
-      // Soft fill light position: lower and offset opposite to reveal mechanical shadow detail
-      const fillX = sentX - Math.cos(angle) * 1.8;
-      const fillY = 1.8;
-      const fillZ = sentZ - Math.sin(angle) * 1.8;
+      // Soft fill light position: offset opposite side in front to reveal mechanical shadow detail
+      const fillX = sentX - Math.cos(angle + 0.35) * 2.5;
+      const fillY = 2.0;
+      const fillZ = sentZ - Math.sin(angle + 0.35) * 2.5;
 
-      // Rim light position: behind the sentinel pointing inward to create edge separation
-      const rimX = sentX + Math.cos(angle) * 2.2;
-      const rimY = 2.5;
-      const rimZ = sentZ + Math.sin(angle) * 2.2;
+      // Rim light position: positioned behind the sentinel pointing inward to create edge separation
+      const rimX = sentX + Math.cos(angle) * 1.8;
+      const rimY = 2.8;
+      const rimZ = sentZ + Math.sin(angle) * 1.8;
 
       // Target anchor object placed directly at the model center
       const targetObj = new THREE.Object3D();

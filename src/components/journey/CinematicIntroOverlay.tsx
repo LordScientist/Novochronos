@@ -46,13 +46,13 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
   // Marker positions for the timeline scrubber
   const timelineMarkers = [
-    { time: 11.8, label: 'Oppy', index: 0 },
+    { time: 11.5, label: 'Oppy', index: 0 },
     { time: 18.2, label: 'Ginny', index: 1 },
-    { time: 23.5, label: 'Apollo 11', index: 2 },
+    { time: 23.4, label: 'Apollo 11', index: 2 },
     { time: 29.2, label: 'InSight', index: 3 },
-    { time: 33.8, label: 'LRV-1', index: 4 },
+    { time: 33.7, label: 'LRV-1', index: 4 },
     { time: 38.6, label: 'Sojourner', index: 5 },
-    { time: 44.2, label: 'Pioneer 10', index: 6 },
+    { time: 44.0, label: 'Pioneer 10', index: 6 },
     { time: 50.0, label: 'Surveyor 3', index: 7 },
     { time: 55.5, label: 'Exhibition' },
     { time: 65.5, label: 'Planetary' },

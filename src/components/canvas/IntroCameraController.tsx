@@ -42,25 +42,25 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
       }
 
       case 'sentinels': {
-        // Scene 2: Sentinels (11.8s - 55.5s)
-        // Focused mechanical showcase of active sentinel with full-screen clarity
+        // Scene 2: Sentinels (11.5s - 55.5s)
+        // Focused mechanical showcase of active sentinel from heroic front 3/4 angle
         const sentinelAngle = (activeSentinelIndex / 8) * Math.PI * 2;
         const sentX = Math.cos(sentinelAngle) * pedestalRadius;
         const sentZ = Math.sin(sentinelAngle) * pedestalRadius;
 
-        // Subtle dynamic camera drift around the model while spoken about
-        const driftAngle = Math.sin((currentTime ?? timeInScene) * 0.4) * 0.12;
+        // Position camera inside amphitheater facing outward toward the model's front deck
+        const drift = Math.sin((currentTime ?? timeInScene) * 0.35) * 0.12;
         const camDistance = 4.2;
         const camElevation = 1.35;
-        const offsetAngle = sentinelAngle + 0.28 + driftAngle;
+        const viewAngle = sentinelAngle - 0.22 + drift;
 
         targetPos.set(
-          sentX + Math.cos(offsetAngle) * camDistance,
+          sentX - Math.cos(viewAngle) * camDistance,
           camElevation,
-          sentZ + Math.sin(offsetAngle) * camDistance
+          sentZ - Math.sin(viewAngle) * camDistance
         );
 
-        targetLookAt.current.set(sentX, 0.45, sentZ);
+        targetLookAt.current.set(sentX, 0.55, sentZ);
         break;
       }
 
