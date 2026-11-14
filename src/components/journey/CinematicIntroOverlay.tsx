@@ -87,30 +87,30 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
                 className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-ping"
                 style={{ backgroundColor: currentSentinel.accentColor }}
               />
-              <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] text-amber-400 font-bold uppercase">
-                SENTINEL 0{activeSentinelIndex + 1} // {currentSentinel.celestialBody.toUpperCase()}
+              <span className="font-sans text-[10px] sm:text-[11px] tracking-[0.18em] text-amber-400 font-normal uppercase">
+                SENTINEL 0{activeSentinelIndex + 1} • {currentSentinel.celestialBody.toUpperCase()}
               </span>
             </div>
 
-            {/* Model Name with Smooth Glow and Typography */}
-            <h2 className="font-orbitron text-xl sm:text-3xl md:text-4xl font-black text-white tracking-wider drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            {/* Model Name with Swiss Neo-Grotesque Bold Typography */}
+            <h2 className="font-sans text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]">
               {currentSentinel.name}
             </h2>
 
-            {/* Subtitle Details: Resting Site & Coordinates */}
-            <div className="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-0.5 sm:gap-y-1 font-mono text-[10px] sm:text-xs text-slate-300 mt-1 sm:mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              <span className="text-amber-300/90 font-medium">
-                📍 {currentSentinel.landingSite}
+            {/* Subtitle Details: Resting Site & Coordinates in Light Weight */}
+            <div className="flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1 font-sans text-[11px] sm:text-xs text-slate-300 mt-1.5 font-light tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <span className="text-amber-300/90 font-normal">
+                {currentSentinel.landingSite}
               </span>
               <span className="text-slate-500">•</span>
-              <span className="text-slate-400">
+              <span className="text-slate-400 font-light">
                 {currentSentinel.missionLifespan.actual}
               </span>
             </div>
 
             {/* Animated accent gradient line */}
             <div
-              className="h-0.5 mt-2 sm:mt-3 rounded-full transition-all duration-700"
+              className="h-0.5 mt-2.5 sm:mt-3.5 rounded-full transition-all duration-700"
               style={{
                 background: `linear-gradient(90deg, ${currentSentinel.accentColor}, #38bdf8, transparent)`,
                 width: '180px',
@@ -122,13 +122,13 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Scene 3 Grand Exhibition Subtle Indicator */}
         {scene === 'grand-exhibition' && (
           <div className="animate-title-reveal pointer-events-auto max-w-md mb-2 sm:mb-4">
-            <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.25em] text-sky-400 uppercase font-bold block mb-1">
+            <span className="font-sans text-[10px] sm:text-[11px] tracking-[0.18em] text-sky-400 uppercase font-normal block mb-1">
               THE CIRCULAR AMPHITHEATER
             </span>
-            <h3 className="font-orbitron text-lg sm:text-2xl font-black text-white tracking-wide drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            <h3 className="font-sans text-xl sm:text-3xl font-extrabold text-white tracking-tight uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
               ALL EIGHT SENTINELS
             </h3>
-            <p className="font-mono text-[10px] sm:text-xs text-slate-300 mt-1">
+            <p className="font-sans text-xs sm:text-sm text-slate-300 mt-1 font-light leading-relaxed">
               Panoramic 360° orbital view of humanity's off-world pioneers
             </p>
           </div>
@@ -144,7 +144,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
           <div className="animate-fade-in flex-1 flex justify-center">
             <button
               onClick={onEnterArchive}
-              className="px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-[11px] sm:text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:shadow-[0_0_45px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 flex items-center gap-2 group"
+              className="px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-sans font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:shadow-[0_0_45px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 flex items-center gap-2 group"
             >
               <span>ENTER THE ARCHIVE</span>
               <span className="w-2 h-2 rounded-full bg-slate-950 group-hover:scale-125 transition-transform" />
@@ -155,7 +155,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Discreet Skip Intro button */}
         <button
           onClick={onSkip}
-          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-950/70 hover:bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800/80 font-mono text-[10px] sm:text-[11px] tracking-wider backdrop-blur-md transition-all duration-200 shadow-xl group"
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-950/70 hover:bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800/80 font-sans font-normal text-[10px] sm:text-[11px] tracking-[0.16em] uppercase backdrop-blur-md transition-all duration-200 shadow-xl group"
           title="Skip Intro to Archive"
         >
           <span>SKIP INTRO</span>

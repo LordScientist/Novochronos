@@ -87,33 +87,33 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
       const state = lightsState.current[idx];
       if (!state) return;
 
-      let targetKey = 1.4;  // Base ambient pedestal illumination
-      let targetFill = 0.5; // Base fill
-      let targetRim = 0.6;   // Base rim
+      let targetKey = 1.0;  // Base ambient pedestal illumination
+      let targetFill = 0.35; // Base fill
+      let targetRim = 0.45;   // Base rim
 
       if (scene === 'awakening') {
         // Lights gradually power on as the hall awakens
-        const awakenFactor = Math.max(0.4, Math.min(timeInScene / 4.0, 1.0));
-        targetKey = 1.6 * awakenFactor;
-        targetFill = 0.6 * awakenFactor;
-        targetRim = 0.7 * awakenFactor;
+        const awakenFactor = Math.max(0.35, Math.min(timeInScene / 4.0, 1.0));
+        targetKey = 1.3 * awakenFactor;
+        targetFill = 0.45 * awakenFactor;
+        targetRim = 0.55 * awakenFactor;
       } else if (scene === 'sentinels') {
         if (activeSentinelIndex === idx) {
           // Focused spacecraft receives primary cinematic key, fill, and rim lighting
-          targetKey = 8.5;  // Highly prominent key illumination revealing materials and geometry
-          targetFill = 2.8; // Bright side fill to illuminate mechanical details
-          targetRim = 3.2;  // Crisp back-edge separation
+          targetKey = 5.8;  // Prominent key illumination revealing materials and geometry
+          targetFill = 1.9; // Soft side fill to illuminate mechanical details
+          targetRim = 2.2;  // Crisp back-edge separation
         } else {
           // Other spacecraft remain visible in the environment at clear ambient levels
-          targetKey = 1.2;
-          targetFill = 0.45;
-          targetRim = 0.55;
+          targetKey = 0.9;
+          targetFill = 0.3;
+          targetRim = 0.4;
         }
       } else if (scene === 'grand-exhibition') {
         // All eight spacecraft are balanced and illuminated together for the 360° panoramic sweep
-        targetKey = 4.2;
-        targetFill = 1.4;
-        targetRim = 1.8;
+        targetKey = 3.0;
+        targetFill = 1.0;
+        targetRim = 1.3;
       } else {
         // In planetary scenes, circular lights dim out
         targetKey = 0;

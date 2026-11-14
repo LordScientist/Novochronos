@@ -18,7 +18,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '90 Martian Days (Sols)',
       actual: '14 Years, 138 Days (5,352 Sols)'
     },
-    characterArchetype: 'The Little Rover That Could',
+    characterArchetype: 'Mars Exploration Rover • MER-B',
     tagline: 'Planned for 90 days; gave humanity 15 years and an Olympic marathon across Mars.',
     modelPath: '/models/opportunity.glb',
     modelScale: [0.9, 0.9, 0.9],
@@ -62,7 +62,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '5 Test Demonstration Flights (30 Days)',
       actual: '72 Flights (Over 1,000 Days)'
     },
-    characterArchetype: 'The Maverick Aviator',
+    characterArchetype: 'Mars Aerial Reconnaissance Scout',
     tagline: 'The first powered, controlled aircraft ever flown on another celestial world.',
     modelPath: '/models/ingenuity.glb',
     modelScale: [1.2, 1.2, 1.2],
@@ -105,7 +105,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '21 Hours, 36 Minutes on Surface',
       actual: 'Permanent Archaeological Monument (55+ Years Active Science)'
     },
-    characterArchetype: 'The Sacred Origin',
+    characterArchetype: 'Historic Lunar Landing Pedestal',
     tagline: 'The historic golden platform that served as humanity’s launchpad for the first lunar steps.',
     modelPath: '/models/apollo-lunar-module.glb',
     modelScale: [0.65, 0.65, 0.65],
@@ -148,7 +148,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '1 Mars Year (~2 Earth Years)',
       actual: '4 Years, 24 Days (1,445 Sols)'
     },
-    characterArchetype: 'The Planetary Doctor',
+    characterArchetype: 'Planetary Geophysics Observatory',
     tagline: 'Took the pulse of Mars, listening to over 1,300 Marsquakes with an ultra-sensitive seismic ear.',
     modelPath: '/models/insight.glb',
     modelScale: [0.85, 0.85, 0.85],
@@ -191,7 +191,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '67 Hours on Moon Surface',
       actual: 'Permanent Lunar Monument (53+ Years)'
     },
-    characterArchetype: 'The Joyful Off-Roader',
+    characterArchetype: 'Lunar Surface Mobility System',
     tagline: 'Humanity\'s first electric automobile driven on the dusty mountains of another world.',
     modelPath: undefined, // Reconstructed procedurally with Three.js geometry
     modelScale: [1.0, 1.0, 1.0],
@@ -221,7 +221,7 @@ export const ARTIFACTS: Artifact[] = [
       'LRV-1 is parked at Hadley Rille with its TV camera tilted up, where it still stands under the vacuum of space.'
     ],
     ttsCleanScript: scriptMap.get('apollo-15-lrv')?.ttsCleanScript || 'We were humanity’s first electric car, and we didn’t drive on highways—we cruised the mountains of the Moon! Built with four open wire-mesh wheels and a lawn-chair cockpit, we let astronauts explore miles further than human legs could ever walk.',
-    directorScript: scriptMap.get('apollo-15-lrv')?.directorScript || '[Voice: Joyful, adventurous] We were humanity’s first electric car, and we didn’t drive on highways—we cruised the mountains of the Moon!',
+    directorScript: scriptMap.get('apollo-15-lrv')?.directorScript || 'We were humanity’s first electric car, and we didn’t drive on highways—we cruised the mountains of the Moon!',
     audioDurationSec: scriptMap.get('apollo-15-lrv')?.estimatedDurationSec || 65,
     accentColor: '#93c5fd'
   },
@@ -239,7 +239,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '7 Martian Sols (Rover) / 30 Sols (Base)',
       actual: '83 Sols (Nearly 3 Months)'
     },
-    characterArchetype: 'The Brave Microrover',
+    characterArchetype: 'First Planetary Microrover',
     tagline: 'The microwave-sized pioneer named after civil rights crusader Sojourner Truth that proved rovers could survive on Mars.',
     modelPath: undefined, // Reconstructed procedurally with Three.js geometry
     modelScale: [1.1, 1.1, 1.1],
@@ -269,7 +269,7 @@ export const ARTIFACTS: Artifact[] = [
       'NASA named the rover after Sojourner Truth, an African-American abolitionist and women\'s rights champion.'
     ],
     ttsCleanScript: scriptMap.get('sojourner-pathfinder')?.ttsCleanScript || 'Before the giant rovers ruled the Red Planet, there was just me: twenty-three pounds of titanium, six tiny knobby wheels, and an indomitable spirit. They named me after Sojourner Truth, and on July 4, 1997, I took the very first tire roll on Mars.',
-    directorScript: scriptMap.get('sojourner-pathfinder')?.directorScript || '[Voice: Plucky, cheerful pioneer] Before the giant rovers ruled the Red Planet, there was just me: twenty-three pounds of titanium and six tiny wheels.',
+    directorScript: scriptMap.get('sojourner-pathfinder')?.directorScript || 'Before the giant rovers ruled the Red Planet, there was just me: twenty-three pounds of titanium and six tiny wheels.',
     audioDurationSec: scriptMap.get('sojourner-pathfinder')?.estimatedDurationSec || 62,
     accentColor: '#e05a36'
   },
@@ -287,7 +287,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '21 Months (Jupiter Flyby)',
       actual: '30+ Years Active Telemetry (Perpetual Cosmic Flight)'
     },
-    characterArchetype: 'The Interstellar Emissary',
+    characterArchetype: 'Interstellar Deep Space Probe',
     tagline: 'The first human spacecraft to cross the Asteroid Belt, fly past Jupiter, and venture toward deep interstellar space.',
     modelPath: '/models/pioneer-10.glb',
     modelScale: [0.75, 0.75, 0.75],
@@ -317,7 +317,7 @@ export const ARTIFACTS: Artifact[] = [
       'Pioneer 10 was the most distant human-made object in the universe until Voyager 1 surpassed it in 1998.'
     ],
     ttsCleanScript: scriptMap.get('pioneer-10')?.ttsCleanScript || 'I am the lone wanderer. Launched in the spring of 1972, I was the first scout to cross the perilous Asteroid Belt and look into the giant swirling eye of Jupiter. Bolted to my frame is a gleaming gold plate carrying humanity’s greeting to the universe.',
-    directorScript: scriptMap.get('pioneer-10')?.directorScript || '[Voice: Philosophical, echoing, majestic] I am the lone wanderer. Launched in 1972, carrying humanity’s golden greeting into deep interstellar night.',
+    directorScript: scriptMap.get('pioneer-10')?.directorScript || 'I am the lone wanderer. Launched in 1972, carrying humanity’s golden greeting into deep interstellar night.',
     audioDurationSec: scriptMap.get('pioneer-10')?.estimatedDurationSec || 78,
     accentColor: '#a855f7'
   },
@@ -335,7 +335,7 @@ export const ARTIFACTS: Artifact[] = [
       planned: '14 Lunar Days',
       actual: 'Permanent Lunar Scout (Visited by Apollo 12)'
     },
-    characterArchetype: 'The Faithful Herald',
+    characterArchetype: 'Automated Lunar Precursor Lander',
     tagline: 'The lunar robotic scout that dug the first trenches in Moon soil and was later visited by Apollo 12 astronauts.',
     modelPath: undefined, // Reconstructed procedurally with Three.js geometry
     modelScale: [0.95, 0.95, 0.95],
@@ -365,7 +365,7 @@ export const ARTIFACTS: Artifact[] = [
       'It sits inside the gentle slope of a 650-foot crater named Surveyor Crater.'
     ],
     ttsCleanScript: scriptMap.get('surveyor-3')?.ttsCleanScript || 'Two years before Neil Armstrong’s famous bootprint, I stood alone in the Ocean of Storms. I had three aluminum legs and a mechanical claw, digging the very first trenches in lunar soil so scientists could be sure the Moon would hold the weight of human astronauts.',
-    directorScript: scriptMap.get('surveyor-3')?.directorScript || '[Voice: Gentle, proud, humble scout] Two years before Apollo 11, I stood alone in the Ocean of Storms. I dug the first trenches so humans could land safely.',
+    directorScript: scriptMap.get('surveyor-3')?.directorScript || 'Two years before Apollo 11, I stood alone in the Ocean of Storms. I dug the first trenches so humans could land safely.',
     audioDurationSec: scriptMap.get('surveyor-3')?.estimatedDurationSec || 64,
     accentColor: '#cbd5e1'
   }

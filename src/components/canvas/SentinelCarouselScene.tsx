@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SpaceShuttleSpine } from './SpaceShuttleSpine';
 import { FloatingSentinelCard } from './FloatingSentinelCard';
@@ -20,32 +20,75 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
   selectedSentinelId,
   onSelectSentinel,
 }) => {
-  const currentScrollIndexRef = useRef<number>(0);
+  const { camera } = useThree();
+  const currentScrollProgressRef = useRef<number>(0);
+  const currentLookAtRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 2.5, 0));
 
-  // Helical geometry parameters
-  const totalCards = narrationScripts.length;
-  const orbitRadius = 5.2; // Radius around the launch stack
-  const stepY = 1.7; // Vertical spacing between consecutive cards
-  const deltaTheta = (Math.PI * 2) / 4.6; // ~78.2 degrees per card
+  // Helical spiral parameters around the stationary Space Shuttle
+  // Replicating Active Theory's spiral staircase flight path:
+  // Starts high up at the tip of the shuttle nose and spirals down to the base rocket engines and gantry heat!
+  const totalCards = narrationScripts.length; // 8 sentinels
+  const heightTop = 3.2;      // Camera & card elevation at scroll progress 0 (Shuttle Tip)
+  const heightBottom = -3.5;  // Camera & card elevation at scroll progress 1 (Rocket Engine Heat)
+  const totalAngle = Math.PI * 2 * 1.35; // 1.35 full spiral revolutions (~486 degrees)
+  const orbitRadius = 5.2;    // Card distance from central shuttle axis
+  const cameraDistance = 9.8; // Viewpoint distance from central shuttle axis
 
-  useFrame((_, delta) => {
-    // Map scroll progress (0 to 1) to continuous card index space (0 to totalCards - 1)
-    const targetIndex = scrollProgress * (totalCards - 1);
-
-    // High-fidelity damping in lockstep with Lenis smooth momentum physics
-    currentScrollIndexRef.current = THREE.MathUtils.damp(
-      currentScrollIndexRef.current,
-      targetIndex,
+  useFrame((state, delta) => {
+    // High-fidelity damping locked directly with Lenis scroll momentum
+    currentScrollProgressRef.current = THREE.MathUtils.damp(
+      currentScrollProgressRef.current,
+      scrollProgress,
       18.0,
       delta
     );
+
+    const p = currentScrollProgressRef.current;
+
+    // Responsive camera distance for mobile vs desktop viewports
+    const isMobile = state.size.width < 768;
+    const effectiveCamDist = isMobile ? 12.2 : cameraDistance;
+
+    // Moving on a spiral staircase around the stationary shuttle
+    const currentAngle = p * totalAngle;
+    const currentY = THREE.MathUtils.lerp(heightTop, heightBottom, p);
+
+    const targetCamX = Math.sin(currentAngle) * effectiveCamDist;
+    const targetCamZ = Math.cos(currentAngle) * effectiveCamDist;
+    const targetCamY = currentY;
+
+    // Smoothly update camera coordinates
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, targetCamX, 18.0, delta);
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, targetCamY, 18.0, delta);
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, targetCamZ, 18.0, delta);
+
+    // Camera continuously aims at the shuttle axis at the current elevation
+    const targetLookAtY = currentY * 0.72 - 0.15;
+    currentLookAtRef.current.y = THREE.MathUtils.damp(currentLookAtRef.current.y, targetLookAtY, 18.0, delta);
+    camera.lookAt(0, currentLookAtRef.current.y, 0);
   });
 
+  // Calculate fixed helical spiral positions for all 8 cards around the stationary shuttle
   const cardTransforms = useMemo(() => {
     return narrationScripts.map((sentinel, index) => {
-      return { sentinel, index };
+      const t = index / (totalCards - 1);
+      const angle = t * totalAngle;
+      const y = THREE.MathUtils.lerp(heightTop, heightBottom, t);
+      const x = Math.sin(angle) * orbitRadius;
+      const z = Math.cos(angle) * orbitRadius;
+
+      // Card faces radially outward toward where the camera orbits
+      const rotation: [number, number, number] = [0, angle, 0];
+
+      return {
+        sentinel,
+        index,
+        t,
+        position: [x, y, z] as [number, number, number],
+        rotation,
+      };
     });
-  }, []);
+  }, [totalCards, heightTop, heightBottom, totalAngle, orbitRadius]);
 
   return (
     <group>
@@ -122,31 +165,13 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
       />
 
       {/* 
-        Layer 5: Helical Card Formation
-        Positioned steadily around the launch stack, moving smoothly on scroll with zero jitter.
+        Layer 5: Helical Card Formation wrapped around the Shuttle
+        Fixed steps along the spiral staircase around the Space Shuttle
       */}
       <group position={[0, 0, 0]}>
-        {cardTransforms.map(({ sentinel, index }) => {
-          const relIndex = index - currentScrollIndexRef.current;
-          const dist = Math.abs(relIndex);
-
-          // Helical vertical displacement
-          const y = -relIndex * stepY;
-
-          // Helical angular spiral
-          const angle = relIndex * deltaTheta;
-
-          // Cylindrical coordinates
-          const x = Math.sin(angle) * orbitRadius;
-          const z = Math.cos(angle) * orbitRadius;
-
-          // Cylindrical perspective curvature: cards gracefully follow the orbital arc
-          // while always presenting their luminous front face to the camera so cards on the far side remain fully visible!
-          const cardRotation: [number, number, number] = [
-            -y * 0.02,
-            -Math.sin(angle) * 0.35,
-            0,
-          ];
+        {cardTransforms.map(({ sentinel, index, position, rotation }) => {
+          const currentIndex = currentScrollProgressRef.current * (totalCards - 1);
+          const dist = Math.abs(index - currentIndex);
 
           return (
             <FloatingSentinelCard
@@ -157,8 +182,8 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
               characterArchetype={sentinel.characterArchetype}
               index={index}
               totalCards={totalCards}
-              position={[x, y, z]}
-              rotation={cardRotation}
+              position={position}
+              rotation={rotation}
               scrollVelocity={scrollVelocity}
               isActive={selectedSentinelId === sentinel.id}
               distanceFromCenter={dist}

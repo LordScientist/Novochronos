@@ -49,17 +49,29 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
   const isFrontFacing = distanceFromCenter < 1.3;
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!cardRef.current) return;
 
-    // Stable scale and position tied directly to scroll progress
-    // When active/clicked, smoothly scale forward towards camera in transition
-    const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
-    const targetScale = isActive ? 1.14 : helixScale;
-    const targetZ = isActive ? position[2] + 0.35 : position[2];
+    // Mobile scale optimization: slightly tighter proportions on mobile screens
+    const isMobile = state.size.width < 768;
+    const mobileScale = isMobile ? 0.86 : 1.0;
 
-    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 18, delta);
-    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 18, delta);
+    // Stable scale and position tied directly to scroll progress
+    // When active/clicked, smoothly translate along local radial normal towards camera
+    const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
+    const targetScale = (isActive ? 1.14 : helixScale) * mobileScale;
+
+    // Push outward along the card's facing angle towards the orbiting camera
+    const normalX = Math.sin(rotation[1]);
+    const normalZ = Math.cos(rotation[1]);
+    const pushDist = isActive ? 0.45 : 0;
+
+    const targetX = position[0] + normalX * pushDist;
+    const targetY = position[1];
+    const targetZ = position[2] + normalZ * pushDist;
+
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, targetX, 18, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, targetY, 18, delta);
     cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, targetZ, 18, delta);
 
     cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 18, delta);
@@ -102,17 +114,16 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     >
       {/* 
         Full-Surface 3D Interactive Bounding Hitbox:
-        A thick volumetric bounding box (3.6 x 2.3 x 0.5) covering the entire card face,
-        edges, text, and backing. Double-sided raycasting ensures clicking ANY area of the card
-        reliably triggers navigation to the sentinel dossier page!
+        Positioned at z = 0.08 in front of all text and image layers.
+        Covers the full card face and edges so clicking anywhere immediately opens the card!
       */}
       <mesh
-        position={[0, 0, 0.02]}
+        position={[0, 0, 0.08]}
         onClick={handleSelect}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
-        <boxGeometry args={[3.6, 2.3, 0.5]} />
+        <planeGeometry args={[3.6, 2.3]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 

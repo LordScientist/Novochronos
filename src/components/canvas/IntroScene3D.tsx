@@ -96,19 +96,19 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
           <ambientLight
             intensity={
               scene === 'awakening'
-                ? Math.max(0.9, timeInScene * 0.45)
-                : 1.8
+                ? Math.max(0.6, timeInScene * 0.3)
+                : 1.2
             }
             color="#e2e8f0"
           />
 
           {/* Sky / Ground balance hemisphere light */}
-          <hemisphereLight args={['#ffffff', '#1e293b', 1.6]} />
+          <hemisphereLight args={['#ffffff', '#1e293b', 1.1]} />
 
           {/* Primary overhead Sun / Studio key light */}
           <directionalLight
             position={[12, 24, 14]}
-            intensity={scene === 'awakening' ? Math.max(2.2, timeInScene * 0.8) : 4.5}
+            intensity={scene === 'awakening' ? Math.max(1.6, timeInScene * 0.6) : 3.2}
             color="#ffffff"
             castShadow
           />
@@ -118,8 +118,8 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
             position={[0, 20, 0]}
             intensity={
               scene === 'awakening'
-                ? Math.max(2.8, timeInScene * 0.9)
-                : 6.0
+                ? Math.max(2.0, timeInScene * 0.65)
+                : 4.0
             }
             angle={0.8}
             penumbra={0.6}
@@ -130,17 +130,17 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
           {/* High-visibility fill and rim lights */}
           <directionalLight
             position={[-14, 16, -12]}
-            intensity={2.8}
+            intensity={1.8}
             color="#93c5fd"
           />
           <directionalLight
             position={[14, 10, -10]}
-            intensity={2.5}
+            intensity={1.6}
             color="#38bdf8"
           />
           <directionalLight
             position={[-10, 8, 12]}
-            intensity={2.2}
+            intensity={1.4}
             color="#fbbf24"
           />
         </group>
