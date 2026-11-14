@@ -23,8 +23,8 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
   // Helical geometry parameters (Active Theory spiral architecture)
   const totalCards = narrationScripts.length;
-  const orbitRadius = 4.7; // Radius of helix around the vertical launch shuttle
-  const stepY = 1.65; // Vertical pitch between consecutive cards along the tower
+  const orbitRadius = 5.2; // Radius of helix around the complete launch stack
+  const stepY = 1.7; // Vertical pitch between consecutive cards along the launch stack
   const deltaTheta = (Math.PI * 2) / 4.6; // Angle pitch (~78.2 degrees per card)
 
   useFrame((_, delta) => {
@@ -80,13 +80,14 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
       <pointLight position={[0, -5, 2]} intensity={2.0} color="#f59e0b" distance={12} />
 
       {/* 
-        Layer 3: The NASA Space Shuttle Orbiter in Vertical Launch Stance
-        Realistic PBR materials, cryogenic boil-off vents, and beginner-friendly callout labels.
+        Layer 3: The Complete NASA Space Transportation System (STS) Launch Stack
+        External Tank (Orange) + Twin Solid Rocket Boosters (White) + Orbiter
+        Inspired by the launchpad reference image, standing as a monumental vertical spine.
       */}
       <SpaceShuttleSpine
         scrollProgress={scrollProgress}
         scrollVelocity={scrollVelocity}
-        scale={0.22}
+        scale={0.92}
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
         showAnnotations={true}

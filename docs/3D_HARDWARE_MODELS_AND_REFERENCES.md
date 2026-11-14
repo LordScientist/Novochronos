@@ -113,18 +113,21 @@ These instructions guide how each tool will be **modeled, optimized, and rendere
 
 ---
 
-## 🚀 Central Narrative Spine — Space Shuttle Orbiter (Active Theory Replacement)
+## 🚀 Central Narrative Spine — Complete NASA Space Shuttle Launch Stack (STS)
+
+Inspired by the full launchpad configuration, the central narrative spine integrates the complete 3-component Space Transportation System:
 
 | Asset | Role | NASA Science 3D Source | Local Path | Verified Size |
 |---|---|---|---|---|
-| **Space Shuttle Orbiter (A)** | Central 3D Flight Spine / Anchor | [Space Shuttle (A)](https://science.nasa.gov/3d-resources/space-shuttle-a/) | `public/models/space-shuttle.glb` | **1.19 MB** |
-| **Space Shuttle (C) (Proxy)** | Lightweight Mobile LOD Fallback | [Space Shuttle (C)](https://science.nasa.gov/3d-resources/space-shuttle-c/) | Optional fallback | **26 KB** |
+| **Space Shuttle Orbiter (A)** | Orbiter Vehicle (Mounted on front) | [Space Shuttle (A)](https://science.nasa.gov/3d-resources/space-shuttle-a/) | `public/models/space-shuttle.glb` | **1.19 MB** |
+| **External Tank (ET)** | Giant Rust-Orange Fuel Tank (Central Core) | [Space Shuttle Parts](https://science.nasa.gov/3d-resources/space-shuttle-parts/) | `public/models/external-tank.glb` | **829 KB** |
+| **Solid Rocket Boosters (SRBs)** | Twin White Rocket Boosters (Port & Starboard) | [Space Shuttle Parts](https://science.nasa.gov/3d-resources/space-shuttle-parts/) | `public/models/srb.glb` | **2.54 MB** |
 
-### Mechanics for Central Spine Integration:
-* **Position:** Fixed along the central scroll axis $(x=0, y=0, z=0)$.
-* **Inertial Response:** Banks (yaw/roll) dynamically based on wheel scroll velocity $\Delta v$.
-* **Exhaust Plume:** Trailing particle system simulating SSME rocket flare and ion plasma.
-* **Orbiting Carousel:** The 8 sentinels orbit around this vehicle in a 3D cylindrical formation.
+### Complete Launch Configuration Features:
+* **The Giant Orange External Tank (ET):** Central structural backbone clad in spray-on terracotta foam insulation (`#c25e19`).
+* **Twin Solid Rocket Boosters (SRBs):** White steel casings with black checkerboard markings flanking the ET.
+* **The Orbiter:** Mounted on the front face of the tank via steel bipod and aft attachment struts.
+* **Vertical Launchpad Stance:** Spans vertically (~11.5 units) to form a majestic, towering rocket column around which the 8 sentinels helix.
 
 ---
 

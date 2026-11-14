@@ -15,74 +15,122 @@ interface SpaceShuttleSpineProps {
 export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   scrollProgress = 0,
   scrollVelocity = 0,
-  scale = 0.22, // Scaled to anchor the center of the viewport from bottom to top
+  scale = 1.0,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
   showAnnotations = true,
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const shuttleMeshRef = useRef<THREE.Group>(null);
+  const stackMeshRef = useRef<THREE.Group>(null);
   const vaporRef = useRef<THREE.Points>(null);
 
-  // Load the official NASA Space Shuttle 3D Model
-  const { scene } = useGLTF('/models/space-shuttle.glb');
+  // Load the official NASA 3D Models: Orbiter + External Tank + Solid Rocket Booster
+  const orbiterGLTF = useGLTF('/models/space-shuttle.glb');
+  const etGLTF = useGLTF('/models/external-tank.glb');
+  const srbGLTF = useGLTF('/models/srb.glb');
 
-  // Clone scene and apply photorealistic PBR material properties based on authentic shuttle metallurgy
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone(true);
+  // Clone & configure photorealistic Orbiter materials
+  const clonedOrbiter = useMemo(() => {
+    const clone = orbiterGLTF.scene.clone(true);
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
-
         if (mesh.material) {
           const mat = (mesh.material as THREE.Material).clone() as THREE.MeshStandardMaterial;
           const name = (mesh.name || '').toLowerCase();
 
-          // Differentiate materials by shuttle component:
           if (name.includes('cylinder') || name.includes('engine')) {
-            // SSME rocket engine bells: High-temp Inconel metallic alloy
             mat.metalness = 0.85;
             mat.roughness = 0.35;
             mat.color = new THREE.Color('#334155');
           } else if (name.includes('cube') || name.includes('sphere')) {
-            // Cockpit flight deck windows: High-specular reflective glass
             mat.metalness = 0.95;
             mat.roughness = 0.08;
             mat.color = new THREE.Color('#0f172a');
           } else {
-            // Authentic ceramic silica thermal tiles & Nomex blankets
             mat.metalness = 0.12;
-            mat.roughness = 0.68;
+            mat.roughness = 0.65;
             mat.envMapIntensity = 1.3;
           }
-
           mesh.material = mat;
         }
       }
     });
     return clone;
-  }, [scene]);
+  }, [orbiterGLTF.scene]);
 
-  // Cryogenic LOX boil-off vapor venting along the vertical fuselage
+  // Clone & configure External Tank with authentic rust-orange foam insulation (matching inspiration reference)
+  const clonedET = useMemo(() => {
+    const clone = etGLTF.scene.clone(true);
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        if (mesh.material) {
+          const mat = (mesh.material as THREE.Material).clone() as THREE.MeshStandardMaterial;
+          const name = (mesh.name || '').toLowerCase();
+
+          if (name.includes('bar') || name.includes('attach')) {
+            mat.color = new THREE.Color('#64748b'); // Steel attachment struts
+            mat.metalness = 0.8;
+            mat.roughness = 0.3;
+          } else {
+            // Iconic Terracotta / Rust-Orange Spray-on Foam Insulation
+            mat.color = new THREE.Color('#c25e19');
+            mat.roughness = 0.85;
+            mat.metalness = 0.08;
+          }
+          mesh.material = mat;
+        }
+      }
+    });
+    return clone;
+  }, [etGLTF.scene]);
+
+  // Clone & configure Port and Starboard Solid Rocket Boosters (white steel casings)
+  const clonedPortSRB = useMemo(() => {
+    const clone = srbGLTF.scene.clone(true);
+    clone.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        if (mesh.material) {
+          const mat = (mesh.material as THREE.Material).clone() as THREE.MeshStandardMaterial;
+          mat.roughness = 0.45;
+          mat.metalness = 0.2;
+          mesh.material = mat;
+        }
+      }
+    });
+    return clone;
+  }, [srbGLTF.scene]);
+
+  const clonedStarboardSRB = useMemo(() => {
+    return clonedPortSRB.clone(true);
+  }, [clonedPortSRB]);
+
+  // Cryogenic LOX boil-off vapor venting around the launch stack
   const { vaporGeometry, vaporMaterial } = useMemo(() => {
-    const count = 180;
+    const count = 220;
     const pos = new Float32Array(count * 3);
     const cols = new Float32Array(count * 3);
     const baseColor = new THREE.Color('#38bdf8'); // LOX cryogenic cyan
     const whiteColor = new THREE.Color('#ffffff');
 
     for (let i = 0; i < count; i++) {
-      const y = -4.5 + Math.random() * 9.0;
+      const y = -5.5 + Math.random() * 11.0;
       const angle = Math.random() * Math.PI * 2;
-      const radius = 0.45 + Math.random() * 1.5;
+      const radius = 0.8 + Math.random() * 2.2;
 
       pos[i * 3] = Math.cos(angle) * radius;
       pos[i * 3 + 1] = y;
-      pos[i * 3 + 2] = Math.sin(angle) * radius;
+      pos[i * 3 + 2] = Math.sin(angle) * radius - 0.4;
 
-      const col = Math.random() > 0.4 ? whiteColor : baseColor;
+      const col = Math.random() > 0.45 ? whiteColor : baseColor;
       cols[i * 3] = col.r;
       cols[i * 3 + 1] = col.g;
       cols[i * 3 + 2] = col.b;
@@ -93,7 +141,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
     geom.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.14,
       vertexColors: true,
       transparent: true,
       opacity: 0.4,
@@ -105,50 +153,50 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   }, []);
 
   useFrame((state, delta) => {
-    if (!groupRef.current || !shuttleMeshRef.current) return;
+    if (!groupRef.current || !stackMeshRef.current) return;
 
     const time = state.clock.getElapsedTime();
 
-    // Launch readiness micro-tremor (cryogenic pumps active)
+    // Launch countdown micro-vibration (cryogenic turbopump priming)
     const launchTremorX = (Math.random() - 0.5) * 0.002;
     const launchTremorY = (Math.random() - 0.5) * 0.0015;
 
-    // Active Theory scroll response: Organic vertical twist based on scroll velocity
-    const targetTwistY = rotation[1] + scrollVelocity * 0.0022 + Math.sin(time * 0.7) * 0.035;
-    const targetPitchX = rotation[0] + Math.cos(time * 0.5) * 0.018 - scrollVelocity * 0.0008;
+    // Organic twist and sway reacting to scroll momentum
+    const targetTwistY = rotation[1] + scrollVelocity * 0.002 + Math.sin(time * 0.6) * 0.03;
+    const targetPitchX = rotation[0] + Math.cos(time * 0.5) * 0.015 - scrollVelocity * 0.0008;
 
-    shuttleMeshRef.current.rotation.y = THREE.MathUtils.damp(
-      shuttleMeshRef.current.rotation.y,
+    stackMeshRef.current.rotation.y = THREE.MathUtils.damp(
+      stackMeshRef.current.rotation.y,
       targetTwistY,
       3.5,
       delta
     );
 
-    shuttleMeshRef.current.rotation.z = THREE.MathUtils.damp(
-      shuttleMeshRef.current.rotation.z,
+    stackMeshRef.current.rotation.z = THREE.MathUtils.damp(
+      stackMeshRef.current.rotation.z,
       targetPitchX + launchTremorX,
       4.0,
       delta
     );
 
     // Subtle vertical breathing float + launch lift on scroll
-    const verticalAscent = scrollProgress * 0.4;
+    const verticalAscent = scrollProgress * 0.35;
     groupRef.current.position.y = THREE.MathUtils.damp(
       groupRef.current.position.y,
-      position[1] + Math.sin(time * 1.0) * 0.05 + launchTremorY + verticalAscent,
+      position[1] + Math.sin(time * 0.9) * 0.04 + launchTremorY + verticalAscent,
       3.0,
       delta
     );
 
-    // Cryogenic vapor rising slowly upward
+    // Rising boil-off cryogenic vapor plumes
     if (vaporRef.current) {
-      vaporRef.current.rotation.y = time * 0.06;
+      vaporRef.current.rotation.y = time * 0.05;
       const attr = vaporRef.current.geometry.getAttribute('position') as THREE.BufferAttribute;
       const arr = attr.array as Float32Array;
-      for (let i = 0; i < 180; i++) {
-        arr[i * 3 + 1] += delta * 0.55;
-        if (arr[i * 3 + 1] > 4.5) {
-          arr[i * 3 + 1] = -4.5;
+      for (let i = 0; i < 220; i++) {
+        arr[i * 3 + 1] += delta * 0.6;
+        if (arr[i * 3 + 1] > 6.0) {
+          arr[i * 3 + 1] = -5.5;
         }
       }
       attr.needsUpdate = true;
@@ -156,88 +204,129 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   });
 
   return (
-    <group ref={groupRef} position={position}>
-      {/* 
-        The NASA Space Shuttle Orbiter in True Vertical Launch Posture:
-        Nose points UP (+Y), Engines point DOWN (-Y) towards KSC Launch Pad 39A.
-      */}
-      <group ref={shuttleMeshRef}>
+    <group ref={groupRef} position={position} scale={scale}>
+      <group ref={stackMeshRef}>
+        {/* 
+          1. THE GIANT ORANGE EXTERNAL TANK (ET)
+          Center spine of the entire launch configuration.
+          Model axis: tip at +X, nozzle at -X.
+          Rotate around Z by +PI/2 so tip points UP (+Y).
+        */}
         <group
-          scale={scale}
-          position={[0, 5.5 * scale, 0]}
-          rotation={[Math.PI / 2, 0, 0]}
+          position={[0, 0.2, -0.6]}
+          rotation={[0, 0, Math.PI / 2]}
+          scale={0.0058}
         >
-          <primitive object={clonedScene} />
-
-          {/* Engine Ignition Sparkler Point Lights at Aft Base */}
-          <pointLight position={[0, 0, 24]} intensity={2.6} color="#38bdf8" distance={10} />
-          <pointLight position={[0, -4, 24]} intensity={1.8} color="#f59e0b" distance={8} />
+          <primitive object={clonedET} />
         </group>
 
         {/* 
-          Beginner-Friendly 3D Technical Callouts
-          Helps students and beginners identify the authentic anatomy of the Orbiter
+          2. TWIN WHITE SOLID ROCKET BOOSTERS (SRBs)
+          Flanking both sides of the External Tank.
+        */}
+        {/* Port SRB (Left) */}
+        <group
+          position={[-2.15, -0.2, -0.6]}
+          rotation={[0, 0, Math.PI / 2]}
+          scale={0.0058}
+        >
+          <primitive object={clonedPortSRB} />
+        </group>
+
+        {/* Starboard SRB (Right) */}
+        <group
+          position={[2.15, -0.2, -0.6]}
+          rotation={[0, 0, Math.PI / 2]}
+          scale={0.0058}
+        >
+          <primitive object={clonedStarboardSRB} />
+        </group>
+
+        {/* 
+          3. THE SPACE SHUTTLE ORBITER (ATLANTIS)
+          Mounted on the front face of the External Tank.
+          Nose points UP (+Y), cockpit windows and wings facing forward toward viewer.
+        */}
+        <group
+          position={[0, -0.5, 0.45]}
+          rotation={[Math.PI / 2, 0, 0]}
+          scale={0.19}
+        >
+          <primitive object={clonedOrbiter} />
+
+          {/* Engine Ignition Sparkler Lights at Aft Base */}
+          <pointLight position={[0, 0, 24]} intensity={2.5} color="#38bdf8" distance={10} />
+          <pointLight position={[0, -4, 24]} intensity={2.0} color="#f59e0b" distance={8} />
+        </group>
+
+        {/* 
+          4. BEGINNER-FRIENDLY EDUCATIONAL CALLOUTS
+          Clear, inspiring labels identifying the major components of the launch stack
         */}
         {showAnnotations && (
-          <group position={[0, 0, 1.2]}>
-            {/* Cockpit / Flight Deck Callout */}
-            <group position={[1.4, 2.6, 0]}>
-              <mesh position={[-0.4, 0, 0]}>
-                <planeGeometry args={[0.6, 0.015]} />
-                <meshBasicMaterial color="#38bdf8" transparent opacity={0.6} />
-              </mesh>
+          <group position={[0, 0, 1.4]}>
+            {/* External Tank Label */}
+            <group position={[0, 4.4, 0]}>
               <Text
-                fontSize={0.1}
-                color="#e0f2fe"
-                anchorX="left"
+                fontSize={0.11}
+                color="#fdba74"
+                anchorX="center"
                 anchorY="middle"
-                letterSpacing={0.1}
+                letterSpacing={0.12}
               >
-                STS COCKPIT // FLIGHT DECK
+                EXTERNAL TANK // ORANGE FOAM INSULATION
               </Text>
             </group>
 
-            {/* Payload Cargo Bay Callout */}
-            <group position={[-1.4, 0.2, 0]}>
-              <mesh position={[0.4, 0, 0]}>
-                <planeGeometry args={[0.6, 0.015]} />
-                <meshBasicMaterial color="#38bdf8" transparent opacity={0.6} />
-              </mesh>
+            {/* Solid Rocket Booster Label (Left) */}
+            <group position={[-2.4, 2.2, 0]}>
               <Text
-                fontSize={0.1}
-                color="#e0f2fe"
+                fontSize={0.095}
+                color="#e2e8f0"
                 anchorX="right"
                 anchorY="middle"
-                letterSpacing={0.1}
+                letterSpacing={0.08}
               >
-                18M PAYLOAD CARGO BAY
+                SOLID ROCKET BOOSTER (SRB) →
               </Text>
             </group>
 
-            {/* SSME Rocket Engines Callout */}
-            <group position={[1.4, -2.8, 0]}>
-              <mesh position={[-0.4, 0, 0]}>
-                <planeGeometry args={[0.6, 0.015]} />
-                <meshBasicMaterial color="#f59e0b" transparent opacity={0.6} />
-              </mesh>
+            {/* Orbiter Cockpit Label */}
+            <group position={[1.6, 1.6, 0]}>
+              <Text
+                fontSize={0.095}
+                color="#38bdf8"
+                anchorX="left"
+                anchorY="middle"
+                letterSpacing={0.08}
+              >
+                ← STS ORBITER // FLIGHT DECK
+              </Text>
+            </group>
+
+            {/* Main Engines Label */}
+            <group position={[0, -4.2, 0]}>
               <Text
                 fontSize={0.1}
-                color="#fef3c7"
-                anchorX="left"
+                color="#fde047"
+                anchorX="center"
                 anchorY="middle"
                 letterSpacing={0.1}
               >
-                3x RS-25 MAIN ENGINES
+                3x RS-25 MAIN ENGINES & SRB EXHAUST SKIRTS
               </Text>
             </group>
           </group>
         )}
       </group>
 
-      {/* Cryogenic Boil-off Vapor Plumes */}
+      {/* Cryogenic Boil-off Vapor System */}
       <points ref={vaporRef} geometry={vaporGeometry} material={vaporMaterial} />
     </group>
   );
 };
 
+// Preload all 3 official NASA models into memory
 useGLTF.preload('/models/space-shuttle.glb');
+useGLTF.preload('/models/external-tank.glb');
+useGLTF.preload('/models/srb.glb');
