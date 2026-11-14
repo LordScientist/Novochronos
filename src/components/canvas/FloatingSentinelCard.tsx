@@ -49,13 +49,17 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
   const isFrontFacing = distanceFromCenter < 1.3;
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!cardRef.current) return;
+
+    // Mobile scale optimization: slightly tighter proportions on mobile screens
+    const isMobile = state.size.width < 768;
+    const mobileScale = isMobile ? 0.86 : 1.0;
 
     // Stable scale and position tied directly to scroll progress
     // When active/clicked, smoothly translate along local radial normal towards camera
     const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
-    const targetScale = isActive ? 1.14 : helixScale;
+    const targetScale = (isActive ? 1.14 : helixScale) * mobileScale;
 
     // Push outward along the card's facing angle towards the orbiting camera
     const normalX = Math.sin(rotation[1]);

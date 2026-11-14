@@ -47,7 +47,7 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
     // Responsive camera distance for mobile vs desktop viewports
     const isMobile = state.size.width < 768;
-    const effectiveCamDist = isMobile ? 11.2 : cameraDistance;
+    const effectiveCamDist = isMobile ? 12.2 : cameraDistance;
 
     // Moving on a spiral staircase around the stationary shuttle
     const currentAngle = p * totalAngle;
