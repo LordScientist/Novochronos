@@ -52,3 +52,21 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+/* Smooth title entrance animation for model reveals */
+@keyframes titleSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-title-reveal {
+  animation: titleSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

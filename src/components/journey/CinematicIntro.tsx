@@ -216,7 +216,19 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         progress={progress}
         isPlaying={isPlaying}
         isMuted={isMuted}
-        onTogglePlay={() => setIsPlaying((p) => !p)}
+        onTogglePlay={() => {
+          setIsPlaying((prev) => {
+            const next = !prev;
+            if (audioCtxRef.current) {
+              if (!next && audioCtxRef.current.state === 'running') {
+                audioCtxRef.current.suspend();
+              } else if (next && audioCtxRef.current.state === 'suspended') {
+                audioCtxRef.current.resume();
+              }
+            }
+            return next;
+          });
+        }}
         onToggleMute={handleToggleMute}
         onSkip={handleSkip}
         onReplay={handleReplay}
