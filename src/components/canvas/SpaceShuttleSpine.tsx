@@ -1,5 +1,4 @@
 import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -17,7 +16,6 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   rotation = [0, 0, 0],
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const vaporRef = useRef<THREE.Points>(null);
 
   // Load the official NASA 3D Models: Orbiter + External Tank + Solid Rocket Booster
   const orbiterGLTF = useGLTF('/models/space-shuttle.glb');
@@ -107,60 +105,6 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
     return clonedPortSRB.clone(true);
   }, [clonedPortSRB]);
 
-  // Cryogenic LOX boil-off vapor venting
-  const { vaporGeometry, vaporMaterial } = useMemo(() => {
-    const count = 180;
-    const pos = new Float32Array(count * 3);
-    const cols = new Float32Array(count * 3);
-    const baseColor = new THREE.Color('#38bdf8');
-    const whiteColor = new THREE.Color('#ffffff');
-
-    for (let i = 0; i < count; i++) {
-      const y = -5.5 + Math.random() * 11.0;
-      const angle = Math.random() * Math.PI * 2;
-      const radius = 0.8 + Math.random() * 2.2;
-
-      pos[i * 3] = Math.cos(angle) * radius;
-      pos[i * 3 + 1] = y;
-      pos[i * 3 + 2] = Math.sin(angle) * radius - 0.4;
-
-      const col = Math.random() > 0.45 ? whiteColor : baseColor;
-      cols[i * 3] = col.r;
-      cols[i * 3 + 1] = col.g;
-      cols[i * 3 + 2] = col.b;
-    }
-
-    const geom = new THREE.BufferGeometry();
-    geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geom.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-
-    const mat = new THREE.PointsMaterial({
-      size: 0.12,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.35,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-
-    return { vaporGeometry: geom, vaporMaterial: mat };
-  }, []);
-
-  useFrame((_, delta) => {
-    // Only animate the rising cryogenic vapor - the vehicle itself stays completely stable and rock-solid
-    if (vaporRef.current) {
-      const attr = vaporRef.current.geometry.getAttribute('position') as THREE.BufferAttribute;
-      const arr = attr.array as Float32Array;
-      for (let i = 0; i < 180; i++) {
-        arr[i * 3 + 1] += delta * 0.55;
-        if (arr[i * 3 + 1] > 6.0) {
-          arr[i * 3 + 1] = -5.5;
-        }
-      }
-      attr.needsUpdate = true;
-    }
-  });
-
   return (
     <group ref={groupRef} position={position} scale={scale} rotation={rotation}>
       {/* 1. External Tank (Orange) */}
@@ -189,7 +133,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
         <primitive object={clonedStarboardSRB} />
       </group>
 
-      {/* 3. Space Shuttle Orbiter (Solid, no wobbling) */}
+      {/* 3. Space Shuttle Orbiter (Solid, stable, majestic) */}
       <group
         position={[0, -0.5, 0.45]}
         rotation={[Math.PI / 2, 0, 0]}
@@ -199,9 +143,6 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
         <pointLight position={[0, 0, 24]} intensity={2.5} color="#38bdf8" distance={10} />
         <pointLight position={[0, -4, 24]} intensity={2.0} color="#f59e0b" distance={8} />
       </group>
-
-      {/* Cryogenic Boil-off Plumes */}
-      <points ref={vaporRef} geometry={vaporGeometry} material={vaporMaterial} />
     </group>
   );
 };

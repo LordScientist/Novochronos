@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Stars, Sparkles } from '@react-three/drei';
+import { Stars } from '@react-three/drei';
 import * as THREE from 'three';
 
 export const AmbientSpaceBackground: React.FC = () => {
@@ -12,8 +12,7 @@ export const AmbientSpaceBackground: React.FC = () => {
 
     // Very slow, majestic cosmic rotation
     if (nebulaGroupRef.current) {
-      nebulaGroupRef.current.rotation.y = time * 0.005;
-      nebulaGroupRef.current.rotation.x = Math.sin(time * 0.003) * 0.02;
+      nebulaGroupRef.current.rotation.y = time * 0.003;
     }
 
     // Subtle atmospheric pulsing on Earth's blue horizon limb
@@ -27,41 +26,20 @@ export const AmbientSpaceBackground: React.FC = () => {
     <group>
       {/* 
         Layer 1: Deep Starlight Field
-        3,500 twinkling stars at varying depths
+        Twinkling, static stars at varying cosmic depths (no moving box particles)
       */}
       <Stars
-        radius={90}
+        radius={100}
         depth={50}
         count={3500}
         factor={3.5}
         saturation={0.3}
         fade
-        speed={0.6}
+        speed={0.4}
       />
 
       {/* 
-        Layer 2: Stellar Dust & Micro-Meteoroid Sparkles
-        Slowly drifting luminous space dust in cyan and warm gold
-      */}
-      <Sparkles
-        count={120}
-        scale={[20, 20, 20]}
-        size={2.2}
-        speed={0.3}
-        color="#38bdf8"
-        opacity={0.5}
-      />
-      <Sparkles
-        count={60}
-        scale={[25, 25, 25]}
-        size={1.8}
-        speed={0.2}
-        color="#f59e0b"
-        opacity={0.35}
-      />
-
-      {/* 
-        Layer 3: Ambient Deep Space Nebula Clouds
+        Layer 2: Ambient Deep Space Nebula Clouds
         Soft semi-transparent volumetric glows providing cosmic depth
       */}
       <group ref={nebulaGroupRef} position={[0, 0, -25]}>
@@ -103,7 +81,7 @@ export const AmbientSpaceBackground: React.FC = () => {
       </group>
 
       {/* 
-        Layer 4: Earth Atmospheric Limb Glow
+        Layer 3: Earth Atmospheric Limb Glow
         A majestic curved planetary horizon glow positioned in the lower background,
         evoking the view from Space Shuttle Low Earth Orbit (350 km altitude).
       */}

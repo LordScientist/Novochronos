@@ -52,11 +52,10 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   useFrame((_, delta) => {
     if (!cardRef.current) return;
 
-    // Stable, rock-solid positioning without shaking, wobbling or back-and-forth oscillations
+    // Stable scale and position tied directly to scroll progress
     const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
     const targetScale = isActive ? 1.04 : helixScale;
 
-    // Smooth single-direction interpolation strictly locked to scroll progression
     cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 6, delta);
     cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 6, delta);
     cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 6, delta);
@@ -65,7 +64,6 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
     cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
 
-    // Stable rotation matching helix tangent - zero pointer jitter or velocity skew
     cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 6, delta);
     cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 6, delta);
     cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 6, delta);
@@ -92,62 +90,44 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         document.body.style.cursor = 'auto';
       }}
     >
-      {/* 3D Glassmorphic Obsidian Backing Slab */}
-      <RoundedBox args={[3.4, 2.15, 0.06]} radius={0.12} smoothness={4}>
-        <meshStandardMaterial
-          color="#050811"
-          roughness={0.35}
-          metalness={0.65}
+      {/* 
+        Sleek Obsidian Backing Rim:
+        Clean solid rounded box without any wireframe cages
+      */}
+      <RoundedBox args={[3.46, 2.21, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
+        <meshBasicMaterial
+          color={isFrontFacing ? '#38bdf8' : '#1e293b'}
           transparent
-          opacity={cardOpacity}
+          opacity={isFrontFacing ? 0.85 : 0.3}
         />
       </RoundedBox>
 
       {/* 
-        High-Quality Drei Image:
-        Automatically handles aspect-ratio cover crop (no squishing/stretching),
-        proper sRGB color space, smooth mipmapping, and corner radius.
+        Full Edge-to-Edge NASA Image:
+        Fills the entire 3.4 x 2.15 card without any black boxes cutting it off!
       */}
-      <group position={[0, 0, 0.035]}>
+      <group position={[0, 0, 0.02]}>
         <Image
           url={`/images/sentinels/${id}.jpg`}
-          scale={[3.32, 2.07]}
-          radius={0.08}
+          scale={[3.4, 2.15]}
+          radius={0.12}
           transparent
           opacity={cardOpacity}
           toneMapped={true}
         />
       </group>
 
-      {/* Dark Vignette Overlay along bottom half for crisp text contrast */}
-      <mesh position={[0, -0.45, 0.038]}>
-        <planeGeometry args={[3.32, 1.15]} />
-        <meshBasicMaterial
-          color="#000000"
-          transparent
-          opacity={cardOpacity * 0.72}
-        />
-      </mesh>
-
-      {/* Clean Subtle Border Frame */}
-      <RoundedBox args={[3.44, 2.19, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
-        <meshBasicMaterial
-          color={isFrontFacing ? '#38bdf8' : '#334155'}
-          wireframe
-          transparent
-          opacity={isFrontFacing ? 0.7 : 0.2}
-        />
-      </RoundedBox>
-
-      {/* Top Header: Monospace Counter & Celestial Body */}
-      <group position={[0, 0.8, 0.042]}>
+      {/* Top Header: Monospace Counter & Celestial Body with Text Stroke for 100% Readability */}
+      <group position={[0, 0.8, 0.04]}>
         <Text
           position={[-1.4, 0, 0]}
-          fontSize={0.085}
+          fontSize={0.09}
           color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
         >
           {indexStr}
@@ -155,29 +135,33 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
         <Text
           position={[1.4, 0, 0]}
-          fontSize={0.085}
+          fontSize={0.09}
           color="#38bdf8"
           anchorX="right"
           anchorY="middle"
           letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
         >
           {celestialBody.toUpperCase()}
         </Text>
       </group>
 
-      {/* Bottom Title: Clean, Punchy, Strict Max Width to Prevent Any Text Overflow */}
-      <group position={[0, -0.68, 0.042]}>
+      {/* Bottom Title: Clean, Punchy, Crisp White with Dark Outline to Pop Over Any Photo */}
+      <group position={[0, -0.74, 0.04]}>
         <Text
           position={[-1.4, 0, 0]}
-          fontSize={0.18}
+          fontSize={0.2}
           color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.08}
-          maxWidth={2.5}
+          maxWidth={2.6}
           overflowWrap="break-word"
           lineHeight={1.1}
+          outlineWidth={0.022}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
         >
           {headlineName}
@@ -185,10 +169,12 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
         <Text
           position={[1.4, 0, 0]}
-          fontSize={0.13}
-          color={isFrontFacing ? '#38bdf8' : '#94a3b8'}
+          fontSize={0.16}
+          color={isFrontFacing ? '#38bdf8' : '#ffffff'}
           anchorX="right"
           anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
         >
           →

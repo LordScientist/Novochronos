@@ -48,7 +48,7 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
   return (
     <group>
-      {/* Ambient Space Environment: Stars, dust sparkles, nebulae, Earth limb */}
+      {/* Ambient Space Environment: Pure stars, nebulae, Earth limb (no moving box particles) */}
       <AmbientSpaceBackground />
 
       {/* Photorealistic Outer Space Lighting */}
