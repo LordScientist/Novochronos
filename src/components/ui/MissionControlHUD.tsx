@@ -13,9 +13,9 @@ export const MissionControlHUD: React.FC<MissionControlHUDProps> = ({
 }) => {
   return (
     <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-end p-4 sm:p-6 select-none">
-      {/* Subtle Right Helix Navigation Controls */}
-      <div className="flex justify-end items-center my-auto pointer-events-auto">
-        <div className="flex flex-col items-center gap-2 backdrop-blur-md bg-black/40 p-2 sm:px-2 sm:py-3 rounded-full border border-white/10 shadow-lg">
+      {/* Subtle Right Helix Navigation Controls (wrapper is pointer-events-none so it NEVER blocks canvas clicks) */}
+      <div className="pointer-events-none flex justify-end items-center my-auto w-full">
+        <div className="pointer-events-auto flex flex-col items-center gap-2 backdrop-blur-md bg-black/40 p-2 sm:px-2 sm:py-3 rounded-full border border-white/10 shadow-lg">
           <button
             onClick={() => onNavigateStep?.('prev')}
             className="p-1 sm:p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
