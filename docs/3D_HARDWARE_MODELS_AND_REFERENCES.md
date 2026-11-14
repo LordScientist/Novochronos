@@ -135,4 +135,8 @@ Inspired by the full launchpad configuration, the central narrative spine integr
 
 1. **Format:** Standardize all 3D assets to `.glb` (glTF binary) format with embedded Draco or Meshopt compression.
 2. **Byte Budget:** Keep each standalone 3D model under **2.5 MB** to guarantee instant, 60fps web loads on school Chromebooks and mobile devices.
-3. **Fallback Procedural Meshes:** Keep the lightweight procedural geometries in `ArtifactModel.tsx` active as instant zero-download fallbacks while external `.glb` models stream in the background.
+3. **Dual-Layer Architecture in `ArtifactModel.tsx`:**
+   * **Tier 1 (Official NASA GLBs):** Opportunity (`opportunity.glb`), Ingenuity (`ingenuity.glb`), Apollo 11 (`apollo-lunar-module.glb`), InSight (`insight.glb`), and Pioneer 10 (`pioneer-10.glb`).
+   * **Tier 2 (High-Fidelity Procedural Three.js Geometries):** Reconstructed for Apollo 15 LRV (wire wheels, chassis, seats, umbrella antenna, TV camera), Sojourner (microwave frame, solar top, rocker-bogie, APXS), and Surveyor 3 (tripod legs, scoop claw arm, vidicon camera, solar mast).
+   * **Universal Zero-Download Fallback:** If any GLB is buffering or offline, procedural geometry renders at 0ms latency with zero asset downloads, ensuring the site always renders seamlessly.
+4. **Cinematic Stage 0 Asset Reuse:** Stage 0 (`IntroScene3D.tsx`) references the identical `ArtifactModel.tsx` definitions and `src/data/artifacts.ts` source of truth, guaranteeing zero duplicate asset overhead.

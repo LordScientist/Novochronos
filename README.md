@@ -18,6 +18,7 @@ Since the 1960s, humanity has sent intrepid machines to the Moon, Mars, and deep
 
 **Novochronos** is an interactive 3D digital museum and narrative chronicle designed to inspire school-age space enthusiasts and casual learners. The experience is engineered as a **continuous cinematic sweep**:
 
+0. **Cinematic 3D Opening (Stage 0):** "Echoes of Exploration" circular amphitheater, 8 mechanical sentinel reveals, 3D Martian terrain, and title reveal with "ENTER THE ARCHIVE".
 1. **NASA Command Terminal:** Initial boot-up sequence and deep-space telemetry handshake.
 2. **Mission Control Command Center:** Orbital tracking dashboards and mission clocks featuring the official NASA Insignia.
 3. **Space Launch Sequence:** Rocket ignition and atmospheric ascent into the dark vacuum of space.

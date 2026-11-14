@@ -96,10 +96,11 @@ Novochronos/
 
 ## 3. State Management & Journey Lifecycle
 
-The user journey transitions across 7 continuous stages governed by the master stage state:
+The user journey transitions across 8 continuous stages governed by the master stage state:
 
 ```typescript
 export type JourneyStage = 
+  | 'intro'          // Stage 0: Cinematic 3D Opening Sequence (Echoes of Exploration)
   | 'terminal'       // Stage 1: NASA Command Terminal Boot
   | 'command-center' // Stage 2: Mission Control Dashboard
   | 'launch'         // Stage 3: Rocket Ignition & Atmospheric Ascent
@@ -108,7 +109,35 @@ export type JourneyStage =
   | 'podium-detail'; // Stage 6: 3D Model & Interactive Audio Placard
 ```
 
-### Transition Mechanics:
+### Stage 0: Cinematic 3D Introduction Architecture
+Stage 0 is a dedicated, self-contained 3D opening sequence positioned as the very first experience visitors encounter. It operates through its own isolated camera controller (`IntroCameraController.tsx`) and WebGL scene (`IntroScene3D.tsx`), ensuring zero camera ownership conflicts or state contamination with the subsequent stages.
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│               Stage 0: 5-Scene Cinematic Sequence                      │
+├────────────────────────────────────────────────────────────────────────┤
+│ Scene 1: Awakening (Darkness, emerging circular architecture & stars)  │
+│ Scene 2: The Eight Sentinels (Sequential mechanical spotlight reveals) │
+│ Scene 3: The Grand Exhibition (Panoramic circular orbital sweep)       │
+│ Scene 4: The Planetary Reveal (3D Martian landscape & staging notice)  │
+│ Scene 5: Title Reveal (Novochronos hero title & "ENTER THE ARCHIVE")   │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ "ENTER THE ARCHIVE" / Skip Intro
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│               Stage 1: NASA Command Terminal Boot                      │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Intro Transition & Control Mechanics:
+1. **Fresh Visitor Landing:** Arrives at Stage 0 (`intro`) by default.
+2. **Sequential Scene Progression:** Automatically advances through scenes 1 to 5 (~44 seconds total runtime), accompanied by real-time Web Audio API synthesized cosmic drones and harmonic frequencies (zero network audio blocking).
+3. **Interactive Control Bar:** Visitors can pause/play, mute/unmute, jump directly between scenes via header pills, or press **SKIP INTRO** at any time.
+4. **Completion Action:** Clicking **ENTER THE ARCHIVE** in Scene 5 smoothly transitions the visitor into Stage 1 (`terminal`) without page reloads.
+5. **Replay Anywhere:** A persistent **REPLAY 3D INTRO** action in the terminal, mission control, and global navbar allows visitors to re-enter Stage 0 seamlessly.
+6. **Historical Accuracy Staging Notice:** In Scene 4, a dedicated notice clarifies that Mars is a cinematic staging environment; Opportunity, Ingenuity, InSight, and Sojourner rest on Mars, Apollo 11, Apollo 15 LRV, and Surveyor 3 reside on the Moon, and Pioneer 10 drifts in deep space.
+
+### Subsequent Transition Mechanics:
 1. **Stage 1 → Stage 2:** Auto-scrolls upon terminal boot completion (duration: ~3s) or via instant user click.
 2. **Stage 2 → Stage 3:** Clicking "Initiate Mission" triggers the rocket launch countdown and camera ascent.
 3. **Stage 3 → Stage 4:** Reaching orbital altitude transitions the camera into the widescreen video overview.
