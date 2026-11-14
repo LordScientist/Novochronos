@@ -8,16 +8,17 @@ interface SentinelDetailModalProps {
   onClose: () => void;
 }
 
-// Map Sentinel ID to the audio file present in public/audio/ (novo1, novo3, novo5, novo7)
+// Map Sentinel ID to the authentic audio recordings in public/audio/
+// Odd-numbered sentinels (1, 3, 5, 7) and Even-numbered sentinels (2, 4, 6, 8)
 const SENTINEL_AUDIO_MAP: Record<string, string> = {
   'opportunity-rover': '/audio/novo1.mp3',
-  'ingenuity-helicopter': '/audio/novo2.mp3',
+  'ingenuity-helicopter': '/audio/even/Novo_2.mp3',
   'apollo-11-descent': '/audio/novo3.mp3',
-  'insight-lander': '/audio/novo4.mp3',
+  'insight-lander': '/audio/even/Novo_4.mp3',
   'apollo-15-lrv': '/audio/novo5.mp3',
-  'sojourner-pathfinder': '/audio/novo6.mp3',
+  'sojourner-pathfinder': '/audio/even/Novo_6.mp3',
   'pioneer-10': '/audio/novo7.mp3',
-  'surveyor-3': '/audio/novo8.mp3',
+  'surveyor-3': '/audio/even/Novo_8.mp3',
 };
 
 export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({

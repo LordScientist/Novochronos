@@ -79,7 +79,6 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       position={position}
       rotation={rotation}
       onClick={(e) => {
-        // Any interface/element of the card triggers transition
         e.stopPropagation();
         onSelect?.(id);
       }}
@@ -92,10 +91,42 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       }}
     >
       {/* 
+        Full-Surface Interactive Hitbox:
+        Covers the entire card face (3.5 x 2.23) so clicking ANYWHERE on the card surface
+        reliably triggers navigation to the sentinel dossier page!
+      */}
+      <mesh
+        position={[0, 0, 0.05]}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect?.(id);
+        }}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = 'pointer';
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = 'auto';
+        }}
+      >
+        <planeGeometry args={[3.5, 2.23]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+
+      {/* 
         Sleek Obsidian Backing Rim:
         Clean solid rounded box without any wireframe cages
       */}
-      <RoundedBox args={[3.46, 2.21, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
+      <RoundedBox
+        args={[3.46, 2.21, 0.04]}
+        radius={0.12}
+        smoothness={4}
+        position={[0, 0, -0.01]}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect?.(id);
+        }}
+      >
         <meshBasicMaterial
           color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#1e293b'}
           transparent
