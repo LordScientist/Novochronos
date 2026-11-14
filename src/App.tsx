@@ -20,7 +20,7 @@ export const App: React.FC = () => {
     <div className="relative min-h-screen bg-black text-slate-100 overflow-x-hidden selection:bg-sky-500 selection:text-black">
       {/* 
         3D WebGL Canvas Layer (Fixed full-viewport stage)
-        The Space Shuttle launch stack and the 3D helical image cards take center stage.
+        Pure obsidian #000000 background with native depth fog and space lighting
       */}
       <div className="fixed inset-0 z-0 pointer-events-auto">
         <Canvas
@@ -32,7 +32,7 @@ export const App: React.FC = () => {
           }}
           dpr={[1, 2]}
         >
-          <color attach="background" args={['#010409']} />
+          <color attach="background" args={['#000000']} />
           <Suspense fallback={null}>
             <SentinelCarouselScene
               scrollProgress={progress}
@@ -44,7 +44,13 @@ export const App: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* Minimal Clean HUD (Unobtrusive NASA brand mark + subtle navigation) */}
+      {/* 
+        Cinematic Radial Vignette Overlay (Active Theory & Space Trash Signs Token)
+        Tapers viewport corners into pitch black #000000, creating massive focal depth
+      */}
+      <div className="pointer-events-none fixed inset-0 z-10 bg-[radial-gradient(ellipse_at_center,_transparent_42%,_rgba(0,0,0,0.85)_100%)]" />
+
+      {/* Minimal Clean HUD Overlay */}
       <MissionControlHUD
         scrollProgress={progress}
         scrollVelocity={velocity}

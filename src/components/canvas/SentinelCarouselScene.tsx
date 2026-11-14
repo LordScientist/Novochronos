@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { SpaceShuttleSpine } from './SpaceShuttleSpine';
 import { FloatingSentinelCard } from './FloatingSentinelCard';
 import { AmbientSpaceBackground } from './AmbientSpaceBackground';
+import { OrbitalDepthRings } from './OrbitalDepthRings';
 import narrationScripts from '../../data/narrationScripts.json';
 
 interface SentinelCarouselSceneProps {
@@ -48,32 +49,54 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
   return (
     <group>
-      {/* Ambient Space Environment: Pure stars, nebulae, Earth limb (no moving box particles) */}
+      {/* 
+        True Black Depth Fog (Active Theory & Space Trash Signs Token)
+        Dissolves distant background geometry into pure obsidian #000000 void
+      */}
+      <fog attach="fog" args={['#000000', 8.5, 23.0]} />
+
+      {/* Layer 1: Ambient Space Background (Stars, deep volumetric haze, Earth horizon) */}
       <AmbientSpaceBackground />
 
-      {/* Photorealistic Outer Space Lighting */}
-      <ambientLight intensity={0.45} color="#0f172a" />
+      {/* Layer 2: Concentric Orbital Depth Rings (Establishes 3D perspective plane) */}
+      <OrbitalDepthRings />
 
-      {/* Primary Sunlight */}
+      {/* 
+        Layer 3: High-Contrast Cinematic Space Lighting
+        Spotlight focal illumination with true pitch-black shadow falloff
+      */}
+      <ambientLight intensity={0.25} color="#050811" />
+
+      {/* The Sun / Stage Key Spotlight (Illuminates foreground active sentinel & launch stack) */}
       <directionalLight
         position={[14, 22, 14]}
-        intensity={3.2}
+        intensity={3.4}
         color="#ffffff"
         castShadow
       />
 
-      {/* Earthshine Planetary Fill Light */}
+      {/* Focused Center Spotlight for Dramatic Depth Falloff */}
+      <spotLight
+        position={[0, 8, 14]}
+        angle={0.45}
+        penumbra={0.8}
+        intensity={3.2}
+        color="#f8fafc"
+        distance={25}
+      />
+
+      {/* Earthshine Planetary Rim Light (Cold cyan glow from the side) */}
       <directionalLight
-        position={[-12, -8, -6]}
-        intensity={1.1}
+        position={[-14, -6, -6]}
+        intensity={1.2}
         color="#38bdf8"
       />
 
-      {/* Launchpad Ground Reflection */}
-      <pointLight position={[0, -5, 2]} intensity={2.0} color="#f59e0b" distance={12} />
+      {/* Warm Launchpad / Engine Gantry Base Light */}
+      <pointLight position={[0, -5, 2]} intensity={2.2} color="#f59e0b" distance={10} />
 
       {/* 
-        Central Space Transportation System (STS) Launch Stack
+        Layer 4: Central Space Transportation System (STS) Launch Stack
         External Tank + Twin SRBs + Orbiter standing completely rock-solid.
       */}
       <SpaceShuttleSpine
@@ -85,7 +108,7 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
       />
 
       {/* 
-        Helical Card Formation:
+        Layer 5: Helical Card Formation
         Positioned steadily around the launch stack, moving smoothly on scroll with zero jitter.
       */}
       <group position={[0, 0, 0]}>
