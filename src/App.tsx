@@ -8,7 +8,6 @@ import { SentinelDetailModal } from './components/ui/SentinelDetailModal';
 export const App: React.FC = () => {
   const { progress, velocity, scrollToProgress } = useSmoothScroll();
   const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
-  const [activeFilter, setActiveFilter] = useState<string>('all');
 
   const handleNavigateStep = (direction: 'prev' | 'next') => {
     const step = 1 / 7;
@@ -21,8 +20,7 @@ export const App: React.FC = () => {
     <div className="relative min-h-screen bg-black text-slate-100 overflow-x-hidden selection:bg-sky-500 selection:text-black">
       {/* 
         3D WebGL Canvas Layer (Fixed full-viewport stage)
-        Features the Space Shuttle central launch stack, ambient space background,
-        stars, nebulae, Earth atmospheric limb, and the 3D helical card formation.
+        The Space Shuttle launch stack and the 3D helical image cards take center stage.
       */}
       <div className="fixed inset-0 z-0 pointer-events-auto">
         <Canvas
@@ -46,27 +44,20 @@ export const App: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* Mission Control HUD Overlay (NASA Logo, Telemetry, Beginner Guide, Step Navigators) */}
+      {/* Minimal Clean HUD (Unobtrusive NASA brand mark + subtle navigation) */}
       <MissionControlHUD
         scrollProgress={progress}
         scrollVelocity={velocity}
-        activeFilter={activeFilter}
-        onFilterChange={(filter) => setActiveFilter(filter)}
-        selectedSentinelId={selectedSentinelId}
-        onResetSelection={() => setSelectedSentinelId(null)}
         onNavigateStep={handleNavigateStep}
       />
 
-      {/* Sentinel Dossier Inspection Modal with Narration Audio Readout */}
+      {/* Sentinel Dossier Inspection Modal with Voiceover Readout */}
       <SentinelDetailModal
         sentinelId={selectedSentinelId}
         onClose={() => setSelectedSentinelId(null)}
       />
 
-      {/* 
-        Lenis Scroll Track:
-        Provides the virtual height needed for smooth inertial scroll progression
-      */}
+      {/* Lenis Momentum Scroll Track */}
       <div className="relative z-10 w-full h-[600vh] pointer-events-none" />
     </div>
   );

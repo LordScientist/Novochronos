@@ -90,7 +90,6 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
         scale={0.92}
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
-        showAnnotations={true}
       />
 
       {/* 
