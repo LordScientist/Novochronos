@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Lenis from 'lenis';
 
 export interface ScrollState {
@@ -55,5 +55,12 @@ export function useSmoothScroll() {
     };
   }, []);
 
-  return { lenis: lenisRef.current, ...scrollState };
+  const scrollToProgress = useCallback((targetProgress: number) => {
+    if (!lenisRef.current) return;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const clamped = Math.max(0, Math.min(1, targetProgress));
+    lenisRef.current.scrollTo(clamped * maxScroll, { duration: 1.2 });
+  }, []);
+
+  return { lenis: lenisRef.current, scrollToProgress, ...scrollState };
 }

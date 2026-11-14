@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SpaceShuttleSpine } from './SpaceShuttleSpine';
 import { FloatingSentinelCard } from './FloatingSentinelCard';
-import { CosmicDustField } from './CosmicDustField';
+import { AmbientSpaceBackground } from './AmbientSpaceBackground';
 import narrationScripts from '../../data/narrationScripts.json';
 
 interface SentinelCarouselSceneProps {
@@ -40,7 +40,6 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
     );
   });
 
-  // Calculate dynamic helical coordinates for each card
   const cardTransforms = useMemo(() => {
     return narrationScripts.map((sentinel, index) => {
       return { sentinel, index };
@@ -49,22 +48,40 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
   return (
     <group>
-      {/* High-Contrast Launchpad & Space Lighting Rig */}
-      <ambientLight intensity={0.4} />
-
-      {/* Main Key Floodlight (Simulating KSC Pad 39A high-intensity launch illumination) */}
-      <directionalLight position={[8, 14, 12]} intensity={3.0} color="#ffffff" castShadow />
-      {/* Cold Lunar / Deep Space Rim Light */}
-      <directionalLight position={[-10, 2, -8]} intensity={1.2} color="#38bdf8" />
-      {/* Launchpad Ground Reflection */}
-      <pointLight position={[0, -6, 2]} intensity={2.2} color="#f59e0b" distance={14} />
-
-      {/* Swirling Ambient Dust and Launchpad Vapor Particle Cloud */}
-      <CosmicDustField count={550} />
+      {/* 
+        Layer 1: Ambient Space Environment
+        Stars, micro-meteoroid sparkles, volumetric nebulae, and Earth orbital horizon
+      */}
+      <AmbientSpaceBackground />
 
       {/* 
-        Central Anchor: The NASA Space Shuttle Orbiter in Launch Stance
-        Stands vertically ("very long") like a launchpad tower, replacing Active Theory's backbone.
+        Layer 2: Photorealistic Outer Space Lighting
+        Direct solar illumination + soft planetary Earthshine reflection
+      */}
+      <ambientLight intensity={0.45} color="#0f172a" />
+
+      {/* The Sun: High-intensity directional sunlight with sharp space shadows */}
+      <directionalLight
+        position={[14, 22, 14]}
+        intensity={3.2}
+        color="#ffffff"
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+      />
+
+      {/* Earthshine: Soft cyan-blue planetary bounce light from Earth below */}
+      <directionalLight
+        position={[-12, -8, -6]}
+        intensity={1.1}
+        color="#38bdf8"
+      />
+
+      {/* Launchpad Gantry / Engine Ignition Glow */}
+      <pointLight position={[0, -5, 2]} intensity={2.0} color="#f59e0b" distance={12} />
+
+      {/* 
+        Layer 3: The NASA Space Shuttle Orbiter in Vertical Launch Stance
+        Realistic PBR materials, cryogenic boil-off vents, and beginner-friendly callout labels.
       */}
       <SpaceShuttleSpine
         scrollProgress={scrollProgress}
@@ -72,25 +89,25 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
         scale={0.22}
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
+        showAnnotations={true}
       />
 
       {/* 
-        Helical Card Formation:
-        Winding in 3D up and down around the vertical Space Shuttle launch stack.
+        Layer 4: 3D Helical Card Formation
+        Winding around the tall vertical launch stack.
       */}
       <group position={[0, 0, 0]}>
         {cardTransforms.map(({ sentinel, index }) => {
-          // Relative position from current scroll focus
           const relIndex = index - currentScrollIndexRef.current;
           const dist = Math.abs(relIndex);
 
-          // Helical Y: Scrolling advances the cards along the vertical height of the shuttle
+          // Helical vertical displacement
           const y = -relIndex * stepY;
 
-          // Helical Angle: Wraps around the shuttle in a spiral
+          // Helical angular spiral
           const angle = relIndex * deltaTheta;
 
-          // Cylindrical coordinates around the shuttle
+          // Cylindrical coordinates
           const x = Math.sin(angle) * orbitRadius;
           const z = Math.cos(angle) * orbitRadius;
 
