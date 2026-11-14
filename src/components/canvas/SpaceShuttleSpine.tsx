@@ -14,170 +14,161 @@ interface SpaceShuttleSpineProps {
 export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   scrollProgress = 0,
   scrollVelocity = 0,
-  scale = 0.085,
+  scale = 0.2, // Scaled to span vertically across the viewport like an imposing launch tower
   position = [0, 0, 0],
-  rotation = [0.2, 0, 0],
+  rotation = [0, 0, 0],
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const thrustersRef = useRef<THREE.Group>(null);
+  const shuttleMeshRef = useRef<THREE.Group>(null);
+  const vaporRef = useRef<THREE.Points>(null);
 
   // Load the official NASA Space Shuttle 3D Model
   const { scene } = useGLTF('/models/space-shuttle.glb');
 
-  // Clone scene so multiple instances don't conflict
+  // Clone scene with high-contrast space & launchpad lighting materials
   const clonedScene = useMemo(() => {
     const clone = scene.clone(true);
-    // Enhance materials for deep space contrast and specular highlights
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
         if (mesh.material) {
-          const mat = mesh.material as THREE.MeshStandardMaterial;
-          mat.roughness = Math.max(0.2, mat.roughness ?? 0.5);
-          mat.metalness = Math.min(0.8, (mat.metalness ?? 0.2) + 0.1);
-          mat.envMapIntensity = 1.2;
+          const mat = (mesh.material as THREE.Material).clone() as THREE.MeshStandardMaterial;
+          mat.roughness = Math.max(0.3, mat.roughness ?? 0.5);
+          mat.metalness = Math.min(0.7, (mat.metalness ?? 0.2) + 0.15);
+          mat.envMapIntensity = 1.4;
+          mesh.material = mat;
         }
       }
     });
     return clone;
   }, [scene]);
 
-  // Particle plume points for SSME engine exhaust
-  const { plumeGeometry, plumeMaterial } = useMemo(() => {
-    const particleCount = 120;
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
+  // Cryogenic LOX boil-off vapor & launchpad atmospheric mist
+  const { vaporGeometry, vaporMaterial } = useMemo(() => {
+    const count = 160;
+    const pos = new Float32Array(count * 3);
+    const cols = new Float32Array(count * 3);
+    const baseColor = new THREE.Color('#38bdf8'); // LOX cryogenic cyan
+    const whiteColor = new THREE.Color('#ffffff');
 
-    const baseColor = new THREE.Color('#38bdf8'); // Cyan/plasma
-    const coreColor = new THREE.Color('#ffffff'); // High heat core
+    for (let i = 0; i < count; i++) {
+      // Concentrated at the base (engines) and along the vertical fuselage
+      const y = -4.5 + Math.random() * 8.5;
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 0.4 + Math.random() * 1.6;
 
-    for (let i = 0; i < particleCount; i++) {
-      // Distribute along the trailing Z axis behind the engines
-      const zOffset = Math.random() * 4.5;
-      const spread = (zOffset * 0.18 + 0.1) * (Math.random() - 0.5);
-      const spreadY = (zOffset * 0.18 + 0.1) * (Math.random() - 0.5);
+      pos[i * 3] = Math.cos(angle) * radius;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = Math.sin(angle) * radius;
 
-      positions[i * 3] = spread;
-      positions[i * 3 + 1] = spreadY;
-      positions[i * 3 + 2] = zOffset;
-
-      const mixed = baseColor.clone().lerp(coreColor, 1.0 - zOffset / 4.5);
-      colors[i * 3] = mixed.r;
-      colors[i * 3 + 1] = mixed.g;
-      colors[i * 3 + 2] = mixed.b;
-
-      sizes[i] = (1.0 - zOffset / 4.5) * 6.0 + 2.0;
+      const col = Math.random() > 0.4 ? whiteColor : baseColor;
+      cols[i * 3] = col.r;
+      cols[i * 3 + 1] = col.g;
+      cols[i * 3 + 2] = col.b;
     }
 
     const geom = new THREE.BufferGeometry();
-    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    geom.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geom.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 0.15,
+      size: 0.12,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.45,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
 
-    return { plumeGeometry: geom, plumeMaterial: mat };
+    return { vaporGeometry: geom, vaporMaterial: mat };
   }, []);
 
-  // Frame animation loop: Idle hover sway + Dynamic roll banking based on scroll
   useFrame((state, delta) => {
-    if (!groupRef.current) return;
+    if (!groupRef.current || !shuttleMeshRef.current) return;
 
     const time = state.clock.getElapsedTime();
 
-    // Subtle micro-gravity orbital float
-    const floatY = Math.sin(time * 1.2) * 0.08;
-    const floatPitch = Math.sin(time * 0.8) * 0.03;
-    const floatYaw = Math.cos(time * 0.6) * 0.02;
+    // Pre-launch tension: subtle cryogenic pressure shudder / micro-tremor
+    const launchTremorX = (Math.random() - 0.5) * 0.003;
+    const launchTremorY = (Math.random() - 0.5) * 0.002;
 
-    // Banking and trajectory response based on scroll progress and velocity
-    const targetRoll = -scrollVelocity * 0.003;
-    const targetPitch = rotation[0] + floatPitch + scrollVelocity * 0.0015 + scrollProgress * 0.05;
+    // Active Theory spine mechanics: Vertical undulation, twist, and slight launch ascent on scroll
+    const targetTwistY = rotation[1] + scrollVelocity * 0.0025 + Math.sin(time * 0.7) * 0.04;
+    const targetPitchX = rotation[0] + Math.cos(time * 0.5) * 0.02 - scrollVelocity * 0.001;
 
-    // Smooth lerp for weight and inertia
+    // Smooth inertial damping
+    shuttleMeshRef.current.rotation.y = THREE.MathUtils.damp(
+      shuttleMeshRef.current.rotation.y,
+      targetTwistY,
+      3.5,
+      delta
+    );
+
+    shuttleMeshRef.current.rotation.z = THREE.MathUtils.damp(
+      shuttleMeshRef.current.rotation.z,
+      targetPitchX + launchTremorX,
+      4.0,
+      delta
+    );
+
+    // Subtle breathing float on Y + gradual vertical lift with scroll progress
+    const verticalAscent = scrollProgress * 0.5;
     groupRef.current.position.y = THREE.MathUtils.damp(
       groupRef.current.position.y,
-      position[1] + floatY,
-      3,
+      position[1] + Math.sin(time * 1.0) * 0.06 + launchTremorY + verticalAscent,
+      3.0,
       delta
     );
 
-    groupRef.current.rotation.x = THREE.MathUtils.damp(
-      groupRef.current.rotation.x,
-      targetPitch,
-      4,
-      delta
-    );
-
-    groupRef.current.rotation.y = THREE.MathUtils.damp(
-      groupRef.current.rotation.y,
-      rotation[1] + floatYaw,
-      3,
-      delta
-    );
-
-    groupRef.current.rotation.z = THREE.MathUtils.damp(
-      groupRef.current.rotation.z,
-      targetRoll,
-      4,
-      delta
-    );
-
-    // Dynamic thruster pulse
-    if (thrustersRef.current) {
-      const pulse = 1.0 + Math.sin(time * 25.0) * 0.15 + Math.abs(scrollVelocity) * 0.005;
-      thrustersRef.current.scale.set(pulse, pulse, pulse * 1.2);
+    // Animate cryogenic vapor drift slowly upward
+    if (vaporRef.current) {
+      vaporRef.current.rotation.y = time * 0.08;
+      const attr = vaporRef.current.geometry.getAttribute('position') as THREE.BufferAttribute;
+      const arr = attr.array as Float32Array;
+      for (let i = 0; i < 160; i++) {
+        arr[i * 3 + 1] += delta * 0.6;
+        if (arr[i * 3 + 1] > 4.5) {
+          arr[i * 3 + 1] = -4.5;
+        }
+      }
+      attr.needsUpdate = true;
     }
   });
 
   return (
     <group ref={groupRef} position={position}>
       {/* 
-        The Space Shuttle Orbiter model:
-        Dimensions are ~20 (X) x 14 (Y) x 42 (Z).
-        Nose points towards -Z, Engines towards +Z.
-        Offset Z by -6 to align center-of-mass with origin.
+        Vertical Launch Posture:
+        Model original axes:
+          - Nose is at Z = -13
+          - Engines are at Z = +24
+          - Vertical stabilizer tail is at Y = +7.5
+        Rotation:
+          - Rotate X by +PI/2:
+              Z = -13 -> Y = +13 (Nose points UP towards the stars)
+              Z = +24 -> Y = -24 (Engines point DOWN towards the launch pad)
+          - Center the pivot vertically by offsetting Y by +5.5 * scale.
       */}
-      <group scale={scale} position={[0, -0.2, -6 * scale]}>
-        <primitive object={clonedScene} />
+      <group ref={shuttleMeshRef}>
+        <group
+          scale={scale}
+          position={[0, 5.5 * scale, 0]}
+          rotation={[Math.PI / 2, 0, 0]}
+        >
+          <primitive object={clonedScene} />
 
-        {/* SSME Engine Plumes (Trailing behind aft section at Z ~ 24) */}
-        <group ref={thrustersRef} position={[0, 2.5, 24]}>
-          {/* Main Top Center Engine */}
-          <points geometry={plumeGeometry} material={plumeMaterial} position={[0, 0.8, 0]} />
-          {/* Port Engine */}
-          <points geometry={plumeGeometry} material={plumeMaterial} position={[-1.6, -0.6, 0]} />
-          {/* Starboard Engine */}
-          <points geometry={plumeGeometry} material={plumeMaterial} position={[1.6, -0.6, 0]} />
-
-          {/* Engine Core Glow Spheres */}
-          <mesh position={[0, 0.8, 0.2]}>
-            <sphereGeometry args={[0.6, 16, 16]} />
-            <meshBasicMaterial color="#60a5fa" transparent opacity={0.9} />
-          </mesh>
-          <mesh position={[-1.6, -0.6, 0.2]}>
-            <sphereGeometry args={[0.6, 16, 16]} />
-            <meshBasicMaterial color="#60a5fa" transparent opacity={0.9} />
-          </mesh>
-          <mesh position={[1.6, -0.6, 0.2]}>
-            <sphereGeometry args={[0.6, 16, 16]} />
-            <meshBasicMaterial color="#60a5fa" transparent opacity={0.9} />
-          </mesh>
+          {/* Engine Ignition Sparklers / Warm Gantry Lighting at base */}
+          <pointLight position={[0, 0, 24]} intensity={2.5} color="#38bdf8" distance={12} />
+          <pointLight position={[0, -5, 24]} intensity={1.8} color="#f59e0b" distance={8} />
         </group>
       </group>
+
+      {/* Cryogenic Boil-off Vapor System along the Vertical Fuselage */}
+      <points ref={vaporRef} geometry={vaporGeometry} material={vaporMaterial} />
     </group>
   );
 };
 
-// Preload the NASA 3D asset into cache
 useGLTF.preload('/models/space-shuttle.glb');

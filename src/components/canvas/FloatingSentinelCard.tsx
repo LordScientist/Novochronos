@@ -14,6 +14,7 @@ export interface FloatingSentinelCardProps {
   rotation?: [number, number, number];
   scrollVelocity?: number;
   isActive?: boolean;
+  distanceFromCenter?: number; // Distance in helical index space (|relIndex|)
   onSelect?: (id: string) => void;
 }
 
@@ -28,6 +29,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   rotation = [0, 0, 0],
   scrollVelocity = 0,
   isActive = false,
+  distanceFromCenter = 0,
   onSelect,
 }) => {
   const cardRef = useRef<THREE.Group>(null);
@@ -46,18 +48,29 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     ? '#e2e8f0' // Lunar regolith silver
     : '#38bdf8'; // Deep space cyan
 
+  // Whether this card is close enough to the foreground sweet-spot to be interactable
+  const isFrontFacing = distanceFromCenter < 1.35;
+
   useFrame((state, delta) => {
     if (!cardRef.current) return;
 
-    // Active Theory hover physics: Card responds to pointer position
-    const targetScale = hovered ? 1.08 : isActive ? 1.04 : 1.0;
-    const targetTiltX = hovered ? -state.pointer.y * 0.35 : 0;
-    const targetTiltY = hovered ? state.pointer.x * 0.35 : 0;
+    // Active Theory helical focus physics:
+    // When near center (distanceFromCenter -> 0), scale is 1.0; farther cards taper to 0.78
+    const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
+    const targetScale = hovered && isFrontFacing ? 1.08 : isActive ? 1.04 : helixScale;
+
+    // Hover pointer tilt (only active on front-facing card to prevent erratic background tilt)
+    const targetTiltX = hovered && isFrontFacing ? -state.pointer.y * 0.35 : 0;
+    const targetTiltY = hovered && isFrontFacing ? state.pointer.x * 0.35 : 0;
 
     // Velocity skew on scroll
-    const velocityTiltZ = -scrollVelocity * 0.002;
+    const velocityTiltZ = -scrollVelocity * 0.0015;
 
-    // Smooth lerp for tilt and scale
+    // Smooth lerps for position, rotation and scale
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 5, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 5, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 5, delta);
+
     cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
     cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
     cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
@@ -82,16 +95,21 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     );
   });
 
+  // Calculate dynamic opacity: front cards are vivid, cards behind the shuttle fade into atmospheric haze
+  const cardOpacity = Math.max(0.25, Math.min(0.95, 1.0 - distanceFromCenter * 0.22));
+
   return (
     <group
       ref={cardRef}
       position={position}
       rotation={rotation}
       onClick={(e) => {
+        if (!isFrontFacing) return;
         e.stopPropagation();
         onSelect?.(id);
       }}
       onPointerOver={(e) => {
+        if (!isFrontFacing) return;
         e.stopPropagation();
         setHovered(true);
         document.body.style.cursor = 'pointer';
@@ -104,14 +122,14 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       {/* 3D Glassmorphic Obsidian Slab */}
       <RoundedBox args={[3.2, 2.0, 0.08]} radius={0.12} smoothness={4}>
         <meshPhysicalMaterial
-          color={hovered ? '#0f172a' : '#080d1a'}
+          color={hovered && isFrontFacing ? '#0f172a' : '#080d1a'}
           roughness={0.25}
           metalness={0.65}
-          transmission={0.4}
+          transmission={0.35}
           ior={1.4}
           thickness={0.5}
           transparent
-          opacity={0.92}
+          opacity={cardOpacity}
           clearcoat={1.0}
           clearcoatRoughness={0.1}
         />
@@ -120,16 +138,15 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       {/* Glowing Border Frame */}
       <RoundedBox args={[3.24, 2.04, 0.06]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
         <meshBasicMaterial
-          color={hovered ? '#38bdf8' : isActive ? '#60a5fa' : '#334155'}
+          color={hovered && isFrontFacing ? '#38bdf8' : isFrontFacing ? '#60a5fa' : '#334155'}
           wireframe
           transparent
-          opacity={hovered ? 0.9 : 0.4}
+          opacity={hovered && isFrontFacing ? 0.9 : isFrontFacing ? 0.5 : 0.2}
         />
       </RoundedBox>
 
       {/* Top Telemetry Header */}
       <group position={[0, 0.65, 0.05]}>
-        {/* Index counter */}
         <Text
           position={[-1.3, 0, 0]}
           fontSize={0.09}
@@ -137,11 +154,11 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.12}
+          fillOpacity={cardOpacity}
         >
           {`MISSION ${indexStr}`}
         </Text>
 
-        {/* Celestial body pill */}
         <Text
           position={[1.3, 0, 0]}
           fontSize={0.09}
@@ -149,6 +166,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           anchorX="right"
           anchorY="middle"
           letterSpacing={0.1}
+          fillOpacity={cardOpacity}
         >
           {celestialBody.toUpperCase()}
         </Text>
@@ -157,7 +175,11 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       {/* Divider Line */}
       <mesh position={[0, 0.48, 0.05]}>
         <planeGeometry args={[2.7, 0.01]} />
-        <meshBasicMaterial color={hovered ? '#38bdf8' : '#334155'} transparent opacity={0.6} />
+        <meshBasicMaterial
+          color={hovered && isFrontFacing ? '#38bdf8' : '#334155'}
+          transparent
+          opacity={cardOpacity * 0.7}
+        />
       </mesh>
 
       {/* Main Title (Headline) */}
@@ -169,6 +191,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         anchorY="middle"
         letterSpacing={0.06}
         maxWidth={2.6}
+        fillOpacity={cardOpacity}
       >
         {headlineName}
       </Text>
@@ -180,29 +203,37 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         color="#38bdf8"
         anchorX="left"
         anchorY="middle"
-        font={undefined}
         letterSpacing={0.04}
+        fillOpacity={cardOpacity}
       >
         {`// ${characterArchetype}`}
       </Text>
 
       {/* Bottom CTA / Action Bar */}
       <group position={[0, -0.65, 0.05]}>
-        {/* Glowing Status Dot */}
         <mesh position={[-1.25, 0, 0]}>
           <circleGeometry args={[0.04, 16]} />
-          <meshBasicMaterial color={hovered ? '#22c55e' : '#38bdf8'} />
+          <meshBasicMaterial
+            color={hovered && isFrontFacing ? '#22c55e' : isFrontFacing ? '#38bdf8' : '#475569'}
+            transparent
+            opacity={cardOpacity}
+          />
         </mesh>
 
         <Text
           position={[-1.1, 0, 0]}
           fontSize={0.09}
-          color={hovered ? '#ffffff' : '#94a3b8'}
+          color={hovered && isFrontFacing ? '#ffffff' : isFrontFacing ? '#94a3b8' : '#64748b'}
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.08}
+          fillOpacity={cardOpacity}
         >
-          {hovered ? 'CLICK TO DOCK & LISTEN →' : 'ABANDONED SENTINEL'}
+          {hovered && isFrontFacing
+            ? 'CLICK TO DOCK & LISTEN →'
+            : isFrontFacing
+            ? 'ABANDONED SENTINEL'
+            : 'ORBITAL TELEMETRY'}
         </Text>
       </group>
     </group>
