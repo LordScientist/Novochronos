@@ -131,7 +131,24 @@ To guarantee the site loads instantly on any internet connection or school Chrom
 
 ---
 
-## 5. Audio Pipeline & Narration Architecture
+## 5. Active Theory 3D Scroll Choreography & Lenis Pipeline
+
+The scroll mechanics adapt Active Theory's 3D cylindrical carousel, replacing the mechanical spine with NASA's Space Shuttle Orbiter:
+
+* **Engine:** `@studio-freight/lenis` / `lenis` (`v1.3.27`) provides inertial exponential deceleration damping (`t => Math.min(1, 1.001 - Math.pow(2, -10 * t))`).
+* **Velocity Hook:** `src/hooks/useSmoothScroll.ts` continuously streams `scrollProgress`, `scrollVelocity`, and `direction` to React Three Fiber via `useFrame`.
+* **Central Anchor (`SpaceShuttleSpine.tsx`):**
+  * Loads `public/models/space-shuttle.glb` (1.19 MB glTF binary).
+  * Tilts and banks (roll angle $\propto -\text{velocity} \times 0.003$) dynamically during scroll.
+  * Emits 3 SSME rocket exhaust particle plumes with additive blending and thermal pulse scaling.
+* **Cylindrical Card Ring (`SentinelCarouselScene.tsx`):**
+  * 8 Sentinels positioned at $R = 6.0$, $\theta_i = \frac{2\pi \cdot i}{8}$.
+  * Scroll progression drives angular rotation $\Omega = \text{progress} \times 2\pi$.
+  * Cards feature pointer-tilt physics (`FloatingSentinelCard.tsx`), glassmorphic physical transmission, and 3D vector-sharp telemetry typography.
+
+---
+
+## 6. Audio Pipeline & Narration Architecture
 
 * **Source Files:** Placed in `public/audio/<artifact-id>.mp3`.
 * **Mastering Standards:** 128 kbps stereo MP3, normalized to `-14 LUFS` to match broadcast web standards.
