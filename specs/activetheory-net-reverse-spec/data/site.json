@@ -1,0 +1,331 @@
+{
+ "tool": {
+  "name": "dissect",
+  "version": "0.1.0"
+ },
+ "run": {
+  "url": "https://activetheory.net/",
+  "startedAt": "2026-11-14T13:29:38.633Z",
+  "finishedAt": "2026-11-14T13:29:54.632Z",
+  "viewport": {
+   "width": 1440,
+   "height": 900
+  },
+  "focus": {
+   "text": "3d, scroll animations, design-system, cards",
+   "topics": [
+    "design-system",
+    "components",
+    "motion",
+    "3d"
+   ],
+   "specified": true
+  },
+  "target": "react + tailwind",
+  "assets": "refs",
+  "pagesAnalysed": 1,
+  "pagesFailed": 0
+ },
+ "stack": [
+  {
+   "name": "Three.js postprocessing (EffectComposer/passes)",
+   "category": "3d",
+   "evidence": [
+    "bundle text: app.1780406240914.js"
+   ]
+  },
+  {
+   "name": "Google Analytics",
+   "category": "analytics",
+   "evidence": [
+    "url: https://www.googletagmanager.com/gtag/js?id=G-J7TMDT4F8N",
+    "url: https://www.google-analytics.com/g/collect?v=2&tid=G-J7TMDT4F8N&gtm=45je6bb1v9175388020za208zd9175388020xf1&_p=179466298",
+    "url: https://www.google-analytics.com/g/collect?v=2&tid=G-J7TMDT4F8N&gtm=45je6bb1v9175388020za200zd9175388020xf1&_p=179466298"
+   ]
+  },
+  {
+   "name": "Google Tag Manager",
+   "category": "analytics",
+   "evidence": [
+    "url: https://www.googletagmanager.com/gtag/js?id=G-J7TMDT4F8N"
+   ]
+  },
+  {
+   "name": "Theatre.js",
+   "category": "animation",
+   "evidence": [
+    "bundle text: app.1780406240914.js"
+   ]
+  }
+ ],
+ "designSystem": {
+  "base": {
+   "htmlBg": "#000000",
+   "bodyBg": "#000000",
+   "bodyColor": "#ffffff",
+   "bodyFont": "nbarchitekt, Helvetica, Arial, sans-serif",
+   "bodySize": "16px",
+   "bodyLineHeight": "normal",
+   "bodyLetterSpacing": "normal",
+   "scrollBehavior": "auto",
+   "overscrollBehavior": "auto",
+   "colorScheme": "normal",
+   "accentColor": "auto"
+  },
+  "palette": [
+   {
+    "hex": "#ffffff",
+    "count": 1,
+    "area": 351360,
+    "roles": {
+     "text": 1
+    },
+    "hsl": {
+     "h": 0,
+     "s": 0,
+     "l": 1
+    }
+   }
+  ],
+  "roles": {
+   "background": "#000000",
+   "text": "#ffffff",
+   "textMuted": null,
+   "surface": null,
+   "border": null,
+   "accent": null,
+   "accentSecondary": null,
+   "neutrals": [
+    "#ffffff"
+   ],
+   "contrast": {
+    "textOnBackground": 21,
+    "mutedOnBackground": null,
+    "accentOnBackground": null
+   },
+   "dark": {
+    "bodyBg": "#000000",
+    "htmlBg": "#000000",
+    "bodyColor": "#ffffff",
+    "respondsToDark": false
+   },
+   "note": "Roles are inferred from frequency/area/saturation; verify against screenshots. If the site defines its own CSS variables (see css-variables.md) those names are the real tokens."
+  },
+  "gradients": [],
+  "typography": {
+   "families": [
+    {
+     "family": "nbarchitekt",
+     "stack": "nbarchitekt, Helvetica, Arial, sans-serif",
+     "count": 1,
+     "weights": {
+      "700": 1
+     },
+     "sizes": {
+      "18px": 1
+     }
+    }
+   ],
+   "scale": [
+    {
+     "px": 18,
+     "count": 1
+    }
+   ],
+   "medianRatio": null,
+   "tags": {
+    "h1": {
+     "family": "nbarchitekt",
+     "size": "18px",
+     "weight": "700",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "textTransform": "none",
+     "instances": 1,
+     "alt": null
+    }
+   }
+  },
+  "spacing": {
+   "histogram": {
+    "225": 1
+   },
+   "baseUnit": {
+    "b": 5,
+    "share": 1
+   },
+   "top": [
+    {
+     "px": 225,
+     "count": 1
+    }
+   ]
+  },
+  "radii": [],
+  "shadows": [],
+  "textShadows": [],
+  "filters": [],
+  "blends": [],
+  "clipPaths": [],
+  "zIndex": [],
+  "containers": [],
+  "cursors": [],
+  "transitions": [],
+  "motionTokens": {
+   "durations": [],
+   "easings": [],
+   "properties": []
+  },
+  "staticAnimations": [
+   {
+    "name": "fadeInOpacity",
+    "dur": "2s",
+    "ease": "ease-in",
+    "delay": "0s",
+    "iterations": "1",
+    "direction": "normal",
+    "fill": "none",
+    "count": 1
+   }
+  ],
+  "breakpoints": [],
+  "css": {
+   "sheets": 1,
+   "bytes": 1009,
+   "features": {
+    "scrollDriven": 0,
+    "containerQueries": 0,
+    "layers": 0,
+    "supports": 0,
+    "registeredProps": [],
+    "prefersColorScheme": 0,
+    "prefersReducedMotion": 0,
+    "hoverMedia": 0,
+    "viewTransitions": 0,
+    "tailwind": false,
+    "lightDark": 0,
+    "colorMix": 0,
+    "modernColor": 0
+   },
+   "mediaQueries": []
+  },
+  "variables": {
+   "rootCount": 0,
+   "byPrefix": {},
+   "themed": [],
+   "scoped": [],
+   "total": 0
+  },
+  "fonts": {
+   "declared": [
+    {
+     "family": "nbarchitekt",
+     "weight": "400",
+     "style": "normal",
+     "display": null,
+     "subsets": 1,
+     "src": [
+      {
+       "url": "./assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.woff2",
+       "format": "woff2"
+      },
+      {
+       "url": "./assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.woff",
+       "format": "woff"
+      },
+      {
+       "url": "./assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.otf",
+       "format": "opentype"
+      }
+     ],
+     "sheet": "inline",
+     "usedOnPage": true
+    }
+   ],
+   "loaded": [
+    {
+     "family": "nbarchitekt",
+     "weight": "400",
+     "style": "normal"
+    }
+   ],
+   "files": [
+    {
+     "url": "https://activetheory.net/assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.woff2",
+     "bytes": 19426
+    }
+   ],
+   "iconFonts": []
+  },
+  "misc3d": {
+   "perspective": 0,
+   "preserve3d": 0,
+   "matrix3d": 0,
+   "scrollSnap": 0,
+   "scrollDriven": 0
+  },
+  "willChange": {}
+ },
+ "assets": {
+  "byCategory": {
+   "document": {
+    "count": 3,
+    "bytes": 2107
+   },
+   "script": {
+    "count": 3,
+    "bytes": 533290
+   },
+   "api": {
+    "count": 3,
+    "bytes": 0
+   },
+   "api-json": {
+    "count": 1,
+    "bytes": 19781
+   },
+   "image": {
+    "count": 1,
+    "bytes": 191820
+   },
+   "font": {
+    "count": 1,
+    "bytes": 19426
+   }
+  },
+  "total": 12,
+  "fonts": [
+   {
+    "url": "https://activetheory.net/assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.woff2",
+    "category": "font",
+    "bytes": 19426,
+    "firstSeenOn": "home"
+   }
+  ],
+  "models3d": [],
+  "lottie": [],
+  "media": [],
+  "css": [],
+  "scripts": [
+   {
+    "url": "https://www.googletagmanager.com/gtag/js?id=G-J7TMDT4F8N",
+    "category": "script",
+    "bytes": 181518,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://activetheory.net/assets/js/app.1780406240914.js",
+    "category": "script",
+    "bytes": 348046,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://activetheory.net/assets/js/hydra/hydra-thread.js",
+    "category": "script",
+    "bytes": 3726,
+    "firstSeenOn": "home"
+   }
+  ],
+  "keyAssetFiles": []
+ }
+}

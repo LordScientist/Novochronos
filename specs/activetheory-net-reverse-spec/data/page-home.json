@@ -1,0 +1,503 @@
+{
+ "url": "https://activetheory.net/",
+ "slug": "home",
+ "index": 0,
+ "mode": "full",
+ "errors": [],
+ "pageErrors": [],
+ "evidence": [
+  {
+   "path": "08_evidence/frames/home/load-01-1216ms.jpg",
+   "desc": "Page-load frame ~1216ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1216
+  },
+  {
+   "path": "08_evidence/frames/home/load-02-1271ms.jpg",
+   "desc": "Page-load frame ~1271ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1271
+  },
+  {
+   "path": "08_evidence/frames/home/load-03-1330ms.jpg",
+   "desc": "Page-load frame ~1330ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1330
+  },
+  {
+   "path": "08_evidence/frames/home/load-04-1360ms.jpg",
+   "desc": "Page-load frame ~1360ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1360
+  },
+  {
+   "path": "08_evidence/frames/home/load-05-1600ms.jpg",
+   "desc": "Page-load frame ~1600ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1600
+  },
+  {
+   "path": "08_evidence/frames/home/load-06-2401ms.jpg",
+   "desc": "Page-load frame ~2401ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 2401
+  },
+  {
+   "path": "08_evidence/frames/home/load-07-3400ms.jpg",
+   "desc": "Page-load frame ~3400ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3400
+  },
+  {
+   "path": "08_evidence/frames/home/load-08-5001ms.jpg",
+   "desc": "Page-load frame ~5001ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 5001
+  },
+  {
+   "path": "08_evidence/screenshots/home/viewport-top.jpg",
+   "desc": "Above-the-fold at base viewport",
+   "page": "home",
+   "kind": "screenshot"
+  },
+  {
+   "path": "08_evidence/screenshots/home/full-page.jpg",
+   "desc": "Full-page screenshot at base viewport (after scroll pass so lazy content is loaded)",
+   "page": "home",
+   "kind": "screenshot"
+  },
+  {
+   "path": "08_evidence/sections/home/section-00-content.jpg",
+   "desc": "Section 0 \"content\" (content, 1440×244)",
+   "page": "home",
+   "kind": "section",
+   "sectionIndex": 0
+  },
+  {
+   "path": "08_evidence/responsive/home/w375.jpg",
+   "desc": "Viewport at 375px wide",
+   "page": "home",
+   "kind": "responsive",
+   "width": 375
+  },
+  {
+   "path": "08_evidence/responsive/home/w375-full.jpg",
+   "desc": "Full page at 375px (mobile layout)",
+   "page": "home",
+   "kind": "responsive",
+   "width": 375
+  },
+  {
+   "path": "08_evidence/responsive/home/w768.jpg",
+   "desc": "Viewport at 768px wide",
+   "page": "home",
+   "kind": "responsive",
+   "width": 768
+  },
+  {
+   "path": "08_evidence/responsive/home/w1024.jpg",
+   "desc": "Viewport at 1024px wide",
+   "page": "home",
+   "kind": "responsive",
+   "width": 1024
+  },
+  {
+   "path": "08_evidence/responsive/home/w1440.jpg",
+   "desc": "Viewport at 1440px wide",
+   "page": "home",
+   "kind": "responsive",
+   "width": 1440
+  },
+  {
+   "path": "08_evidence/theme/home/dark.jpg",
+   "desc": "prefers-color-scheme: dark",
+   "page": "home",
+   "kind": "theme"
+  }
+ ],
+ "nav": {
+  "status": 200,
+  "finalUrl": "https://activetheory.net/unsupported",
+  "frames": [
+   {
+    "path": "08_evidence/frames/home/load-01-1216ms.jpg",
+    "desc": "Page-load frame ~1216ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1216
+   },
+   {
+    "path": "08_evidence/frames/home/load-02-1271ms.jpg",
+    "desc": "Page-load frame ~1271ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1271
+   },
+   {
+    "path": "08_evidence/frames/home/load-03-1330ms.jpg",
+    "desc": "Page-load frame ~1330ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1330
+   },
+   {
+    "path": "08_evidence/frames/home/load-04-1360ms.jpg",
+    "desc": "Page-load frame ~1360ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1360
+   },
+   {
+    "path": "08_evidence/frames/home/load-05-1600ms.jpg",
+    "desc": "Page-load frame ~1600ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1600
+   },
+   {
+    "path": "08_evidence/frames/home/load-06-2401ms.jpg",
+    "desc": "Page-load frame ~2401ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 2401
+   },
+   {
+    "path": "08_evidence/frames/home/load-07-3400ms.jpg",
+    "desc": "Page-load frame ~3400ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3400
+   },
+   {
+    "path": "08_evidence/frames/home/load-08-5001ms.jpg",
+    "desc": "Page-load frame ~5001ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 5001
+   }
+  ],
+  "loadEventMs": 1119
+ },
+ "dismissedOverlay": null,
+ "idle": {
+  "rafPerSec": 0,
+  "movers": []
+ },
+ "cursor": {
+  "bodyCursor": "auto",
+  "htmlCursor": "auto",
+  "followers": []
+ },
+ "scroll": {
+  "docH": 900,
+  "steps": 0,
+  "positions": []
+ },
+ "reveal": {
+  "tracked": 0,
+  "total": 0,
+  "patterns": []
+ },
+ "motionLibs": {
+  "webComponents": [],
+  "animationAttributes": {},
+  "animationClasses": [
+   [
+    "fade-in",
+    1
+   ]
+  ],
+  "waapi": [],
+  "intersectionObserver": {
+   "observers": 0,
+   "observedTargets": 0,
+   "options": []
+  }
+ },
+ "parallax": [],
+ "liveAnimations": [],
+ "webgl": {
+  "canvases": [],
+  "contexts": [],
+  "shaders": [],
+  "webgpuContext": false,
+  "navigatorGpu": true
+ },
+ "meta": {
+  "title": "Not Supported",
+  "lang": "en",
+  "description": null,
+  "ogTitle": null,
+  "ogImage": null,
+  "themeColor": null,
+  "colorScheme": null,
+  "generator": null,
+  "viewport": "width=device-width, initial-scale=1.0",
+  "canonical": null,
+  "favicons": [],
+  "headings": [
+   {
+    "level": 1,
+    "text": "Your browser is not supported"
+   }
+  ],
+  "ctas": [],
+  "iframes": [],
+  "docHeight": 900,
+  "docWidth": 1440,
+  "shadowRoots": 0,
+  "customElements": []
+ },
+ "structure": {
+  "sections": [
+   {
+    "index": 0,
+    "selector": "h1.fade-in",
+    "tag": "h1",
+    "id": null,
+    "role": "content",
+    "top": 0,
+    "height": 244,
+    "width": 1440,
+    "heading": null,
+    "excerpt": "Your browser is not supported",
+    "background": {
+     "color": null,
+     "image": null,
+     "imageValue": null,
+     "hasBackgroundMedia": null
+    },
+    "layout": {
+     "display": "block",
+     "paddingY": "225px / 0px",
+     "innerMaxWidth": null,
+     "innerWidth": null,
+     "position": "static"
+    },
+    "counts": {
+     "images": 0,
+     "svg": 0,
+     "videos": 0,
+     "canvases": 0,
+     "links": 0,
+     "buttons": 0,
+     "headings": 0
+    },
+    "animatedHints": false,
+    "outline": "h1.fade-in \"Your browser is not supported\" [1440×244]",
+    "html": "<h1 class=\"fade-in\">Your browser is not supported</h1>"
+   }
+  ],
+  "fixedSticky": [],
+  "landmarks": {
+   "header": false,
+   "nav": false,
+   "main": false,
+   "footer": false,
+   "aside": 0
+  },
+  "navLinks": [],
+  "dropdowns": 0,
+  "headerHtml": null,
+  "footerHtml": null
+ },
+ "components": {
+  "repeated": [],
+  "buttons": [],
+  "fields": []
+ },
+ "styles": {
+  "colors": [
+   {
+    "hex": "#ffffff",
+    "count": 1,
+    "area": 351360,
+    "roles": {
+     "text": 1
+    }
+   }
+  ],
+  "typography": [
+   {
+    "key": "nbarchitekt, Helvetica, Arial, sans-serif|18px|700|normal|normal|none|normal",
+    "family": "nbarchitekt, Helvetica, Arial, sans-serif",
+    "size": "18px",
+    "weight": "700",
+    "lineHeight": "normal",
+    "letterSpacing": "normal",
+    "textTransform": "none",
+    "fontStyle": "normal",
+    "count": 1,
+    "tags": {
+     "h1": 1
+    },
+    "colors": {
+     "#ffffff": 1
+    },
+    "sample": "Your browser is not supported"
+   }
+  ],
+  "tagStyles": {
+   "h1": [
+    {
+     "key": "nbarchitekt, Helvetica, Arial, sans-serif|18px|700|normal|normal|none|normal",
+     "count": 1
+    }
+   ]
+  },
+  "spacing": {
+   "225": 1
+  },
+  "radii": {},
+  "shadows": {},
+  "textShadows": {},
+  "gradients": {},
+  "filters": {},
+  "blends": {},
+  "zIndex": {},
+  "transitions": {},
+  "animations": {
+   "fadeInOpacity|2s|ease-in|0s|1|normal|none": 1
+  },
+  "cursors": {},
+  "maxWidths": {},
+  "clipPaths": {},
+  "misc": {
+   "perspective": 0,
+   "preserve3d": 0,
+   "matrix3d": 0,
+   "scrollSnap": 0,
+   "scrollDriven": 0,
+   "willChange": {},
+   "sampled": 1,
+   "total": 1
+  },
+  "base": {
+   "htmlBg": "#000000",
+   "bodyBg": "#000000",
+   "bodyColor": "#ffffff",
+   "bodyFont": "nbarchitekt, Helvetica, Arial, sans-serif",
+   "bodySize": "16px",
+   "bodyLineHeight": "normal",
+   "bodyLetterSpacing": "normal",
+   "scrollBehavior": "auto",
+   "overscrollBehavior": "auto",
+   "colorScheme": "normal",
+   "accentColor": "auto"
+  }
+ },
+ "stackGlobals": {},
+ "fontsLoaded": [
+  {
+   "family": "nbarchitekt",
+   "weight": "400",
+   "style": "normal"
+  }
+ ],
+ "idleLiveAnimations": 0,
+ "hover": [],
+ "responsive": {
+  "containers": [],
+  "widths": {
+   "375": {
+    "innerWidth": 375,
+    "horizontalOverflow": false,
+    "h1": {
+     "fontSize": "18px",
+     "lineHeight": "normal",
+     "letterSpacing": "normal"
+    },
+    "bodyFontSize": "16px",
+    "headerHeight": null,
+    "visibleNavLinks": 0,
+    "hamburgerVisible": false,
+    "firstSectionHeight": 222,
+    "containers": []
+   },
+   "768": {
+    "innerWidth": 768,
+    "horizontalOverflow": false,
+    "h1": {
+     "fontSize": "18px",
+     "lineHeight": "normal",
+     "letterSpacing": "normal"
+    },
+    "bodyFontSize": "16px",
+    "headerHeight": null,
+    "visibleNavLinks": 0,
+    "hamburgerVisible": false,
+    "firstSectionHeight": 219,
+    "containers": []
+   },
+   "1024": {
+    "innerWidth": 1024,
+    "horizontalOverflow": false,
+    "h1": {
+     "fontSize": "18px",
+     "lineHeight": "normal",
+     "letterSpacing": "normal"
+    },
+    "bodyFontSize": "16px",
+    "headerHeight": null,
+    "visibleNavLinks": 0,
+    "hamburgerVisible": false,
+    "firstSectionHeight": 219,
+    "containers": []
+   },
+   "1440": {
+    "innerWidth": 1440,
+    "horizontalOverflow": false,
+    "h1": {
+     "fontSize": "18px",
+     "lineHeight": "normal",
+     "letterSpacing": "normal"
+    },
+    "bodyFontSize": "16px",
+    "headerHeight": null,
+    "visibleNavLinks": 0,
+    "hamburgerVisible": false,
+    "firstSectionHeight": 219,
+    "containers": []
+   }
+  },
+  "mobileMenu": null
+ },
+ "theme": {
+  "light": {
+   "htmlBg": "#000000",
+   "bodyBg": "#000000",
+   "bodyColor": "#ffffff",
+   "h1Color": "#ffffff",
+   "htmlClass": "",
+   "dataTheme": null,
+   "toggles": 0
+  },
+  "dark": {
+   "htmlBg": "#000000",
+   "bodyBg": "#000000",
+   "bodyColor": "#ffffff",
+   "h1Color": "#ffffff",
+   "htmlClass": "",
+   "dataTheme": null,
+   "toggles": 0
+  },
+  "respondsToDark": false,
+  "reducedMotion": {
+   "liveAnimationsNormal": 0,
+   "liveAnimationsReduced": 0,
+   "infiniteNormal": 0,
+   "infiniteReduced": 0
+  }
+ },
+ "timing": {
+  "totalMs": 15713
+ }
+}

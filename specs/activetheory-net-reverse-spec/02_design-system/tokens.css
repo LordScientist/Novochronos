@@ -1,0 +1,7 @@
+:root {
+  /* ---- inferred roles ---- */
+  --dz-color-background: #000000;
+  --dz-color-text: #ffffff;
+  --dz-font-primary: nbarchitekt, Helvetica, Arial, sans-serif;
+  --dz-space-225: 225px;
+}

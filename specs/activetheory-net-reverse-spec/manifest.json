@@ -1,0 +1,202 @@
+{
+  "tool": {
+    "name": "dissect",
+    "version": "0.1.0"
+  },
+  "reference": "https://activetheory.net/",
+  "generatedAt": "2026-11-14T13:29:54.632Z",
+  "focus": {
+    "text": "3d, scroll animations, design-system, cards",
+    "topics": [
+      "design-system",
+      "components",
+      "motion",
+      "3d"
+    ],
+    "specified": true
+  },
+  "target": "react + tailwind",
+  "start": "00_START_HERE.md",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "bytes": 4017
+    },
+    {
+      "path": "01_overview.md",
+      "bytes": 1365
+    },
+    {
+      "path": "02_design-system/README.md",
+      "bytes": 657
+    },
+    {
+      "path": "02_design-system/colors.md",
+      "bytes": 1471
+    },
+    {
+      "path": "02_design-system/css-variables.md",
+      "bytes": 214
+    },
+    {
+      "path": "02_design-system/spacing-layout.md",
+      "bytes": 940
+    },
+    {
+      "path": "02_design-system/tailwind.theme.snippet.js",
+      "bytes": 717
+    },
+    {
+      "path": "02_design-system/tokens.css",
+      "bytes": 194
+    },
+    {
+      "path": "02_design-system/tokens.json",
+      "bytes": 1071
+    },
+    {
+      "path": "02_design-system/typography.md",
+      "bytes": 2006
+    },
+    {
+      "path": "03_structure/components.md",
+      "bytes": 667
+    },
+    {
+      "path": "03_structure/html-samples/home-section-00.html",
+      "bytes": 220
+    },
+    {
+      "path": "03_structure/page-home.md",
+      "bytes": 1186
+    },
+    {
+      "path": "03_structure/sitemap.md",
+      "bytes": 461
+    },
+    {
+      "path": "04_motion/README.md",
+      "bytes": 1550
+    },
+    {
+      "path": "04_motion/animations.md",
+      "bytes": 1212
+    },
+    {
+      "path": "04_motion/keyframes.css",
+      "bytes": 87
+    },
+    {
+      "path": "05_3d/README.md",
+      "bytes": 223
+    },
+    {
+      "path": "06_behaviour/interactions.md",
+      "bytes": 562
+    },
+    {
+      "path": "06_behaviour/responsive.md",
+      "bytes": 1044
+    },
+    {
+      "path": "06_behaviour/theme-and-preferences.md",
+      "bytes": 574
+    },
+    {
+      "path": "07_stack-assets/assets-manifest.json",
+      "bytes": 1331
+    },
+    {
+      "path": "07_stack-assets/stack.md",
+      "bytes": 1539
+    },
+    {
+      "path": "08_evidence/INDEX.md",
+      "bytes": 2251
+    },
+    {
+      "path": "08_evidence/frames/home/load-01-1216ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-02-1271ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-03-1330ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-04-1360ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-05-1600ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-06-2401ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-07-3400ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-08-5001ms.jpg",
+      "bytes": 59374
+    },
+    {
+      "path": "08_evidence/responsive/home/w1024.jpg",
+      "bytes": 53896
+    },
+    {
+      "path": "08_evidence/responsive/home/w1440.jpg",
+      "bytes": 56340
+    },
+    {
+      "path": "08_evidence/responsive/home/w375-full.jpg",
+      "bytes": 25561
+    },
+    {
+      "path": "08_evidence/responsive/home/w375.jpg",
+      "bytes": 32392
+    },
+    {
+      "path": "08_evidence/responsive/home/w768.jpg",
+      "bytes": 46941
+    },
+    {
+      "path": "08_evidence/screenshots/home/full-page.jpg",
+      "bytes": 54941
+    },
+    {
+      "path": "08_evidence/screenshots/home/viewport-top.jpg",
+      "bytes": 84495
+    },
+    {
+      "path": "08_evidence/sections/home/section-00-content.jpg",
+      "bytes": 8612
+    },
+    {
+      "path": "08_evidence/theme/home/dark.jpg",
+      "bytes": 66742
+    },
+    {
+      "path": "09_agent-tasks.md",
+      "bytes": 2964
+    },
+    {
+      "path": "10_implementation-guide.md",
+      "bytes": 3062
+    },
+    {
+      "path": "data/page-home.json",
+      "bytes": 11521
+    },
+    {
+      "path": "data/site.json",
+      "bytes": 6587
+    }
+  ]
+}

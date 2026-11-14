@@ -1,0 +1,62 @@
+{
+  "note": "URLs are references to the reference site's assets. Files are only included in the bundle when run with --assets key.",
+  "summary": {
+    "document": {
+      "count": 3,
+      "bytes": 2107
+    },
+    "script": {
+      "count": 3,
+      "bytes": 533290
+    },
+    "api": {
+      "count": 3,
+      "bytes": 0
+    },
+    "api-json": {
+      "count": 1,
+      "bytes": 19781
+    },
+    "image": {
+      "count": 1,
+      "bytes": 191820
+    },
+    "font": {
+      "count": 1,
+      "bytes": 19426
+    }
+  },
+  "fonts": [
+    {
+      "url": "https://activetheory.net/assets/fonts/NBArchitektStd-Regular-export/NBArchitektStd-Regular.woff2",
+      "category": "font",
+      "bytes": 19426,
+      "firstSeenOn": "home"
+    }
+  ],
+  "models3d": [],
+  "lottie": [],
+  "media": [],
+  "css": [],
+  "scripts": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-J7TMDT4F8N",
+      "category": "script",
+      "bytes": 181518,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://activetheory.net/assets/js/app.1780406240914.js",
+      "category": "script",
+      "bytes": 348046,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://activetheory.net/assets/js/hydra/hydra-thread.js",
+      "category": "script",
+      "bytes": 3726,
+      "firstSeenOn": "home"
+    }
+  ],
+  "savedFiles": []
+}
