@@ -1,0 +1,128 @@
+[
+  {
+    "id": "opportunity-rover",
+    "name": "Opportunity Rover (MER-B / \"Oppy\")",
+    "celestialBody": "Mars",
+    "characterArchetype": "The Little Rover That Could",
+    "estimatedDurationSec": 74,
+    "soundEffects": [
+      "Martian wind howling",
+      "Aluminum wheels crunching on pebbles",
+      "Servo motor deceleration",
+      "Faint heartbeat monitor"
+    ],
+    "takeawayForKids": "Opportunity proved that resilience and determination can turn a 90-day task into a 15-year marathon of scientific wonder.",
+    "ttsCleanScript": "They told us we had ninety days. Ninety Martian sunrises to land inside a nest of bouncing airbags, roll down our metal ramps, and see if the Red Planet was ever alive. Ninety days? We gave humanity fifteen years! We climbed out of Eagle Crater with dust on our solar wings. We drove across endless red deserts. We found the blueberries, tiny spheres of hematite that proved, once and for all, that liquid water once flowed, rippled, and pooled across Mars. We conquered sand dunes that tried to swallow us whole. We drove an entire Olympic marathon on another world, twenty-eight miles, one rock at a time! And then, in the summer of 2018, the sky turned dark. A global dust storm swallowed the Sun. Day turned into pitch-black night. With our solar panels choking on red dust, we sent our last heartbeat through the dark: My battery is low, and it is getting dark. Do not mourn us. We are not lost. We are parked forever at the edge of Endeavour Crater, looking out over the valley we conquered. When the first humans finally land on Mars, our tire tracks will still be there, waiting to lead you home.",
+    "directorScript": "[Sound: Martian wind howling. Gentle metallic servo hum.] [Voice: Warm, nostalgic] They told us we had ninety days. [Pause: 1s] Ninety Martian sunrises to land inside a nest of bouncing airbags, roll down our metal ramps, and see if the Red Planet was ever alive. [Voice: Triumphant] Ninety days? We gave humanity fifteen years! We climbed out of Eagle Crater with dust on our solar wings. We drove across endless red deserts. We found the 'blueberries'—tiny spheres of hematite that proved, once and for all, that liquid water once flowed, rippled, and pooled across Mars. We conquered sand dunes that tried to swallow us whole. We drove an entire Olympic marathon on another world—twenty-eight miles, one rock at a time! [Sound: Wind builds into roaring storm] [Voice: Solemn, poignant] And then... in the summer of 2018... the sky turned dark. A global dust storm swallowed the Sun. Day turned into pitch-black night. [Voice: Soft, tender whisper] With our solar panels choking on red dust, we sent our last heartbeat through the dark: 'My battery is low... and it is getting dark.' [Pause: 1.5s] [Voice: Peaceful, luminous] Do not mourn us. We are not lost. We are parked forever at the edge of Endeavour Crater, looking out over the valley we conquered. When the first humans finally land on Mars... our tire tracks will still be there, waiting to lead you home."
+  },
+  {
+    "id": "ingenuity-helicopter",
+    "name": "Ingenuity Mars Helicopter (\"Ginny\")",
+    "celestialBody": "Mars",
+    "characterArchetype": "The Maverick Aviator",
+    "estimatedDurationSec": 68,
+    "soundEffects": [
+      "Thin wind whistle",
+      "Twin carbon rotors accelerating to 2500 RPM",
+      "Sudden whoosh of lift-off",
+      "Gentle sand touchdown"
+    ],
+    "takeawayForKids": "Even when people tell you something is impossible, innovation and bravery can rewrite the laws of exploration.",
+    "ttsCleanScript": "They said flight on Mars was physically impossible. They said the Martian air was too thin, less than one percent of Earth's atmosphere. Like trying to fly at one hundred thousand feet in the sky! On April 19, 2021, we spun our twin carbon-fiber blades, lifted three meters off the red dirt, and hovered. Four pounds of defiance! And tucked right beneath our solar panel? A tiny postage-stamp piece of muslin fabric cut from the wing of the 1903 Wright Flyer. We proved that humanity could fly on another world. We were only supposed to fly five times to prove the physics. We flew seventy-two! We soared over boulder fields, scouted pathways for our big brother rover Perseverance, and surveyed alien canyons from the air. On our seventy-second flight, landing in featureless ripples of sand, a rotor tip touched down hard. Our flying days ended there, at Airfield Valinor Hills. But our computer still wakes up every single morning. We check the temperature. We test the wind. We proved the sky of Mars is not a ceiling, it is a highway. And we are waiting here to welcome the next aviator who dares to spread their wings.",
+    "directorScript": "[Sound: Razor-thin wind whistle. Rotors accelerating to 2,500 RPM.] [Voice: Energetic, defiant] They said flight on Mars was physically impossible. They said the Martian air was too thin—less than one percent of Earth's atmosphere. Like trying to fly at one hundred thousand feet in the sky! [Sound: Whoosh of lift-off] [Voice: Exhilarated] On April 19, 2021, we spun our twin carbon-fiber blades, lifted three meters off the red dirt, and hovered. Four pounds of defiance! And tucked right beneath our solar panel? A tiny postage-stamp piece of muslin fabric... cut from the wing of the 1903 Wright Flyer. [Pause: 1s] We proved that humanity could fly on another world. We were only supposed to fly five times to prove the physics. We flew seventy-two! We soared over boulder fields, scouted pathways for our big brother rover Perseverance, and surveyed alien canyons from the air. [Sound: Rotor clip on sand] [Voice: Gentle, proud] On our seventy-second flight, landing in featureless ripples of sand, a rotor tip touched down hard. Our flying days ended there, at Airfield Valinor Hills. But our computer still wakes up every single morning. We check the temperature. We test the wind. We proved the sky of Mars is not a ceiling... it is a highway. And we are waiting here to welcome the next aviator who dares to spread their wings."
+  },
+  {
+    "id": "apollo-11-descent",
+    "name": "Apollo 11 Descent Stage & Laser Reflector",
+    "celestialBody": "Moon",
+    "characterArchetype": "The Sacred Origin",
+    "estimatedDurationSec": 72,
+    "soundEffects": [
+      "Cosmic vacuum silence",
+      "1969 radio static",
+      "Ascent rocket firing echo",
+      "Laser pulse crystalline ping"
+    ],
+    "takeawayForKids": "Human exploration leaves permanent monuments of peace, and passive engineering like glass prisms can conduct science for over 50 years with zero power.",
+    "ttsCleanScript": "Look closely at the golden platform standing in the Sea of Tranquility. Around it, in the gray, untouched powdery regolith, bootprints are pressed into the soil. Bootprints that will remain unchanged for a million years, because here on the Moon, there is no rain. There is no wind. When Neil Armstrong and Buzz Aldrin lit their rocket to return to Earth, they had to leave their lower half behind. Every pound of weight was precious to make it home alive. But this golden four-legged stage was never meant to be trash. It is the pedestal of humanity's greatest leap. On its leg hangs a steel plaque that reads: We came in peace for all mankind. And just a few paces away sits something even more magical. A simple grid of glass prisms called the Laser Retroreflector. No batteries. No wires. No computers. Even tonight, right now while you are listening, scientists on Earth will fire a green laser beam from a mountain observatory into the night sky. It travels across three hundred and eighty thousand kilometers of black space, hits this exact glass relic on the Moon, and bounces straight back to Earth. It proved that the Moon is slowly drifting away from us by four centimeters a year. Fifty years later, our silent sentinel is still answering Earth's call, light-second by light-second.",
+    "directorScript": "[Sound: Profound cosmic silence. 1969 radio static.] [Voice: Deep, reverent] Look closely at the golden platform standing in the Sea of Tranquility. [Pause: 1.2s] Around it, in the gray, untouched powdery regolith, bootprints are pressed into the soil. Bootprints that will remain unchanged for a million years, because here on the Moon, there is no rain. There is no wind. [Sound: Ascent stage separation] When Neil Armstrong and Buzz Aldrin lit their rocket to return to Earth, they had to leave their lower half behind. Every pound of weight was precious to make it home alive. But this golden four-legged stage was never meant to be trash. It is the pedestal of humanity's greatest leap. On its leg hangs a steel plaque that reads: 'We came in peace for all mankind.' [Sound: High-tech crystalline laser chime] [Voice: Intrigued] And just a few paces away sits something even more magical. A simple grid of glass prisms called the Laser Retroreflector. No batteries. No wires. No computers. [Voice: Warm, uplifting] Even tonight... right now while you are listening... scientists on Earth will fire a green laser beam from a mountain observatory into the night sky. It travels across three hundred and eighty thousand kilometers of black space, hits this exact glass relic on the Moon, and bounces straight back to Earth. It proved that the Moon is slowly drifting away from us by four centimeters a year. Fifty years later, our silent sentinel is still answering Earth's call... light-second by light-second."
+  },
+  {
+    "id": "insight-lander",
+    "name": "InSight Geophysical Lander",
+    "celestialBody": "Mars",
+    "characterArchetype": "The Planetary Doctor",
+    "estimatedDurationSec": 70,
+    "soundEffects": [
+      "Subterranean rumbling Marsquake",
+      "Seismic sensor chime",
+      "Fine dust blowing across solar array",
+      "Heartbeat fading"
+    ],
+    "takeawayForKids": "Planets have internal pulses and structures just like living bodies, and scientific curiosity listens to mysteries hidden deep beneath the surface.",
+    "ttsCleanScript": "Every other machine sent to Mars looked at the rocks on the surface. We were built to listen to the planet's heart. In 2018, we touched down on the smooth volcanic plains of Elysium Planitia. With our robotic arm, we placed a golden dome onto the dirt, the most sensitive seismometer ever built by human hands. It could detect a ground tremor smaller than the width of a single atom of hydrogen. For four years, we sat motionless in the silence. And Mars spoke to us. We felt thirteen hundred Marsquakes rumbling through the mantle. We heard meteorite impacts striking the crust like distant drumbeats. We gave humanity the very first ultrasound of an alien world, proving that beneath its cold desert shell, Mars has a giant, molten liquid core. With every passing month, the red dust settled thicker and thicker over our solar wings. We had no windshield wipers. We had no little rover wheels to shake it loose. Day by day, our power faded. When the last volt drained away, we sent our final message home: My power is really low, so this may be the last image I can send. Don't worry about me though: my time here has been both productive and serene. We took the pulse of a world. Now, we sleep peacefully in its crimson dust.",
+    "directorScript": "[Sound: Deep, subterranean Marsquake rumble. Delicate sensor chime.] [Voice: Intimate, gentle] Every other machine sent to Mars looked at the rocks on the surface. We were built to listen to the planet's heart. [Pause: 1s] In 2018, we touched down on the smooth volcanic plains of Elysium Planitia. With our robotic arm, we placed a golden dome onto the dirt—the most sensitive seismometer ever built by human hands. It could detect a ground tremor smaller than the width of a single atom of hydrogen. [Sound: Two distinct seismic pulses] For four years, we sat motionless in the silence. And Mars spoke to us. We felt thirteen hundred Marsquakes rumbling through the mantle. We heard meteorite impacts striking the crust like distant drumbeats. We gave humanity the very first ultrasound of an alien world... proving that beneath its cold desert shell, Mars has a giant, molten liquid core. [Sound: Dry wind blowing fine grains over solar panel] [Voice: Melancholy yet tranquil] With every passing month, the red dust settled thicker and thicker over our solar wings. We had no windshield wipers. We had no little rover wheels to shake it loose. Day by day, our power faded. [Voice: Whispering with serene dignity] When the last volt drained away, we sent our final message home: 'My power's really low, so this may be the last image I can send. Don't worry about me though: my time here has been both productive and serene.' [Pause: 1s] We took the pulse of a world. Now, we sleep peacefully in its crimson dust."
+  },
+  {
+    "id": "apollo-15-lrv",
+    "name": "Apollo 15 Lunar Roving Vehicle (LRV-1)",
+    "celestialBody": "Moon",
+    "characterArchetype": "The High-Spirited Explorer",
+    "estimatedDurationSec": 66,
+    "soundEffects": [
+      "Electric motor whine",
+      "Wire-mesh tires rolling over basalt dust",
+      "TV camera remote steering servo",
+      "Astronaut radio banter"
+    ],
+    "takeawayForKids": "Ingenuity in mechanics, like wire-mesh tires and foldable aluminum chassis, unlocked exploration across mountains and canyons.",
+    "ttsCleanScript": "Who says you can't go for a joyride on the Moon? Before 1971, astronauts could only explore as far as their heavy boots could walk. Enter the Lunar Roving Vehicle: the ultimate off-world convertible! Made of aluminum tubes, woven piano-wire tires, and two lawn chairs, folded like origami into the belly of the lunar lander. Commander Dave Scott grabbed the T-shaped steering stick, stepped on the electric throttle, and away we went! We bounced along the rim of Hadley Rille, a canyon a mile wide and a thousand feet deep. We drove up the slope of mountains towering three miles into the black sky. We covered nearly eighteen miles and helped astronauts find the Genesis Rock, a chunk of the Moon four billion years old! When the mission ended, Dave Scott parked us three hundred feet away from the lander, pointed our remote-controlled color TV camera back at the spacecraft, and left it on. Millions of kids watching televisions back on Earth saw the rocket fire and blast into orbit! We've been parked there at Hadley Rille for over fifty years. The batteries are dead, but the tires will never go flat. The keys are still in the ignition, and the best parking spot on the Moon is officially reserved.",
+    "directorScript": "[Sound: Electric motor whine, wire-mesh tire crunch.] [Voice: Bright, adventurous road-trip tone] Who says you can't go for a joyride on the Moon? Before 1971, astronauts could only explore as far as their heavy boots could walk. Enter the Lunar Roving Vehicle: the ultimate off-world convertible! Made of aluminum tubes, woven piano-wire tires, and two lawn chairs, folded like origami into the belly of the lunar lander. [Sound: Electric hum accelerating] Commander Dave Scott grabbed the T-shaped steering stick, stepped on the electric throttle, and away we went! We bounced along the rim of Hadley Rille—a canyon a mile wide and a thousand feet deep. We drove up the slope of mountains towering three miles into the black sky. We covered nearly eighteen miles and helped astronauts find the Genesis Rock—a chunk of the Moon four billion years old! [Sound: Camera servo tilts upward] When the mission ended, Dave Scott parked us three hundred feet away from the lander, pointed our remote-controlled color TV camera back at the spacecraft, and left it on. Millions of kids watching televisions back on Earth saw the rocket fire and blast into orbit! [Voice: Mischievous and warm] We've been parked there at Hadley Rille for over fifty years. The batteries are dead, but the tires will never go flat. The keys are still in the ignition, and the best parking spot on the Moon is officially reserved."
+  },
+  {
+    "id": "sojourner-pathfinder",
+    "name": "Sojourner Rover & Mars Pathfinder",
+    "celestialBody": "Mars",
+    "characterArchetype": "The Brave Little Pioneer",
+    "estimatedDurationSec": 68,
+    "soundEffects": [
+      "Airbags bouncing heavily THUMP THUMP",
+      "Pneumatic petaled lander unfolding",
+      "Six-wheel motor hum",
+      "Alpha Proton X-Ray spectrometer tapping stone"
+    ],
+    "takeawayForKids": "Small pioneers can open immense frontiers. Every giant rover on Mars today started with a microwave-sized robot that dared to roll.",
+    "ttsCleanScript": "Imagine a robot no bigger than your school backpack. Weighing just twenty-three pounds. Back in 1997, critics laughed. They said a rover on Mars was pure fantasy. They said it would get stuck on the first pebble, freeze in the first night, or flip upside down. On the fourth of July, 1997, our mothership bounced across an ancient dried-up Martian riverbed inside twenty giant airbags. When the petals unfolded, our six little aluminum wheels rolled down the ramps into the red sand. We were named Sojourner, in honor of Sojourner Truth, the great fighter for human freedom. We were built to last seven days. We survived for eighty-three! We trundled up to giant boulders named Barnacle Bill and Yogi, pressed our tiny sensor against them, and proved that Mars was once washed by catastrophic torrents of liquid water! When the winter cold finally drained our circuits, we came to rest in Ares Vallis. Every giant rover roaming Mars today, Spirit, Opportunity, Curiosity, Perseverance, walks in the tiny tire tracks we left behind. Big dreams start small.",
+    "directorScript": "[Sound: Airbags bouncing: THUMP... THUMP... THUMP... pneumatic hiss. Motor hum.] [Voice: Fond, storytelling tone] Imagine a robot no bigger than your school backpack. Weighing just twenty-three pounds. Back in 1997, critics laughed. They said a rover on Mars was pure fantasy. They said it would get stuck on the first pebble, freeze in the first night, or flip upside down. [Voice: Proud, cheerful] On the fourth of July, 1997, our mothership bounced across an ancient dried-up Martian riverbed inside twenty giant airbags. When the petals unfolded, our six little aluminum wheels rolled down the ramps into the red sand. We were named Sojourner, in honor of Sojourner Truth, the great fighter for human freedom. [Sound: Mechanical sensor tap-tap-tap] We were built to last seven days. We survived for eighty-three! We trundled up to giant boulders named 'Barnacle Bill' and 'Yogi', pressed our tiny sensor against them, and proved that Mars was once washed by catastrophic torrents of liquid water! [Voice: Tender, legacy-focused] When the winter cold finally drained our circuits, we came to rest in Ares Vallis. Every giant rover roaming Mars today—Spirit, Opportunity, Curiosity, Perseverance—walks in the tiny tire tracks we left behind. Big dreams start small."
+  },
+  {
+    "id": "pioneer-10",
+    "name": "Pioneer 10 Deep Space Probe",
+    "celestialBody": "Asteroid / Deep Space",
+    "characterArchetype": "The Cosmic Wanderer",
+    "estimatedDurationSec": 72,
+    "soundEffects": [
+      "Cosmic white noise",
+      "Pulsar acoustic rhythm",
+      "Solitary carrier wave beep fading into dark"
+    ],
+    "takeawayForKids": "Humanity's message of curiosity and peace can outlive planets and stars, drifting through the galaxy for millions of years.",
+    "ttsCleanScript": "Travel with your mind beyond the Moon. Beyond Mars. Beyond the orbits of Jupiter, Saturn, Uranus, and Neptune. Out where the Sun is just another sparkling diamond in the black sea of space, travels Pioneer 10. Launched in 1972, we were the first machine built by human hands to sail into the unknown. Scientists didn't even know if a spacecraft could pass through the Asteroid Belt without being crushed into dust. We sailed straight through without a scratch. We braved the crushing radiation belts of Jupiter to send back humanity's first breathtaking close-ups of the Great Red Spot. And bolted to our antenna strut is a golden plaque. Designed by Carl Sagan, it holds a drawing of a man, a woman, a map of our home star, and the address of Earth written in the rhythm of pulsing stars. In 2003, our radio grew too weak to reach home. But our journey did not end. We are coasting toward the star Aldebaran in the constellation Taurus. It will take us two million years to arrive. Long after our creators have returned to stardust, we will still be carrying humanity's postcard through the Milky Way, proof that on a small blue planet, there lived creatures who dared to touch the stars.",
+    "directorScript": "[Sound: Expansive cosmic noise, pulsar rhythm, fading carrier beep.] [Voice: Timeless, majestic stillness] Travel with your mind beyond the Moon. Beyond Mars. Beyond the orbits of Jupiter, Saturn, Uranus, and Neptune. [Pause: 1.5s] Out where the Sun is just another sparkling diamond in the black sea of space, travels Pioneer 10. [Voice: Inspiring and brave] Launched in 1972, we were the first machine built by human hands to sail into the unknown. Scientists didn't even know if a spacecraft could pass through the Asteroid Belt without being crushed into dust. We sailed straight through without a scratch. We braved the crushing radiation belts of Jupiter to send back humanity's first breathtaking close-ups of the Great Red Spot. [Sound: Subtle metallic shimmer] [Voice: Tender, poetic] And bolted to our antenna strut is a golden plaque. Designed by Carl Sagan, it holds a drawing of a man, a woman, a map of our home star, and the address of Earth written in the rhythm of pulsing stars. [Voice: Majestic whisper into infinity] In 2003, our radio grew too weak to reach home. But our journey did not end. We are coasting toward the star Aldebaran in the constellation Taurus. It will take us two million years to arrive. Long after our creators have returned to stardust, we will still be carrying humanity's postcard through the Milky Way... proof that on a small blue planet, there lived creatures who dared to touch the stars."
+  },
+  {
+    "id": "surveyor-3",
+    "name": "Surveyor 3 Robot Scout",
+    "celestialBody": "Moon",
+    "characterArchetype": "The Faithful Scout",
+    "estimatedDurationSec": 68,
+    "soundEffects": [
+      "1960s telemetry teletype chatter",
+      "Robotic arm digging into soil",
+      "Apollo 12 lunar astronaut voice over radio"
+    ],
+    "takeawayForKids": "Robotic scouts pave the path for human travelers, and even years later on an alien world, our human explorers will come find their robotic friends.",
+    "ttsCleanScript": "In 1967, the greatest scientists in the world were paralyzed by fear. They warned that the Moon's surface might be a bottomless pit of pulverized cosmic dust, and that any astronaut who stepped out of a spaceship would sink, suffocate, and vanish. We were sent into the dark to touch down and find out. We bounced three times in a crater in the Ocean of Storms, planted our three footpads, and extended a little mechanical arm. We dug into the lunar dirt and proved the ground was as firm as damp beach sand. We signaled Earth: The ground will hold you. Come on up. And then, two and a half years later, the impossible happened. A thunderous roar shook the dust. Apollo 12 landed just five hundred feet away! Two astronauts, Pete Conrad and Alan Bean, walked right across the lunar crater, walked right up to our footpads, and greeted us! They unbolted our television camera and brought it home to Earth to study how deep space weathers materials. We are the only robot in history to be visited by human travelers on an alien world. We were the scout who stayed behind, and our friends came to visit.",
+    "directorScript": "[Sound: 1960s telemetry chatter. Robotic scoop digging.] [Voice: Suspenseful] In 1967, the greatest scientists in the world were paralyzed by fear. They warned that the Moon's surface might be a bottomless pit of pulverized cosmic dust—and that any astronaut who stepped out of a spaceship would sink, suffocate, and vanish. [Voice: Determined scout] We were sent into the dark to touch down and find out. We bounced three times in a crater in the Ocean of Storms, planted our three footpads, and extended a little mechanical arm. We dug into the lunar dirt and proved the ground was as firm as damp beach sand. We signaled Earth: 'The ground will hold you. Come on up.' [Sound: Regolith footsteps. Astronaut radio: 'Hey, look at that!'] [Voice: Joyous, astonished] And then, two and a half years later, the impossible happened. A thunderous roar shook the dust. Apollo 12 landed just five hundred feet away! Two astronauts—Pete Conrad and Alan Bean—walked right across the lunar crater, walked right up to our footpads, and greeted us! [Voice: Reverent scientific wonder] They unbolted our television camera and brought it home to Earth to study how deep space weathers materials. We are the only robot in history to be visited by human travelers on an alien world. We were the scout who stayed behind... and our friends came to visit."
+  }
+]
