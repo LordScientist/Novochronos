@@ -80,11 +80,11 @@ export const PlanetaryMartianEnvironment: React.FC = () => {
         </mesh>
       ))}
 
-      {/* Low-angle Dramatic Martian Sun */}
+      {/* Bright Dramatic Martian Sun */}
       <directionalLight
-        position={[25, 12, -20]}
-        intensity={2.8}
-        color="#fed7aa"
+        position={[25, 18, -20]}
+        intensity={5.5}
+        color="#fff1e6"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-near={0.5}
@@ -95,13 +95,21 @@ export const PlanetaryMartianEnvironment: React.FC = () => {
         shadow-camera-bottom={-25}
       />
 
-      {/* Atmospheric Ambient Fill */}
-      <ambientLight intensity={0.65} color="#7c2d12" />
+      {/* Atmospheric Ambient Fill & Hemisphere Sky Fill */}
+      <ambientLight intensity={2.0} color="#fed7aa" />
+      <hemisphereLight args={['#fed7aa', '#334155', 1.6]} />
+
+      {/* Broad front fill light for crystal-clear model visibility */}
+      <directionalLight
+        position={[-15, 14, 18]}
+        intensity={3.2}
+        color="#ffffff"
+      />
 
       {/* Distant atmospheric rim light */}
       <directionalLight
         position={[-20, 8, 20]}
-        intensity={0.6}
+        intensity={1.8}
         color="#fdba74"
       />
     </group>

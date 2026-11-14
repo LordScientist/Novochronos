@@ -92,40 +92,56 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
       {/* Exhibition Lighting Rig (Active during Scenes 1, 2, 3) */}
       {!isPlanetary && (
         <group>
-          {/* Main overhead gallery illumination */}
+          {/* Main overhead bright gallery illumination */}
           <ambientLight
             intensity={
               scene === 'awakening'
-                ? Math.min(timeInScene * 0.12, 0.7)
-                : 0.85
+                ? Math.max(0.9, timeInScene * 0.45)
+                : 1.8
             }
-            color="#0f172a"
+            color="#e2e8f0"
+          />
+
+          {/* Sky / Ground balance hemisphere light */}
+          <hemisphereLight args={['#ffffff', '#1e293b', 1.6]} />
+
+          {/* Primary overhead Sun / Studio key light */}
+          <directionalLight
+            position={[12, 24, 14]}
+            intensity={scene === 'awakening' ? Math.max(2.2, timeInScene * 0.8) : 4.5}
+            color="#ffffff"
+            castShadow
           />
 
           {/* Central gallery ceiling spotlight */}
           <spotLight
-            position={[0, 18, 0]}
+            position={[0, 20, 0]}
             intensity={
               scene === 'awakening'
-                ? Math.min(timeInScene * 0.35, 2.5)
-                : 3.2
+                ? Math.max(2.8, timeInScene * 0.9)
+                : 6.0
             }
-            angle={0.65}
-            penumbra={0.7}
-            color="#e0f2fe"
+            angle={0.8}
+            penumbra={0.6}
+            color="#f0f9ff"
             castShadow
           />
 
-          {/* Warm rim light accent */}
+          {/* High-visibility fill and rim lights */}
           <directionalLight
-            position={[10, 8, -10]}
-            intensity={1.2}
+            position={[-14, 16, -12]}
+            intensity={2.8}
+            color="#93c5fd"
+          />
+          <directionalLight
+            position={[14, 10, -10]}
+            intensity={2.5}
             color="#38bdf8"
           />
           <directionalLight
-            position={[-10, 6, 10]}
-            intensity={0.8}
-            color="#f59e0b"
+            position={[-10, 8, 12]}
+            intensity={2.2}
+            color="#fbbf24"
           />
         </group>
       )}

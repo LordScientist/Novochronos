@@ -11,7 +11,7 @@ export const ArtifactPodiumViewer: React.FC<ArtifactPodiumViewerProps> = ({
   sentinelId,
 }) => {
   return (
-    <div className="relative w-full h-[320px] sm:h-[400px] rounded-2xl overflow-hidden bg-gradient-to-b from-slate-950 to-black border border-white/10 shadow-[inset_0_0_60px_rgba(0,0,0,0.8)]">
+    <div className="relative w-full h-[240px] xs:h-[280px] sm:h-[350px] md:h-[400px] rounded-2xl overflow-hidden bg-gradient-to-b from-slate-950 to-black border border-white/10 shadow-[inset_0_0_60px_rgba(0,0,0,0.8)]">
       {/* 3D WebGL Canvas Stage */}
       <Canvas
         camera={{ position: [0, 0.8, 3.4], fov: 45, near: 0.1, far: 50 }}
@@ -61,10 +61,10 @@ export const ArtifactPodiumViewer: React.FC<ArtifactPodiumViewerProps> = ({
       </Canvas>
 
       {/* Interactive Controls Overlay Badge */}
-      <div className="pointer-events-none absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] font-mono text-slate-400">
-        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-sky-300">
+      <div className="pointer-events-none absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-slate-400">
+        <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-sky-300">
           <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-          DRAG TO ROTATE 360° • SCROLL TO ZOOM
+          DRAG TO ROTATE 360° • SCROLL/PINCH TO ZOOM
         </span>
         <span className="hidden sm:inline px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-slate-300">
           NASA SCIENCE 3D DATA
