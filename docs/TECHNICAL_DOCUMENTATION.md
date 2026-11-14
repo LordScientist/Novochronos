@@ -131,20 +131,15 @@ To guarantee the site loads instantly on any internet connection or school Chrom
 
 ---
 
-## 5. Active Theory 3D Scroll Choreography & Lenis Pipeline
+## 5. Active Theory & Space Trash Signs 3D Depth Architecture
 
-The scroll mechanics adapt Active Theory's 3D cylindrical carousel, replacing the mechanical spine with NASA's Space Shuttle Orbiter:
+The scene fuses reverse-engineered design tokens from **Active Theory** (`specs/activetheory-net-reverse-spec/`), **Space Trash Signs** (`specs/spacetrashsigns-org-reverse-spec/`), and **Iventions** (`specs/iventions-com-reverse-spec/`):
 
-* **Engine:** `@studio-freight/lenis` / `lenis` (`v1.3.27`) provides inertial exponential deceleration damping (`t => Math.min(1, 1.001 - Math.pow(2, -10 * t))`).
-* **Velocity Hook:** `src/hooks/useSmoothScroll.ts` continuously streams `scrollProgress`, `scrollVelocity`, and `direction` to React Three Fiber via `useFrame`.
-* **Central Anchor (`SpaceShuttleSpine.tsx`):**
-  * Loads `public/models/space-shuttle.glb` (1.19 MB glTF binary).
-  * **Vertical Launchpad Posture:** Statically aligned along the central Y-axis (Nose pointing UP $+Y$, Engines pointing DOWN $-Y$, scale `0.22`), spanning vertically across the entire viewport like a monumental launchpad stack (KSC Pad 39A).
-  * Emits cryogenic LOX boil-off vapor particles along the vertical fuselage, engine sparkler point lights, and responds to scroll with subtle organic spine twists and pre-launch tension micro-tremors.
-* **Helical Card Formation (`SentinelCarouselScene.tsx`):**
-  * 8 Sentinels arranged in a true **3D vertical helix** winding around the launch stack ($R = 4.7$, $\Delta\theta \approx 78.2^\circ$, vertical pitch $\Delta Y = 1.65$).
-  * Scroll progression continuously drives both vertical translation and angular rotation, smoothly climbing through each sentinel into the foreground focus sweet-spot ($y \approx 0, z \approx +R$).
-  * Cards feature pointer-tilt physics (`FloatingSentinelCard.tsx`), glassmorphic physical transmission, depth-fading for background occlusion, and 3D vector-sharp telemetry typography.
+* **Obsidian Black Void (#000000):** True 21:1 contrast ratio backdrop without washed-out ambient grays.
+* **Three.js Native Depth Fog (`<fog args={['#000000', 8.5, 23.0]} />`):** Seamlessly dissolves distant background geometry and receding cards into the infinite black void, providing genuine atmospheric perspective depth.
+* **Concentric Orbital Perspective Rings (`OrbitalDepthRings.tsx`):** Geometric distance rings (radii 3.8 to 8.5) establishing spatial plane depth cues against the black void (Space Trash Signs token).
+* **Cinematic Radial Vignette:** Viewport corners darken toward pitch-black `#000000` via a CSS radial gradient overlay (`bg-[radial-gradient(ellipse_at_center,_transparent_42%,_rgba(0,0,0,0.85)_100%)]`), concentrating focal light onto the 3D launch stack and foreground card.
+* **Stage Spotlight & Shadow Falloff:** Targeted stage key light (`intensity: 3.4`) paired with electric blue planetary rim light, casting sharp specular highlights against the obsidian void.
 
 ---
 
