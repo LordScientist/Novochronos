@@ -160,7 +160,19 @@ To guarantee the site loads instantly on any internet connection or school Chrom
 
 ---
 
-## 5. Audio Pipeline & Narration Architecture
+## 5. Active Theory & Space Trash Signs 3D Depth Architecture
+
+The scene fuses reverse-engineered design tokens from **Active Theory** (`specs/activetheory-net-reverse-spec/`), **Space Trash Signs** (`specs/spacetrashsigns-org-reverse-spec/`), and **Iventions** (`specs/iventions-com-reverse-spec/`):
+
+* **Obsidian Black Void (#000000):** True 21:1 contrast ratio backdrop without washed-out ambient grays.
+* **Three.js Native Depth Fog (`<fog args={['#000000', 8.5, 23.0]} />`):** Seamlessly dissolves distant background geometry and receding cards into the infinite black void, providing genuine atmospheric perspective depth.
+* **Concentric Orbital Perspective Rings (`OrbitalDepthRings.tsx`):** Geometric distance rings (radii 3.8 to 8.5) establishing spatial plane depth cues against the black void (Space Trash Signs token).
+* **Cinematic Radial Vignette:** Viewport corners darken toward pitch-black `#000000` via a CSS radial gradient overlay (`bg-[radial-gradient(ellipse_at_center,_transparent_42%,_rgba(0,0,0,0.85)_100%)]`), concentrating focal light onto the 3D launch stack and foreground card.
+* **Stage Spotlight & Shadow Falloff:** Targeted stage key light (`intensity: 3.4`) paired with electric blue planetary rim light, casting sharp specular highlights against the obsidian void.
+
+---
+
+## 6. Audio Pipeline & Narration Architecture
 
 * **Source Files:** Placed in `public/audio/<artifact-id>.mp3`.
 * **Mastering Standards:** 128 kbps stereo MP3, normalized to `-14 LUFS` to match broadcast web standards.

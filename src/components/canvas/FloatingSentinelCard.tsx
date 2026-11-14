@@ -1,0 +1,185 @@
+import React, { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { RoundedBox, Text, Image } from '@react-three/drei';
+import * as THREE from 'three';
+
+export interface FloatingSentinelCardProps {
+  id: string;
+  name: string;
+  celestialBody: string;
+  characterArchetype?: string;
+  index: number;
+  totalCards: number;
+  position: [number, number, number];
+  rotation?: [number, number, number];
+  scrollVelocity?: number;
+  isActive?: boolean;
+  distanceFromCenter?: number;
+  onSelect?: (id: string) => void;
+}
+
+// Concise, non-overflowing canonical names for the 8 featured sentinels
+const SENTINEL_SHORT_NAMES: Record<string, string> = {
+  'opportunity-rover': 'OPPORTUNITY',
+  'ingenuity-helicopter': 'INGENUITY',
+  'apollo-11-descent': 'APOLLO 11',
+  'insight-lander': 'INSIGHT',
+  'apollo-15-lrv': 'APOLLO 15 LRV',
+  'sojourner-pathfinder': 'SOJOURNER',
+  'pioneer-10': 'PIONEER 10',
+  'surveyor-3': 'SURVEYOR 3',
+};
+
+export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
+  id,
+  name,
+  celestialBody,
+  index,
+  totalCards,
+  position,
+  rotation = [0, 0, 0],
+  isActive = false,
+  distanceFromCenter = 0,
+  onSelect,
+}) => {
+  const cardRef = useRef<THREE.Group>(null);
+
+  const indexStr = `${String(index + 1).padStart(2, '0')} / ${String(totalCards).padStart(2, '0')}`;
+  const headlineName = SENTINEL_SHORT_NAMES[id] || name.split('(')[0].trim().toUpperCase();
+
+  const isFrontFacing = distanceFromCenter < 1.3;
+
+  useFrame((_, delta) => {
+    if (!cardRef.current) return;
+
+    // Stable scale and position tied directly to scroll progress
+    const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
+    const targetScale = isActive ? 1.04 : helixScale;
+
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 6, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 6, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 6, delta);
+
+    cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
+    cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
+    cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
+
+    cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 6, delta);
+    cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 6, delta);
+    cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 6, delta);
+  });
+
+  const cardOpacity = Math.max(0.35, Math.min(1.0, 1.0 - distanceFromCenter * 0.22));
+
+  return (
+    <group
+      ref={cardRef}
+      position={position}
+      rotation={rotation}
+      onClick={(e) => {
+        if (!isFrontFacing) return;
+        e.stopPropagation();
+        onSelect?.(id);
+      }}
+      onPointerOver={(e) => {
+        if (!isFrontFacing) return;
+        e.stopPropagation();
+        document.body.style.cursor = 'pointer';
+      }}
+      onPointerOut={() => {
+        document.body.style.cursor = 'auto';
+      }}
+    >
+      {/* 
+        Sleek Obsidian Backing Rim:
+        Clean solid rounded box without any wireframe cages
+      */}
+      <RoundedBox args={[3.46, 2.21, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
+        <meshBasicMaterial
+          color={isFrontFacing ? '#38bdf8' : '#1e293b'}
+          transparent
+          opacity={isFrontFacing ? 0.85 : 0.3}
+        />
+      </RoundedBox>
+
+      {/* 
+        Full Edge-to-Edge NASA Image:
+        Fills the entire 3.4 x 2.15 card without any black boxes cutting it off!
+      */}
+      <group position={[0, 0, 0.02]}>
+        <Image
+          url={`/images/sentinels/${id}.jpg`}
+          scale={[3.4, 2.15]}
+          radius={0.12}
+          transparent
+          opacity={cardOpacity}
+          toneMapped={true}
+        />
+      </group>
+
+      {/* Top Header: Monospace Counter & Celestial Body with Text Stroke for 100% Readability */}
+      <group position={[0, 0.8, 0.04]}>
+        <Text
+          position={[-1.4, 0, 0]}
+          fontSize={0.09}
+          color="#ffffff"
+          anchorX="left"
+          anchorY="middle"
+          letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
+          fillOpacity={cardOpacity}
+        >
+          {indexStr}
+        </Text>
+
+        <Text
+          position={[1.4, 0, 0]}
+          fontSize={0.09}
+          color="#38bdf8"
+          anchorX="right"
+          anchorY="middle"
+          letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
+          fillOpacity={cardOpacity}
+        >
+          {celestialBody.toUpperCase()}
+        </Text>
+      </group>
+
+      {/* Bottom Title: Clean, Punchy, Crisp White with Dark Outline to Pop Over Any Photo */}
+      <group position={[0, -0.74, 0.04]}>
+        <Text
+          position={[-1.4, 0, 0]}
+          fontSize={0.2}
+          color="#ffffff"
+          anchorX="left"
+          anchorY="middle"
+          letterSpacing={0.08}
+          maxWidth={2.6}
+          overflowWrap="break-word"
+          lineHeight={1.1}
+          outlineWidth={0.022}
+          outlineColor="#000000"
+          fillOpacity={cardOpacity}
+        >
+          {headlineName}
+        </Text>
+
+        <Text
+          position={[1.4, 0, 0]}
+          fontSize={0.16}
+          color={isFrontFacing ? '#38bdf8' : '#ffffff'}
+          anchorX="right"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#000000"
+          fillOpacity={cardOpacity}
+        >
+          →
+        </Text>
+      </group>
+    </group>
+  );
+};
