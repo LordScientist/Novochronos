@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { SentinelCarouselScene } from './components/canvas/SentinelCarouselScene';
@@ -6,8 +6,17 @@ import { MissionControlHUD } from './components/ui/MissionControlHUD';
 import { SentinelDetailModal } from './components/ui/SentinelDetailModal';
 
 export const App: React.FC = () => {
-  const { progress, velocity, scrollToProgress } = useSmoothScroll();
+  const { lenis, progress, velocity, scrollToProgress } = useSmoothScroll();
   const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
+
+  // Freeze main background helix scroll while sentinel dossier is open
+  useEffect(() => {
+    if (selectedSentinelId) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [selectedSentinelId, lenis]);
 
   const handleNavigateStep = (direction: 'prev' | 'next') => {
     const step = 1 / 7;
