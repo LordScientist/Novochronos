@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { RoundedBox, Text, useTexture } from '@react-three/drei';
+import { RoundedBox, Text, Image } from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface FloatingSentinelCardProps {
@@ -18,6 +18,18 @@ export interface FloatingSentinelCardProps {
   onSelect?: (id: string) => void;
 }
 
+// Concise, non-overflowing canonical names for the 8 featured sentinels
+const SENTINEL_SHORT_NAMES: Record<string, string> = {
+  'opportunity-rover': 'OPPORTUNITY',
+  'ingenuity-helicopter': 'INGENUITY',
+  'apollo-11-descent': 'APOLLO 11',
+  'insight-lander': 'INSIGHT',
+  'apollo-15-lrv': 'APOLLO 15 LRV',
+  'sojourner-pathfinder': 'SOJOURNER',
+  'pioneer-10': 'PIONEER 10',
+  'surveyor-3': 'SURVEYOR 3',
+};
+
 export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   id,
   name,
@@ -26,61 +38,40 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   totalCards,
   position,
   rotation = [0, 0, 0],
-  scrollVelocity = 0,
   isActive = false,
   distanceFromCenter = 0,
   onSelect,
 }) => {
   const cardRef = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
-
-  // Load the authentic NASA photograph for this sentinel
-  const texture = useTexture(`/images/sentinels/${id}.jpg`);
 
   const indexStr = `${String(index + 1).padStart(2, '0')} / ${String(totalCards).padStart(2, '0')}`;
-  const headlineName = name.split('(')[0].trim().toUpperCase();
+  const headlineName = SENTINEL_SHORT_NAMES[id] || name.split('(')[0].trim().toUpperCase();
 
-  const isFrontFacing = distanceFromCenter < 1.35;
+  const isFrontFacing = distanceFromCenter < 1.3;
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!cardRef.current) return;
 
+    // Stable, rock-solid positioning without shaking, wobbling or back-and-forth oscillations
     const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
-    const targetScale = hovered && isFrontFacing ? 1.06 : isActive ? 1.03 : helixScale;
+    const targetScale = isActive ? 1.04 : helixScale;
 
-    const targetTiltX = hovered && isFrontFacing ? -state.pointer.y * 0.35 : 0;
-    const targetTiltY = hovered && isFrontFacing ? state.pointer.x * 0.35 : 0;
-    const velocityTiltZ = -scrollVelocity * 0.0015;
-
-    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 5, delta);
-    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 5, delta);
-    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 5, delta);
+    // Smooth single-direction interpolation strictly locked to scroll progression
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 6, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 6, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 6, delta);
 
     cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
     cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
     cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
 
-    cardRef.current.rotation.x = THREE.MathUtils.damp(
-      cardRef.current.rotation.x,
-      rotation[0] + targetTiltX,
-      5,
-      delta
-    );
-    cardRef.current.rotation.y = THREE.MathUtils.damp(
-      cardRef.current.rotation.y,
-      rotation[1] + targetTiltY,
-      5,
-      delta
-    );
-    cardRef.current.rotation.z = THREE.MathUtils.damp(
-      cardRef.current.rotation.z,
-      rotation[2] + velocityTiltZ,
-      5,
-      delta
-    );
+    // Stable rotation matching helix tangent - zero pointer jitter or velocity skew
+    cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 6, delta);
+    cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 6, delta);
+    cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 6, delta);
   });
 
-  const cardOpacity = Math.max(0.3, Math.min(1.0, 1.0 - distanceFromCenter * 0.22));
+  const cardOpacity = Math.max(0.35, Math.min(1.0, 1.0 - distanceFromCenter * 0.22));
 
   return (
     <group
@@ -95,64 +86,68 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       onPointerOver={(e) => {
         if (!isFrontFacing) return;
         e.stopPropagation();
-        setHovered(true);
         document.body.style.cursor = 'pointer';
       }}
       onPointerOut={() => {
-        setHovered(false);
         document.body.style.cursor = 'auto';
       }}
     >
-      {/* 3D Rounded Backing Slab */}
+      {/* 3D Glassmorphic Obsidian Backing Slab */}
       <RoundedBox args={[3.4, 2.15, 0.06]} radius={0.12} smoothness={4}>
         <meshStandardMaterial
           color="#050811"
-          roughness={0.3}
-          metalness={0.7}
+          roughness={0.35}
+          metalness={0.65}
           transparent
           opacity={cardOpacity}
         />
       </RoundedBox>
 
-      {/* Front Face: The Authentic NASA Photograph */}
-      <mesh position={[0, 0, 0.035]}>
-        <planeGeometry args={[3.32, 2.07]} />
-        <meshBasicMaterial
-          map={texture}
+      {/* 
+        High-Quality Drei Image:
+        Automatically handles aspect-ratio cover crop (no squishing/stretching),
+        proper sRGB color space, smooth mipmapping, and corner radius.
+      */}
+      <group position={[0, 0, 0.035]}>
+        <Image
+          url={`/images/sentinels/${id}.jpg`}
+          scale={[3.32, 2.07]}
+          radius={0.08}
           transparent
           opacity={cardOpacity}
+          toneMapped={true}
         />
-      </mesh>
+      </group>
 
-      {/* Elegant Dark Vignette Gradient Overlay at Bottom of Card for Typography Legibility */}
-      <mesh position={[0, -0.4, 0.038]}>
-        <planeGeometry args={[3.32, 1.25]} />
+      {/* Dark Vignette Overlay along bottom half for crisp text contrast */}
+      <mesh position={[0, -0.45, 0.038]}>
+        <planeGeometry args={[3.32, 1.15]} />
         <meshBasicMaterial
           color="#000000"
           transparent
-          opacity={cardOpacity * 0.65}
+          opacity={cardOpacity * 0.72}
         />
       </mesh>
 
-      {/* Glowing Border Trim (Active Theory Highlight) */}
+      {/* Clean Subtle Border Frame */}
       <RoundedBox args={[3.44, 2.19, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
         <meshBasicMaterial
-          color={hovered && isFrontFacing ? '#38bdf8' : isFrontFacing ? '#60a5fa' : '#334155'}
+          color={isFrontFacing ? '#38bdf8' : '#334155'}
           wireframe
           transparent
-          opacity={hovered && isFrontFacing ? 0.95 : isFrontFacing ? 0.5 : 0.2}
+          opacity={isFrontFacing ? 0.7 : 0.2}
         />
       </RoundedBox>
 
-      {/* Top Header: Minimal Index & Celestial Body */}
-      <group position={[0, 0.78, 0.042]}>
+      {/* Top Header: Monospace Counter & Celestial Body */}
+      <group position={[0, 0.8, 0.042]}>
         <Text
           position={[-1.4, 0, 0]}
-          fontSize={0.09}
+          fontSize={0.085}
           color="#ffffff"
           anchorX="left"
           anchorY="middle"
-          letterSpacing={0.14}
+          letterSpacing={0.12}
           fillOpacity={cardOpacity}
         >
           {indexStr}
@@ -160,36 +155,38 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
         <Text
           position={[1.4, 0, 0]}
-          fontSize={0.09}
+          fontSize={0.085}
           color="#38bdf8"
           anchorX="right"
           anchorY="middle"
-          letterSpacing={0.14}
+          letterSpacing={0.12}
           fillOpacity={cardOpacity}
         >
           {celestialBody.toUpperCase()}
         </Text>
       </group>
 
-      {/* Bottom Title: Clean & Focused (Active Theory Minimalist Style) */}
-      <group position={[0, -0.65, 0.042]}>
+      {/* Bottom Title: Clean, Punchy, Strict Max Width to Prevent Any Text Overflow */}
+      <group position={[0, -0.68, 0.042]}>
         <Text
           position={[-1.4, 0, 0]}
-          fontSize={0.22}
+          fontSize={0.18}
           color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.08}
+          maxWidth={2.5}
+          overflowWrap="break-word"
+          lineHeight={1.1}
           fillOpacity={cardOpacity}
         >
           {headlineName}
         </Text>
 
-        {/* Small subtle arrow cue */}
         <Text
           position={[1.4, 0, 0]}
-          fontSize={0.14}
-          color={hovered && isFrontFacing ? '#38bdf8' : '#94a3b8'}
+          fontSize={0.13}
+          color={isFrontFacing ? '#38bdf8' : '#94a3b8'}
           anchorX="right"
           anchorY="middle"
           fillOpacity={cardOpacity}

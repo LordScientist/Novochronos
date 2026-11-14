@@ -21,21 +21,21 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 }) => {
   const currentScrollIndexRef = useRef<number>(0);
 
-  // Helical geometry parameters (Active Theory spiral architecture)
+  // Helical geometry parameters
   const totalCards = narrationScripts.length;
-  const orbitRadius = 5.2; // Radius of helix around the complete launch stack
-  const stepY = 1.7; // Vertical pitch between consecutive cards along the launch stack
-  const deltaTheta = (Math.PI * 2) / 4.6; // Angle pitch (~78.2 degrees per card)
+  const orbitRadius = 5.2; // Radius around the launch stack
+  const stepY = 1.7; // Vertical spacing between consecutive cards
+  const deltaTheta = (Math.PI * 2) / 4.6; // ~78.2 degrees per card
 
   useFrame((_, delta) => {
     // Map scroll progress (0 to 1) to continuous card index space (0 to totalCards - 1)
     const targetIndex = scrollProgress * (totalCards - 1);
 
-    // Smooth exponential damping for scroll inertia
+    // Smooth single-direction damping strictly tied to scroll
     currentScrollIndexRef.current = THREE.MathUtils.damp(
       currentScrollIndexRef.current,
       targetIndex,
-      4.8,
+      5.0,
       delta
     );
   });
@@ -48,41 +48,33 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
 
   return (
     <group>
-      {/* 
-        Layer 1: Ambient Space Environment
-        Stars, micro-meteoroid sparkles, volumetric nebulae, and Earth orbital horizon
-      */}
+      {/* Ambient Space Environment: Stars, dust sparkles, nebulae, Earth limb */}
       <AmbientSpaceBackground />
 
-      {/* 
-        Layer 2: Photorealistic Outer Space Lighting
-        Direct solar illumination + soft planetary Earthshine reflection
-      */}
+      {/* Photorealistic Outer Space Lighting */}
       <ambientLight intensity={0.45} color="#0f172a" />
 
-      {/* The Sun: High-intensity directional sunlight with sharp space shadows */}
+      {/* Primary Sunlight */}
       <directionalLight
         position={[14, 22, 14]}
         intensity={3.2}
         color="#ffffff"
         castShadow
-        shadow-mapSize={[2048, 2048]}
       />
 
-      {/* Earthshine: Soft cyan-blue planetary bounce light from Earth below */}
+      {/* Earthshine Planetary Fill Light */}
       <directionalLight
         position={[-12, -8, -6]}
         intensity={1.1}
         color="#38bdf8"
       />
 
-      {/* Launchpad Gantry / Engine Ignition Glow */}
+      {/* Launchpad Ground Reflection */}
       <pointLight position={[0, -5, 2]} intensity={2.0} color="#f59e0b" distance={12} />
 
       {/* 
-        Layer 3: The Complete NASA Space Transportation System (STS) Launch Stack
-        External Tank (Orange) + Twin Solid Rocket Boosters (White) + Orbiter
-        Inspired by the launchpad reference image, standing as a monumental vertical spine.
+        Central Space Transportation System (STS) Launch Stack
+        External Tank + Twin SRBs + Orbiter standing completely rock-solid.
       */}
       <SpaceShuttleSpine
         scrollProgress={scrollProgress}
@@ -93,8 +85,8 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
       />
 
       {/* 
-        Layer 4: 3D Helical Card Formation
-        Winding around the tall vertical launch stack.
+        Helical Card Formation:
+        Positioned steadily around the launch stack, moving smoothly on scroll with zero jitter.
       */}
       <group position={[0, 0, 0]}>
         {cardTransforms.map(({ sentinel, index }) => {
@@ -111,12 +103,8 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
           const x = Math.sin(angle) * orbitRadius;
           const z = Math.cos(angle) * orbitRadius;
 
-          // Card orientation: Tangent to helix + facing outwards towards camera
-          const cardRotation: [number, number, number] = [
-            -0.03 * Math.sign(relIndex),
-            -angle,
-            0,
-          ];
+          // Smooth steady rotation - no sign-flip jitter or back-and-forth tilt
+          const cardRotation: [number, number, number] = [0, -angle, 0];
 
           return (
             <FloatingSentinelCard

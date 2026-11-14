@@ -12,14 +12,11 @@ interface SpaceShuttleSpineProps {
 }
 
 export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
-  scrollProgress = 0,
-  scrollVelocity = 0,
   scale = 1.0,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
 }) => {
   const groupRef = useRef<THREE.Group>(null);
-  const stackMeshRef = useRef<THREE.Group>(null);
   const vaporRef = useRef<THREE.Points>(null);
 
   // Load the official NASA 3D Models: Orbiter + External Tank + Solid Rocket Booster
@@ -112,7 +109,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
 
   // Cryogenic LOX boil-off vapor venting
   const { vaporGeometry, vaporMaterial } = useMemo(() => {
-    const count = 220;
+    const count = 180;
     const pos = new Float32Array(count * 3);
     const cols = new Float32Array(count * 3);
     const baseColor = new THREE.Color('#38bdf8');
@@ -138,10 +135,10 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
     geom.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 0.14,
+      size: 0.12,
       vertexColors: true,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.35,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -149,45 +146,13 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
     return { vaporGeometry: geom, vaporMaterial: mat };
   }, []);
 
-  useFrame((state, delta) => {
-    if (!groupRef.current || !stackMeshRef.current) return;
-
-    const time = state.clock.getElapsedTime();
-
-    const launchTremorX = (Math.random() - 0.5) * 0.002;
-    const launchTremorY = (Math.random() - 0.5) * 0.0015;
-
-    const targetTwistY = rotation[1] + scrollVelocity * 0.002 + Math.sin(time * 0.6) * 0.03;
-    const targetPitchX = rotation[0] + Math.cos(time * 0.5) * 0.015 - scrollVelocity * 0.0008;
-
-    stackMeshRef.current.rotation.y = THREE.MathUtils.damp(
-      stackMeshRef.current.rotation.y,
-      targetTwistY,
-      3.5,
-      delta
-    );
-
-    stackMeshRef.current.rotation.z = THREE.MathUtils.damp(
-      stackMeshRef.current.rotation.z,
-      targetPitchX + launchTremorX,
-      4.0,
-      delta
-    );
-
-    const verticalAscent = scrollProgress * 0.35;
-    groupRef.current.position.y = THREE.MathUtils.damp(
-      groupRef.current.position.y,
-      position[1] + Math.sin(time * 0.9) * 0.04 + launchTremorY + verticalAscent,
-      3.0,
-      delta
-    );
-
+  useFrame((_, delta) => {
+    // Only animate the rising cryogenic vapor - the vehicle itself stays completely stable and rock-solid
     if (vaporRef.current) {
-      vaporRef.current.rotation.y = time * 0.05;
       const attr = vaporRef.current.geometry.getAttribute('position') as THREE.BufferAttribute;
       const arr = attr.array as Float32Array;
-      for (let i = 0; i < 220; i++) {
-        arr[i * 3 + 1] += delta * 0.6;
+      for (let i = 0; i < 180; i++) {
+        arr[i * 3 + 1] += delta * 0.55;
         if (arr[i * 3 + 1] > 6.0) {
           arr[i * 3 + 1] = -5.5;
         }
@@ -197,44 +162,42 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   });
 
   return (
-    <group ref={groupRef} position={position} scale={scale}>
-      <group ref={stackMeshRef}>
-        {/* 1. External Tank (Orange) */}
-        <group
-          position={[0, 0.2, -0.6]}
-          rotation={[0, 0, Math.PI / 2]}
-          scale={0.0058}
-        >
-          <primitive object={clonedET} />
-        </group>
+    <group ref={groupRef} position={position} scale={scale} rotation={rotation}>
+      {/* 1. External Tank (Orange) */}
+      <group
+        position={[0, 0.2, -0.6]}
+        rotation={[0, 0, Math.PI / 2]}
+        scale={0.0058}
+      >
+        <primitive object={clonedET} />
+      </group>
 
-        {/* 2. Twin Solid Rocket Boosters (White) */}
-        <group
-          position={[-2.15, -0.2, -0.6]}
-          rotation={[0, 0, Math.PI / 2]}
-          scale={0.0058}
-        >
-          <primitive object={clonedPortSRB} />
-        </group>
+      {/* 2. Twin Solid Rocket Boosters (White) */}
+      <group
+        position={[-2.15, -0.2, -0.6]}
+        rotation={[0, 0, Math.PI / 2]}
+        scale={0.0058}
+      >
+        <primitive object={clonedPortSRB} />
+      </group>
 
-        <group
-          position={[2.15, -0.2, -0.6]}
-          rotation={[0, 0, Math.PI / 2]}
-          scale={0.0058}
-        >
-          <primitive object={clonedStarboardSRB} />
-        </group>
+      <group
+        position={[2.15, -0.2, -0.6]}
+        rotation={[0, 0, Math.PI / 2]}
+        scale={0.0058}
+      >
+        <primitive object={clonedStarboardSRB} />
+      </group>
 
-        {/* 3. Space Shuttle Orbiter */}
-        <group
-          position={[0, -0.5, 0.45]}
-          rotation={[Math.PI / 2, 0, 0]}
-          scale={0.19}
-        >
-          <primitive object={clonedOrbiter} />
-          <pointLight position={[0, 0, 24]} intensity={2.5} color="#38bdf8" distance={10} />
-          <pointLight position={[0, -4, 24]} intensity={2.0} color="#f59e0b" distance={8} />
-        </group>
+      {/* 3. Space Shuttle Orbiter (Solid, no wobbling) */}
+      <group
+        position={[0, -0.5, 0.45]}
+        rotation={[Math.PI / 2, 0, 0]}
+        scale={0.19}
+      >
+        <primitive object={clonedOrbiter} />
+        <pointLight position={[0, 0, 24]} intensity={2.5} color="#38bdf8" distance={10} />
+        <pointLight position={[0, -4, 24]} intensity={2.0} color="#f59e0b" distance={8} />
       </group>
 
       {/* Cryogenic Boil-off Plumes */}
