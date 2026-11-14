@@ -1,11 +1,12 @@
 export type JourneyStage = 
-  | 'intro'          // Stage 0: Cinematic 3D Opening Sequence
-  | 'terminal'       // Stage 1: NASA Command Terminal Boot
-  | 'command-center' // Stage 2: Mission Control Dashboard
-  | 'launch'         // Stage 3: Rocket Ignition & Atmospheric Ascent
-  | 'video-overview' // Stage 4: Cinematic Hardware Video Montage
-  | 'gallery'        // Stage 5: Project Picture Cards Overview
-  | 'podium-detail'; // Stage 6: 3D Model & Interactive Audio Placard
+  | 'intro'             // Stage 0: Cinematic 3D Opening Sequence
+  | 'corridor'          // Stage 1: Space Shuttle & 3D Helical Sentinel Corridor (Primary Archive)
+  | 'terminal'          // Stage 2: NASA Command Terminal Boot
+  | 'command-center'    // Stage 3: Mission Control Dashboard
+  | 'launch'            // Stage 4: Rocket Ignition & Atmospheric Ascent
+  | 'video-overview'    // Stage 5: Cinematic Hardware Video Montage
+  | 'gallery'           // Stage 6: Project Picture Cards Overview
+  | 'podium-detail';    // Stage 7: 3D Model & Interactive Audio Placard
 
 export type IntroScene = 
   | 'awakening'        // Scene 1: Pitch black, emerging circular architecture & starlight

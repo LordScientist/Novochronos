@@ -23,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: NASA Insignia & Brand */}
         <div
-          onClick={() => onSelectStage('gallery')}
+          onClick={() => onSelectStage('corridor')}
           className="flex items-center gap-3 cursor-pointer group"
         >
           <img src="/nasa-logo.svg" alt="NASA" className="w-10 h-8 object-contain" />
@@ -40,12 +40,20 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Center: Stage Navigation Quick Links */}
         <nav className="hidden md:flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-full px-3 py-1 font-mono text-xs">
           <button
+            onClick={() => onSelectStage('corridor')}
+            className={`px-3 py-1 rounded-full transition-all ${
+              currentStage === 'corridor' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            01 Archive Corridor
+          </button>
+          <button
             onClick={() => onSelectStage('terminal')}
             className={`px-3 py-1 rounded-full transition-all ${
               currentStage === 'terminal' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            01 Terminal
+            02 Terminal
           </button>
           <button
             onClick={() => onSelectStage('command-center')}
@@ -53,7 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               currentStage === 'command-center' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            02 Control
+            03 Control
           </button>
           <button
             onClick={() => onSelectStage('launch')}
@@ -61,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               currentStage === 'launch' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            03 Launch
+            04 Launch
           </button>
           <button
             onClick={() => onSelectStage('video-overview')}
@@ -69,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               currentStage === 'video-overview' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            04 Video
+            05 Video
           </button>
           <button
             onClick={() => onSelectStage('gallery')}
@@ -77,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               currentStage === 'gallery' || currentStage === 'podium-detail' ? 'bg-amber-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            05 Gallery
+            06 Gallery
           </button>
         </nav>
 

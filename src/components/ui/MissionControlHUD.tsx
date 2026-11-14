@@ -14,29 +14,18 @@ export const MissionControlHUD: React.FC<MissionControlHUDProps> = ({
   const currentSentinelIndex = Math.min(8, Math.max(1, Math.floor(scrollProgress * 8) + 1));
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-6 select-none">
-      {/* Minimal Top Brand Bar */}
+    <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-6 pt-20 select-none">
+      {/* Minimal Top Telemetry Bar */}
       <header className="flex items-center justify-between pointer-events-auto">
-        <div className="flex items-center gap-3 backdrop-blur-md bg-black/30 px-3.5 py-2 rounded-xl border border-white/10">
-          <img
-            src="/nasa-logo.svg"
-            alt="NASA Insignia"
-            className="w-7 h-7 object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.5)]"
-          />
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold tracking-widest text-white">
-              NOVOCHRONOS
-            </span>
-            <span className="text-[10px] font-mono text-sky-400">
-              // 0{currentSentinelIndex}
-            </span>
-          </div>
+        <div className="flex items-center gap-2 backdrop-blur-md bg-black/40 px-3.5 py-1.5 rounded-xl border border-white/10 font-mono text-xs">
+          <span className="text-slate-400">ACTIVE SENTINEL:</span>
+          <span className="text-sky-400 font-bold">0{currentSentinelIndex} / 08</span>
         </div>
 
         {/* Minimal Scroll Progression Indicator */}
-        <div className="hidden sm:flex items-center gap-2 backdrop-blur-md bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 font-mono text-xs text-slate-400">
-          <span className="text-sky-400">●</span>
-          <span>STS CORRIDOR</span>
+        <div className="hidden sm:flex items-center gap-2 backdrop-blur-md bg-black/40 px-3 py-1.5 rounded-xl border border-white/10 font-mono text-xs text-slate-400">
+          <span className="text-sky-400 animate-pulse">●</span>
+          <span>STS LAUNCH CORRIDOR</span>
         </div>
       </header>
 
