@@ -8,6 +8,7 @@ interface IntroCameraControllerProps {
   activeSentinelIndex: number;
   pedestalRadius?: number;
   timeInScene: number; // seconds spent in current scene
+  currentTime?: number; // exact master audio clock time in seconds
 }
 
 export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
@@ -15,38 +16,43 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
   activeSentinelIndex,
   pedestalRadius = 9.5,
   timeInScene,
+  currentTime,
 }) => {
   const { camera } = useThree();
   const targetLookAt = useRef(new THREE.Vector3(0, 1, 0));
   const currentLookAt = useRef(new THREE.Vector3(0, 1, 0));
 
   useFrame((_, delta) => {
-    const lerpSpeed = 2.5 * delta;
+    const lerpSpeed = 2.8 * delta;
     const targetPos = new THREE.Vector3();
 
     switch (scene) {
       case 'awakening': {
-        // Scene 1: Start far back and high in the dark, slowly push in and lower
-        const progress = Math.min(timeInScene / 7.0, 1.0);
+        // Scene 1: Awakening (0.0s - 11.8s)
+        // High exterior push-in, descending through truss toward the central floor
+        const totalDuration = 11.8;
+        const progress = Math.min((currentTime ?? timeInScene) / totalDuration, 1.0);
         targetPos.set(
-          Math.sin(progress * 0.4) * 4,
-          14 - progress * 9, // from 14 down to 5
-          26 - progress * 10 // from 26 down to 16
+          Math.sin(progress * 0.5) * 3.5,
+          15 - progress * 10.5, // from 15 down to 4.5
+          27 - progress * 11.5  // from 27 down to 15.5
         );
-        targetLookAt.current.set(0, 1.2, 0);
+        targetLookAt.current.set(0, 1.0, 0);
         break;
       }
 
       case 'sentinels': {
-        // Scene 2: Focused mechanical showcase of active sentinel with full-screen clarity
+        // Scene 2: Sentinels (11.8s - 55.5s)
+        // Focused mechanical showcase of active sentinel with full-screen clarity
         const sentinelAngle = (activeSentinelIndex / 8) * Math.PI * 2;
         const sentX = Math.cos(sentinelAngle) * pedestalRadius;
         const sentZ = Math.sin(sentinelAngle) * pedestalRadius;
 
-        // Position camera to center the spacecraft in the unobstructed viewport
-        const camDistance = 4.1;
+        // Subtle dynamic camera drift around the model while spoken about
+        const driftAngle = Math.sin((currentTime ?? timeInScene) * 0.4) * 0.12;
+        const camDistance = 4.2;
         const camElevation = 1.35;
-        const offsetAngle = sentinelAngle + 0.28;
+        const offsetAngle = sentinelAngle + 0.28 + driftAngle;
 
         targetPos.set(
           sentX + Math.cos(offsetAngle) * camDistance,
@@ -59,12 +65,14 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
       }
 
       case 'grand-exhibition': {
-        // Scene 3: Wide panoramic orbital sweep around the entire circular hall
-        const orbitAngle = timeInScene * 0.22;
+        // Scene 3: Grand Exhibition (55.5s - 65.5s)
+        // Wide panoramic orbital sweep around the entire circular hall
+        const exhibitionTime = currentTime !== undefined ? Math.max(0, currentTime - 55.5) : timeInScene;
+        const orbitAngle = exhibitionTime * 0.24;
         const orbitRadius = 17.5;
         targetPos.set(
           Math.cos(orbitAngle) * orbitRadius,
-          5.8 + Math.sin(timeInScene * 0.3) * 0.8,
+          5.8 + Math.sin(exhibitionTime * 0.35) * 0.8,
           Math.sin(orbitAngle) * orbitRadius
         );
         targetLookAt.current.set(0, 1.0, 0);
@@ -72,21 +80,25 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
       }
 
       case 'planetary-reveal': {
-        // Scene 4: Wide Martian landscape camera, sweeping low over red dunes
-        const revealProgress = Math.min(timeInScene / 8.0, 1.0);
+        // Scene 4: Planetary Reveal (65.5s - 74.5s)
+        // Wide Martian landscape camera, sweeping low over red dunes
+        const planetaryTime = currentTime !== undefined ? Math.max(0, currentTime - 65.5) : timeInScene;
+        const revealProgress = Math.min(planetaryTime / 9.0, 1.0);
         targetPos.set(
-          Math.sin(revealProgress * 0.5) * 6,
-          2.4 + revealProgress * 2.2,
-          13 - revealProgress * 3.5
+          -4 + revealProgress * 9.0,
+          2.6 + revealProgress * 1.8,
+          13.5 - revealProgress * 3.8
         );
-        targetLookAt.current.set(0, 0.4, -2);
+        targetLookAt.current.set(0, 0.4, -2.5);
         break;
       }
 
       case 'title-reveal': {
-        // Scene 5: Monumental hero shot framing the machines and title
-        const drift = Math.sin(timeInScene * 0.2) * 0.5;
-        targetPos.set(drift, 3.2, 11.5 - timeInScene * 0.08);
+        // Scene 5: Title Reveal & Call to Action (74.5s - 83.0s)
+        // Monumental hero shot framing the machines and title
+        const titleTime = currentTime !== undefined ? Math.max(0, currentTime - 74.5) : timeInScene;
+        const drift = Math.sin(titleTime * 0.2) * 0.4;
+        targetPos.set(drift, 3.2, 11.5 - titleTime * 0.06);
         targetLookAt.current.set(0, 1.2, 0);
         break;
       }

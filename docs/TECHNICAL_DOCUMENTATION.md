@@ -129,13 +129,35 @@ Stage 0 is a dedicated, self-contained 3D opening sequence positioned as the ver
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
+#### Stage 0 Audio-Driven Master Clock & Timecode Synchronization:
+
+The cinematic introduction visual timeline is directly governed by an authentic narration audio master clock (`public/audio/intro-narration.mp3`, duration `82.991s`). Camera choreography, dynamic key/fill/rim spotlighting, and animated lower-third name cards are keyed to speech intervals via `src/data/introAudioSync.ts`:
+
+| Interval (Timecode) | Scene / Subject | Spoken Words | Visual Action & Camera Choreography |
+| :--- | :--- | :--- | :--- |
+| `00:00.000 – 00:03.500` | Awakening / Cosmic Void | *"Long before our boots touched alien soil..."* | Starlight intensifies; high exterior push-in toward the hall. |
+| `00:03.500 – 00:07.200` | Awakening / Circular Hall | *"we sent our machines ahead into the cold dark..."* | Hall ribs and floor glow; camera descends through the upper truss. |
+| `00:07.200 – 00:11.800` | Awakening / Concentric Rings | *"built to endure and never to return."* | Perimeter floor rings ignite; camera sweeps low across central observation disc. |
+| `00:11.800 – 00:18.200` | **Sentinel 0: Opportunity** | *"Opportunity, marching an Olympic marathon through 15 years of Martian dust."* | Key spotlight isolates Opportunity; camera frames rover quarter view; lower-third title card appears. |
+| `00:18.200 – 00:23.500` | **Sentinel 1: Ingenuity** | *"Ingenuity, daring 72 flights through an impossible sky,"* | Spotlight shifts to Ingenuity; twin coaxial rotors spinning; camera glides to center on Ginny. |
+| `00:23.500 – 00:29.200` | **Sentinel 2: Apollo 11** | *"Apollo's golden descent stage, our eternal foundation on the Moon,"* | Golden foil base & ALSEP illuminated; camera moves in close to the descent engine bell & plaque. |
+| `00:29.200 – 00:33.800` | **Sentinel 3: InSight** | *"InSight, listening to the quiet heartbeat of a red planet."* | Circular UltraFlex solar fans and SEIS dome illuminated; camera glides to highlight fan symmetry. |
+| `00:33.800 – 00:38.600` | **Sentinel 4: Apollo 15 LRV** | *"The Apollo rover parked forever at the edge of Hadley Rille,"* | Wire-mesh wheels and lawn-chair chassis illuminated; camera tracks past wheels toward upright color TV camera. |
+| `00:38.600 – 00:44.200` | **Sentinel 5: Sojourner** | *"Sojourner, the modest scout that gave Mars its first rolling wheels,"* | Compact titanium body & solar deck illuminated; camera drops low to emphasize small, brave scale. |
+| `00:44.200 – 00:50.000` | **Sentinel 6: Pioneer 10** | *"Pioneer 10, sailing into interstellar infinity with a greeting from Earth,"* | 2.74m parabolic dish & Golden Plaque illuminated; camera swoops past plaque toward the dish rim. |
+| `00:50.000 – 00:55.500` | **Sentinel 7: Surveyor 3** | *"and Surveyor, touching lunar soil so human footprints could safely follow."* | Tripod landing struts and soil scoop illuminated; camera tracks from scoop claw up to the solar mast. |
+| `00:55.500 – 00:65.500` | **Scene 3: Sacred Monuments** | *"They are not abandoned junk. They are sacred monuments of human daring, standing in eternal stillness where their missions ceased."* | All 8 spotlights swell into balanced exhibition gallery illumination; majestic 360° orbital sweep rising above the collection. |
+| `00:65.500 – 00:74.500` | **Scene 4: Across Three Worlds** | *"Across three silent worlds, their batteries have gone cold, but the trail they blazed will never fade."* | Dynamic transition into 3D Martian landscape with geological terrain; panoramic tracking low over dunes. |
+| `00:74.500 – 00:83.000` | **Scene 5: Title Reveal & CTA** | *"Novochronos, echoes of exploration, step into the archive, and remember the machines we left behind."* | Camera settles into monumental hero composition; title reveal and glowing **ENTER THE ARCHIVE** CTA. |
+
 #### Intro Transition & Control Mechanics:
 1. **Fresh Visitor Landing:** Arrives at Stage 0 (`intro`) by default.
-2. **Sequential Scene Progression:** Automatically advances through scenes 1 to 5 (~44 seconds total runtime), accompanied by real-time Web Audio API synthesized cosmic drones and harmonic frequencies (zero network audio blocking).
-3. **Interactive Control Bar:** Visitors can pause/play, mute/unmute, jump directly between scenes via header pills, or press **SKIP INTRO** at any time.
-4. **Completion Action:** Clicking **ENTER THE ARCHIVE** in Scene 5 smoothly transitions the visitor into Stage 1 (`terminal`) without page reloads.
-5. **Replay Anywhere:** A persistent **REPLAY 3D INTRO** action in the terminal, mission control, and global navbar allows visitors to re-enter Stage 0 seamlessly.
-6. **Historical Accuracy Staging Notice:** In Scene 4, a dedicated notice clarifies that Mars is a cinematic staging environment; Opportunity, Ingenuity, InSight, and Sojourner rest on Mars, Apollo 11, Apollo 15 LRV, and Surveyor 3 reside on the Moon, and Pioneer 10 drifts in deep space.
+2. **Audio-Driven Master Clock:** The HTML5 audio element serves as the single source of truth for timeline progress (`currentTime`), driving camera positions, spotlight rig lerp values, and lower-third typography.
+3. **Interactive Timeline Scrubber:** Visitors can scrub or click anywhere along the bottom timeline (`00:00 – 01:23`) with sentinel marker ticks to immediately jump the audio and visuals to any point in the narrative.
+4. **Interactive Controls:** Visitors can pause/play narration, mute/unmute, or press **SKIP INTRO** at any time.
+5. **Completion Action:** Clicking **ENTER THE ARCHIVE** in Scene 5 smoothly transitions the visitor into Stage 1 (`terminal`) without page reloads.
+6. **Replay Anywhere:** A persistent **REPLAY 3D INTRO** action in the terminal, mission control, and global navbar allows visitors to re-enter Stage 0 seamlessly.
+7. **Historical Accuracy Staging Notice:** In Scene 4, a dedicated notice clarifies that Mars is a cinematic staging environment; Opportunity, Ingenuity, InSight, and Sojourner rest on Mars, Apollo 11, Apollo 15 LRV, and Surveyor 3 reside on the Moon, and Pioneer 10 drifts in deep space.
 
 ### Subsequent Transition Mechanics:
 1. **Stage 1 → Stage 2:** Auto-scrolls upon terminal boot completion (duration: ~3s) or via instant user click.

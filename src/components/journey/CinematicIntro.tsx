@@ -3,28 +3,59 @@ import { Canvas } from '@react-three/fiber';
 import { IntroScene } from '../../types/journey';
 import { IntroScene3D } from '../canvas/IntroScene3D';
 import { CinematicIntroOverlay } from './CinematicIntroOverlay';
+import {
+  INTRO_AUDIO_DURATION,
+  getCueForTimestamp,
+} from '../../data/introAudioSync';
 
 interface CinematicIntroProps {
   onComplete: () => void; // Transitions to Stage 1: Command Terminal
 }
 
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
-  // Intro Timeline state
-  const [currentScene, setCurrentScene] = useState<IntroScene>('awakening');
-  const [activeSentinelIndex, setActiveSentinelIndex] = useState<number>(0);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [timeInScene, setTimeInScene] = useState<number>(0);
+  // Audio & Master clock state
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const rafRef = useRef<number | null>(null);
 
-  // Audio synthesizer ref (Web Audio API for zero-external-asset instant cinematic ambient sound)
+  // Background ambient synthesizer (Web Audio API) for rich sub-bass depth beneath the narration
   const audioCtxRef = useRef<AudioContext | null>(null);
   const gainNodeRef = useRef<GainNode | null>(null);
 
-  const TOTAL_DURATION = 44.0;
+  // Derive active sync cue, scene, and sentinel from the exact audio timestamp
+  const activeCue = getCueForTimestamp(currentTime);
+  const currentScene = activeCue.scene;
+  const activeSentinelIndex = activeCue.sentinelIndex ?? 0;
 
-  // Initialize Web Audio cinematic hum & drone
-  const initAudio = useCallback(() => {
+  // Calculate time within current scene
+  const sceneStartTimes: Record<IntroScene, number> = {
+    'awakening': 0.0,
+    'sentinels': 11.8,
+    'grand-exhibition': 55.5,
+    'planetary-reveal': 65.5,
+    'title-reveal': 74.5,
+  };
+  const timeInScene = Math.max(0, currentTime - sceneStartTimes[currentScene]);
+
+  // High-precision synchronization loop driven by requestAnimationFrame
+  useEffect(() => {
+    const updateLoop = () => {
+      if (audioRef.current && !audioRef.current.paused) {
+        setCurrentTime(audioRef.current.currentTime);
+      }
+      rafRef.current = requestAnimationFrame(updateLoop);
+    };
+
+    rafRef.current = requestAnimationFrame(updateLoop);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  // Initialize Web Audio sub-bass drone
+  const initAmbientSynth = useCallback(() => {
     if (audioCtxRef.current) return;
     try {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
@@ -33,28 +64,28 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       audioCtxRef.current = ctx;
 
       const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.25, ctx.currentTime);
+      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.12, ctx.currentTime);
       masterGain.connect(ctx.destination);
       gainNodeRef.current = masterGain;
 
-      // Deep space sub-bass drone oscillator
+      // Sub-bass drone oscillator (55Hz A1)
       const osc1 = ctx.createOscillator();
       osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(55, ctx.currentTime); // A1 note
+      osc1.frequency.setValueAtTime(55, ctx.currentTime);
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(120, ctx.currentTime);
+      filter.frequency.setValueAtTime(110, ctx.currentTime);
 
       osc1.connect(filter);
       filter.connect(masterGain);
       osc1.start();
 
-      // Atmospheric harmonic shimmer oscillator
+      // Soft cosmic harmonic shimmer (110Hz A2)
       const osc2 = ctx.createOscillator();
       osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(110, ctx.currentTime); // A2 note
+      osc2.frequency.setValueAtTime(110, ctx.currentTime);
       const osc2Gain = ctx.createGain();
-      osc2Gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      osc2Gain.gain.setValueAtTime(0.04, ctx.currentTime);
       osc2.connect(osc2Gain);
       osc2Gain.connect(masterGain);
       osc2.start();
@@ -63,115 +94,107 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     }
   }, [isMuted]);
 
+  // Attempt autoplay on mount
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            initAmbientSynth();
+          })
+          .catch(() => {
+            // Browser autoplay policy blocked unprompted audio; wait for user gesture
+            setIsPlaying(false);
+          });
+      }
+    }
+  }, [initAmbientSynth]);
+
+  // Handle Play/Pause toggle
+  const handleTogglePlay = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    initAmbientSynth();
+
+    if (audio.paused) {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume();
+      }
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+      if (audioCtxRef.current && audioCtxRef.current.state === 'running') {
+        audioCtxRef.current.suspend();
+      }
+    }
+  }, [initAmbientSynth]);
+
   // Handle Mute toggle
   const handleToggleMute = useCallback(() => {
     setIsMuted((prev) => {
       const next = !prev;
+      if (audioRef.current) {
+        audioRef.current.muted = next;
+      }
       if (gainNodeRef.current && audioCtxRef.current) {
-        gainNodeRef.current.gain.setValueAtTime(next ? 0 : 0.25, audioCtxRef.current.currentTime);
+        gainNodeRef.current.gain.setValueAtTime(next ? 0 : 0.12, audioCtxRef.current.currentTime);
       }
       return next;
     });
   }, []);
 
-  // Update elapsed time & determine current scene
-  useEffect(() => {
-    if (!isPlaying) return;
-
-    const interval = setInterval(() => {
-      setElapsedTime((prev) => {
-        const next = prev + 0.1;
-
-        if (next >= TOTAL_DURATION) {
-          // Reached end of intro; stay on title-reveal with CTA
-          return TOTAL_DURATION;
-        }
-
-        // Determine current scene from elapsed time
-        if (next < 7.0) {
-          if (currentScene !== 'awakening') setCurrentScene('awakening');
-          setTimeInScene(next);
-        } else if (next < 23.0) {
-          if (currentScene !== 'sentinels') setCurrentScene('sentinels');
-          const sentTime = next - 7.0;
-          setTimeInScene(sentTime);
-          const sIndex = Math.min(Math.floor(sentTime / 2.0), 7);
-          setActiveSentinelIndex(sIndex);
-        } else if (next < 30.0) {
-          if (currentScene !== 'grand-exhibition') setCurrentScene('grand-exhibition');
-          setTimeInScene(next - 23.0);
-        } else if (next < 36.0) {
-          if (currentScene !== 'planetary-reveal') setCurrentScene('planetary-reveal');
-          setTimeInScene(next - 30.0);
-        } else {
-          if (currentScene !== 'title-reveal') setCurrentScene('title-reveal');
-          setTimeInScene(next - 36.0);
-        }
-
-        return next;
-      });
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [isPlaying, currentScene]);
-
-  // Jump to specific scene from navigation
-  const handleSelectScene = (scene: IntroScene) => {
-    initAudio();
-    setCurrentScene(scene);
-    setTimeInScene(0);
-    switch (scene) {
-      case 'awakening':
-        setElapsedTime(0);
-        break;
-      case 'sentinels':
-        setElapsedTime(7.0);
-        setActiveSentinelIndex(0);
-        break;
-      case 'grand-exhibition':
-        setElapsedTime(23.0);
-        break;
-      case 'planetary-reveal':
-        setElapsedTime(30.0);
-        break;
-      case 'title-reveal':
-        setElapsedTime(36.0);
-        break;
+  // Handle seeking / scrubbing across the timeline
+  const handleSeek = useCallback((targetSec: number) => {
+    const clamped = Math.max(0, Math.min(targetSec, INTRO_AUDIO_DURATION));
+    if (audioRef.current) {
+      audioRef.current.currentTime = clamped;
     }
-  };
+    setCurrentTime(clamped);
+  }, []);
+
+  // Jump to specific scene
+  const handleSelectScene = useCallback((scene: IntroScene) => {
+    initAmbientSynth();
+    const target = sceneStartTimes[scene];
+    handleSeek(target);
+    if (audioRef.current && audioRef.current.paused) {
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  }, [handleSeek, initAmbientSynth]);
 
   // Skip Intro immediately to Stage 1 (Command Terminal)
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
     if (audioCtxRef.current) {
       try {
         audioCtxRef.current.close();
       } catch {}
     }
     onComplete();
-  };
+  }, [onComplete]);
 
   // Replay Intro from start
-  const handleReplay = () => {
-    setElapsedTime(0);
-    setTimeInScene(0);
-    setCurrentScene('awakening');
-    setActiveSentinelIndex(0);
-    setIsPlaying(true);
-  };
-
-  // Enter the Archive from Scene 5 CTA
-  const handleEnterArchive = () => {
-    if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch {}
+  const handleReplay = useCallback(() => {
+    handleSeek(0);
+    if (audioRef.current) {
+      audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
     }
-    onComplete();
-  };
+  }, [handleSeek]);
 
   // Clean up audio on unmount
   useEffect(() => {
     return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
       if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
         try {
           audioCtxRef.current.close();
@@ -180,21 +203,39 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     };
   }, []);
 
-  const progress = Math.min(elapsedTime / TOTAL_DURATION, 1.0);
+  const progress = Math.min(currentTime / INTRO_AUDIO_DURATION, 1.0);
 
   return (
     <div
       className="relative w-full h-screen bg-black overflow-hidden select-none"
       onClick={() => {
-        // Unlock audio context on user interaction if needed
-        initAudio();
+        // Unlock audio on first user click if autoplay was initially blocked
+        if (audioRef.current && audioRef.current.paused && !isPlaying) {
+          audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+          initAmbientSynth();
+        }
       }}
     >
+      {/* Authentic Master Audio Element */}
+      <audio
+        ref={audioRef}
+        src="/audio/intro-narration.mp3"
+        preload="auto"
+        playsInline
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          // Set position to title-reveal completion state
+          setCurrentTime(INTRO_AUDIO_DURATION);
+        }}
+      />
+
       {/* 3D WebGL Canvas Layer */}
       <div className="absolute inset-0 z-0">
         <Canvas
           shadows
-          camera={{ position: [0, 14, 26], fov: 45 }}
+          camera={{ position: [0, 15, 27], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         >
           <color attach="background" args={['#030712']} />
@@ -202,6 +243,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
             scene={currentScene}
             activeSentinelIndex={activeSentinelIndex}
             timeInScene={timeInScene}
+            currentTime={currentTime}
           />
         </Canvas>
       </div>
@@ -213,27 +255,18 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       <CinematicIntroOverlay
         scene={currentScene}
         activeSentinelIndex={activeSentinelIndex}
+        currentTime={currentTime}
+        duration={INTRO_AUDIO_DURATION}
         progress={progress}
         isPlaying={isPlaying}
         isMuted={isMuted}
-        onTogglePlay={() => {
-          setIsPlaying((prev) => {
-            const next = !prev;
-            if (audioCtxRef.current) {
-              if (!next && audioCtxRef.current.state === 'running') {
-                audioCtxRef.current.suspend();
-              } else if (next && audioCtxRef.current.state === 'suspended') {
-                audioCtxRef.current.resume();
-              }
-            }
-            return next;
-          });
-        }}
+        onTogglePlay={handleTogglePlay}
         onToggleMute={handleToggleMute}
+        onSeek={handleSeek}
         onSkip={handleSkip}
         onReplay={handleReplay}
         onSelectScene={handleSelectScene}
-        onEnterArchive={handleEnterArchive}
+        onEnterArchive={handleSkip}
       />
     </div>
   );

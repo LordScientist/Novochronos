@@ -9,6 +9,7 @@ interface CinematicSpotlightRigProps {
   activeSentinelIndex: number;
   pedestalRadius?: number;
   timeInScene: number;
+  currentTime?: number;
 }
 
 interface SentinelLightState {
@@ -26,6 +27,7 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
   activeSentinelIndex,
   pedestalRadius = 9.5,
   timeInScene,
+  currentTime,
 }) => {
   // Pre-calculate positions and targets for each of the 8 sentinels
   const sentinelConfigs = useMemo(() => {
@@ -92,8 +94,8 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
       let targetRim = 0.2;   // Base rim
 
       if (scene === 'awakening') {
-        // Lights gradually power on as the hall awakens
-        const awakenFactor = Math.min(timeInScene / 6.0, 1.0);
+        // Lights gradually power on as the hall awakens (0.0 - 11.8s)
+        const awakenFactor = Math.min((currentTime ?? timeInScene) / 10.0, 1.0);
         targetKey = 0.55 * awakenFactor;
         targetFill = 0.15 * awakenFactor;
         targetRim = 0.2 * awakenFactor;

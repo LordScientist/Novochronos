@@ -12,12 +12,14 @@ interface IntroScene3DProps {
   scene: IntroScene;
   activeSentinelIndex: number;
   timeInScene: number;
+  currentTime?: number;
 }
 
 export const IntroScene3D: React.FC<IntroScene3DProps> = ({
   scene,
   activeSentinelIndex,
   timeInScene,
+  currentTime,
 }) => {
   const isPlanetary = scene === 'planetary-reveal' || scene === 'title-reveal';
   const pedestalRadius = 9.5;
@@ -87,6 +89,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
         activeSentinelIndex={activeSentinelIndex}
         pedestalRadius={pedestalRadius}
         timeInScene={timeInScene}
+        currentTime={currentTime}
       />
 
       {/* Exhibition Lighting Rig (Active during Scenes 1, 2, 3) */}
@@ -139,6 +142,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
             activeSentinelIndex={activeSentinelIndex}
             pedestalRadius={pedestalRadius}
             timeInScene={timeInScene}
+            currentTime={currentTime}
           />
 
           <CircularExhibitionEnvironment
