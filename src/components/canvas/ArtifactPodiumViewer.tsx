@@ -29,13 +29,17 @@ export const ArtifactPodiumViewer: React.FC<ArtifactPodiumViewerProps> = ({
         {/* Interactive OrbitControls: drag to orbit, scroll to zoom */}
         <OrbitControls
           makeDefault
-          enablePan={false}
-          enableZoom={true}
-          enableRotate={true}
-          minDistance={1.5}
-          maxDistance={6.0}
-          autoRotate={true}
-          autoRotateSpeed={0.9}
+          ref={(controls: any) => {
+            if (controls) {
+              controls.enablePan = false;
+              controls.enableZoom = true;
+              controls.enableRotate = true;
+              controls.minDistance = 1.5;
+              controls.maxDistance = 6.0;
+              controls.autoRotate = true;
+              controls.autoRotateSpeed = 0.9;
+            }
+          }}
         />
 
         {/* Circular Glowing Podium Platform beneath Artifact */}

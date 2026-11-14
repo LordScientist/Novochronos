@@ -1,222 +1,215 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { Play } from 'lucide-react';
 import { IntroScene } from '../../types/journey';
 import { IntroScene3D } from '../canvas/IntroScene3D';
 import { CinematicIntroOverlay } from './CinematicIntroOverlay';
+import {
+  INTRO_AUDIO_DURATION,
+  getCueForTimestamp,
+} from '../../data/introAudioSync';
 
 interface CinematicIntroProps {
   onComplete: () => void; // Transitions to Stage 1: Command Terminal
 }
 
 export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
-  // Intro Timeline state
-  const [currentScene, setCurrentScene] = useState<IntroScene>('awakening');
-  const [activeSentinelIndex, setActiveSentinelIndex] = useState<number>(0);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [timeInScene, setTimeInScene] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  // Narration Voiceover Audio Element ref
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [hasStarted, setHasStarted] = useState<boolean>(false);
+  const rafRef = useRef<number | null>(null);
 
-  // Audio synthesizer ref (Web Audio API for zero-external-asset instant cinematic ambient sound)
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
+  // Derive active sync cue, scene, and sentinel from the exact audio timestamp
+  const activeCue = getCueForTimestamp(currentTime);
+  const currentScene = activeCue.scene;
+  const activeSentinelIndex = activeCue.sentinelIndex ?? 0;
 
-  const TOTAL_DURATION = 44.0;
+  // Exact start timestamps for each scene (aligned with spoken voiceover)
+  const sceneStartTimes: Record<IntroScene, number> = {
+    'awakening': 0.0,
+    'sentinels': 11.5,
+    'grand-exhibition': 55.5,
+    'planetary-reveal': 65.5,
+    'title-reveal': 74.5,
+  };
+  const timeInScene = Math.max(0, currentTime - sceneStartTimes[currentScene]);
 
-  // Initialize Web Audio cinematic hum & drone
-  const initAudio = useCallback(() => {
-    if (audioCtxRef.current) return;
-    try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      audioCtxRef.current = ctx;
+  // Master Clock: High-precision 60fps loop synced to narration audio.currentTime
+  useEffect(() => {
+    const updateLoop = () => {
+      const audio = audioRef.current;
+      if (audio && !audio.paused) {
+        setCurrentTime(audio.currentTime);
+      }
+      rafRef.current = requestAnimationFrame(updateLoop);
+    };
 
-      const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(isMuted ? 0 : 0.25, ctx.currentTime);
-      masterGain.connect(ctx.destination);
-      gainNodeRef.current = masterGain;
+    rafRef.current = requestAnimationFrame(updateLoop);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
-      // Deep space sub-bass drone oscillator
-      const osc1 = ctx.createOscillator();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(55, ctx.currentTime); // A1 note
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(120, ctx.currentTime);
+  // Primary function to start voiceover playback with full user gesture compliance
+  const startAudio = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-      osc1.connect(filter);
-      filter.connect(masterGain);
-      osc1.start();
+    audio.volume = 1.0;
+    audio.muted = isMuted;
 
-      // Atmospheric harmonic shimmer oscillator
-      const osc2 = ctx.createOscillator();
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(110, ctx.currentTime); // A2 note
-      const osc2Gain = ctx.createGain();
-      osc2Gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      osc2.connect(osc2Gain);
-      osc2Gain.connect(masterGain);
-      osc2.start();
-    } catch {
-      // AudioContext unavailable or autoplay blocked
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+          setHasStarted(true);
+        })
+        .catch((err) => {
+          console.warn('Audio playback waiting for direct user gesture:', err);
+        });
     }
   }, [isMuted]);
+
+  // Attempt autoplay on mount (succeeds if browser has high user engagement or permission)
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = 1.0;
+      audio.muted = false;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setHasStarted(true);
+          })
+          .catch(() => {
+            // Browser autoplay policy requires user gesture; show start prompt
+            setIsPlaying(false);
+            setHasStarted(false);
+          });
+      }
+    }
+  }, []);
+
+  // Handle Play/Pause toggle
+  const handleTogglePlay = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, []);
 
   // Handle Mute toggle
   const handleToggleMute = useCallback(() => {
     setIsMuted((prev) => {
       const next = !prev;
-      if (gainNodeRef.current && audioCtxRef.current) {
-        gainNodeRef.current.gain.setValueAtTime(next ? 0 : 0.25, audioCtxRef.current.currentTime);
+      if (audioRef.current) {
+        audioRef.current.muted = next;
       }
       return next;
     });
   }, []);
 
-  // Update elapsed time & determine current scene at full 60fps/120fps display refresh rate
-  useEffect(() => {
-    if (!isPlaying) return;
-
-    let lastTime = performance.now();
-    let animId: number;
-
-    const tick = (now: number) => {
-      const delta = (now - lastTime) / 1000;
-      lastTime = now;
-
-      setElapsedTime((prev) => {
-        const next = prev + delta;
-
-        if (next >= TOTAL_DURATION) {
-          // Reached end of intro; stay on title-reveal with CTA
-          return TOTAL_DURATION;
-        }
-
-        // Determine current scene from elapsed time
-        if (next < 7.0) {
-          if (currentScene !== 'awakening') setCurrentScene('awakening');
-          setTimeInScene(next);
-        } else if (next < 23.0) {
-          if (currentScene !== 'sentinels') setCurrentScene('sentinels');
-          const sentTime = next - 7.0;
-          setTimeInScene(sentTime);
-          const sIndex = Math.min(Math.floor(sentTime / 2.0), 7);
-          setActiveSentinelIndex(sIndex);
-        } else if (next < 30.0) {
-          if (currentScene !== 'grand-exhibition') setCurrentScene('grand-exhibition');
-          setTimeInScene(next - 23.0);
-        } else if (next < 36.0) {
-          if (currentScene !== 'planetary-reveal') setCurrentScene('planetary-reveal');
-          setTimeInScene(next - 30.0);
-        } else {
-          if (currentScene !== 'title-reveal') setCurrentScene('title-reveal');
-          setTimeInScene(next - 36.0);
-        }
-
-        return next;
-      });
-
-      animId = requestAnimationFrame(tick);
-    };
-
-    animId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(animId);
-  }, [isPlaying, currentScene]);
-
-  // Jump to specific scene from navigation
-  const handleSelectScene = (scene: IntroScene) => {
-    initAudio();
-    setCurrentScene(scene);
-    setTimeInScene(0);
-    switch (scene) {
-      case 'awakening':
-        setElapsedTime(0);
-        break;
-      case 'sentinels':
-        setElapsedTime(7.0);
-        setActiveSentinelIndex(0);
-        break;
-      case 'grand-exhibition':
-        setElapsedTime(23.0);
-        break;
-      case 'planetary-reveal':
-        setElapsedTime(30.0);
-        break;
-      case 'title-reveal':
-        setElapsedTime(36.0);
-        break;
+  // Handle seeking / scrubbing across the timeline
+  const handleSeek = useCallback((targetSec: number) => {
+    const clamped = Math.max(0, Math.min(targetSec, INTRO_AUDIO_DURATION));
+    if (audioRef.current) {
+      audioRef.current.currentTime = clamped;
     }
-  };
+    setCurrentTime(clamped);
+  }, []);
+
+  // Jump to specific scene
+  const handleSelectScene = useCallback((scene: IntroScene) => {
+    const target = sceneStartTimes[scene];
+    handleSeek(target);
+    const audio = audioRef.current;
+    if (audio && audio.paused) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
+    }
+  }, [handleSeek]);
 
   // Skip Intro immediately to Stage 1 (Command Terminal)
-  const handleSkip = () => {
-    if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch {}
+  const handleSkip = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
     onComplete();
-  };
+  }, [onComplete]);
 
   // Replay Intro from start
-  const handleReplay = () => {
-    setElapsedTime(0);
-    setTimeInScene(0);
-    setCurrentScene('awakening');
-    setActiveSentinelIndex(0);
-    setIsPlaying(true);
-  };
-
-  // Enter the Archive from Scene 5 CTA
-  const handleEnterArchive = () => {
-    if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch {}
+  const handleReplay = useCallback(() => {
+    handleSeek(0);
+    const audio = audioRef.current;
+    if (audio) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+      }).catch(() => {});
     }
-    onComplete();
-  };
+  }, [handleSeek]);
 
-  // Clean up audio on unmount
+  // Clean up on unmount
   useEffect(() => {
     return () => {
-      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        try {
-          audioCtxRef.current.close();
-        } catch {}
+      if (audioRef.current) {
+        audioRef.current.pause();
       }
     };
   }, []);
 
-  const progress = Math.min(elapsedTime / TOTAL_DURATION, 1.0);
+  const progress = Math.min(currentTime / INTRO_AUDIO_DURATION, 1.0);
 
   return (
     <div
       className="relative w-full h-screen bg-black overflow-hidden select-none"
       onClick={() => {
-        // Unlock audio context on user interaction if needed
-        initAudio();
-      }}
-      onWheel={(e) => {
-        initAudio();
-        if (e.deltaY > 35) {
-          if (currentScene === 'title-reveal') {
-            handleEnterArchive();
-          } else {
-            setElapsedTime((prev) => Math.min(TOTAL_DURATION, prev + 1.0));
-          }
-        } else if (e.deltaY < -35) {
-          setElapsedTime((prev) => Math.max(0, prev - 1.0));
+        // Any click on the viewport starts voiceover playback if not yet started
+        if (!hasStarted) {
+          startAudio();
         }
       }}
     >
+      {/* Authentic Master Narration Audio Element (NO SYNTH / NO BUZZING) */}
+      <audio
+        ref={audioRef}
+        preload="auto"
+        playsInline
+        onPlay={() => {
+          setIsPlaying(true);
+          setHasStarted(true);
+        }}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          setCurrentTime(INTRO_AUDIO_DURATION);
+        }}
+      >
+        <source src="/audio/intro.mpeg" type="audio/mpeg" />
+        <source src="/audio/intro-narration.mp3" type="audio/mpeg" />
+      </audio>
+
       {/* 3D WebGL Canvas Layer */}
       <div className="absolute inset-0 z-0">
         <Canvas
           shadows
-          camera={{ position: [0, 14, 26], fov: 45 }}
+          camera={{ position: [0, 15, 27], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         >
           <color attach="background" args={['#030712']} />
@@ -224,6 +217,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
             scene={currentScene}
             activeSentinelIndex={activeSentinelIndex}
             timeInScene={timeInScene}
+            currentTime={currentTime}
           />
         </Canvas>
       </div>
@@ -231,31 +225,69 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       {/* Cinematic Vignette Overlay */}
       <div className="absolute inset-0 pointer-events-none z-10 bg-radial-gradient" />
 
+      {/* Initial Start Prompt (Displayed only when browser blocks unprompted autoplay) */}
+      {!hasStarted && (
+        <div
+          onClick={startAudio}
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/10 pointer-events-auto cursor-pointer p-4 transition-all duration-500"
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              startAudio();
+            }}
+            className="relative max-w-md w-full mx-auto text-center px-8 py-7 rounded-2xl bg-slate-950/40 border border-white/20 backdrop-blur-[2px] shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_30px_rgba(56,189,248,0.12)] hover:border-amber-400/40 transition-all duration-300"
+          >
+            {/* Top Micro-Tag */}
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+              <span className="font-mono text-[10px] tracking-[0.3em] text-amber-400 font-bold uppercase">
+                STAGE 0 // NASA SPACE APPS ARCHIVE
+              </span>
+            </div>
+
+            <h1 className="font-orbitron text-2xl sm:text-3xl font-black text-white tracking-wider mb-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              NOVOCHRONOS
+            </h1>
+            <p className="font-sans text-xs text-slate-200/90 mb-5 leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+              Experience humanity's interplanetary pioneers in 3D with authentic spoken narration.
+            </p>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                startAudio();
+              }}
+              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(245,158,11,0.5)] hover:shadow-[0_0_40px_rgba(245,158,11,0.8)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Play className="w-4 h-4 fill-slate-950 group-hover:scale-110 transition-transform" />
+              <span>START CINEMATIC INTRODUCTION</span>
+            </button>
+
+            <div className="flex items-center justify-center gap-1.5 mt-3.5 font-mono text-[11px] text-slate-300/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+              <span>🔊</span>
+              <span>Click anywhere on screen to begin</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* HTML / DOM Control & Typography Overlay */}
       <CinematicIntroOverlay
         scene={currentScene}
         activeSentinelIndex={activeSentinelIndex}
+        currentTime={currentTime}
+        duration={INTRO_AUDIO_DURATION}
         progress={progress}
         isPlaying={isPlaying}
         isMuted={isMuted}
-        onTogglePlay={() => {
-          setIsPlaying((prev) => {
-            const next = !prev;
-            if (audioCtxRef.current) {
-              if (!next && audioCtxRef.current.state === 'running') {
-                audioCtxRef.current.suspend();
-              } else if (next && audioCtxRef.current.state === 'suspended') {
-                audioCtxRef.current.resume();
-              }
-            }
-            return next;
-          });
-        }}
+        onTogglePlay={handleTogglePlay}
         onToggleMute={handleToggleMute}
+        onSeek={handleSeek}
         onSkip={handleSkip}
         onReplay={handleReplay}
         onSelectScene={handleSelectScene}
-        onEnterArchive={handleEnterArchive}
+        onEnterArchive={handleSkip}
       />
     </div>
   );

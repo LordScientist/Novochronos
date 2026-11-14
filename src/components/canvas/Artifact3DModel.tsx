@@ -27,7 +27,7 @@ const NormalizedGLTFModel: React.FC<{ url: string; targetSize?: number }> = ({
     const clone = scene.clone(true);
 
     // Optimize materials for studio podium lighting
-    clone.traverse((child) => {
+    clone.traverse((child: any) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
