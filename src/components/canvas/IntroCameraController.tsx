@@ -38,15 +38,15 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
       }
 
       case 'sentinels': {
-        // Scene 2: Close-up mechanical showcase of active sentinel
+        // Scene 2: Focused mechanical showcase of active sentinel with full-screen clarity
         const sentinelAngle = (activeSentinelIndex / 8) * Math.PI * 2;
         const sentX = Math.cos(sentinelAngle) * pedestalRadius;
         const sentZ = Math.sin(sentinelAngle) * pedestalRadius;
 
-        // Position camera slightly offset from the sentinel to capture mechanical angles
-        const camDistance = 3.8;
-        const camElevation = 1.4;
-        const offsetAngle = sentinelAngle + 0.35;
+        // Position camera to center the spacecraft in the unobstructed viewport
+        const camDistance = 4.1;
+        const camElevation = 1.35;
+        const offsetAngle = sentinelAngle + 0.28;
 
         targetPos.set(
           sentX + Math.cos(offsetAngle) * camDistance,
@@ -54,7 +54,7 @@ export const IntroCameraController: React.FC<IntroCameraControllerProps> = ({
           sentZ + Math.sin(offsetAngle) * camDistance
         );
 
-        targetLookAt.current.set(sentX, 0.6, sentZ);
+        targetLookAt.current.set(sentX, 0.45, sentZ);
         break;
       }
 

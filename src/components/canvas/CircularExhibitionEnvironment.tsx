@@ -103,16 +103,6 @@ export const CircularExhibitionEnvironment: React.FC<CircularExhibitionEnvironme
                 opacity={(isFocused ? 0.9 : 0.4) * glowIntensity}
               />
             </mesh>
-            {/* Small spotlight targeting each pedestal */}
-            <spotLight
-              position={[0, 5, 0]}
-              target-position={[0, 0, 0]}
-              intensity={isFocused ? 2.5 : 0.8}
-              distance={8}
-              angle={0.4}
-              penumbra={0.6}
-              color={isFocused ? '#e0f2fe' : '#94a3b8'}
-            />
           </group>
         );
       })}

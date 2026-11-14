@@ -6,6 +6,7 @@ import { ArtifactModel } from './ArtifactModel';
 import { CircularExhibitionEnvironment } from './CircularExhibitionEnvironment';
 import { PlanetaryMartianEnvironment } from './PlanetaryMartianEnvironment';
 import { IntroCameraController } from './IntroCameraController';
+import { CinematicSpotlightRig } from './CinematicSpotlightRig';
 
 interface IntroScene3DProps {
   scene: IntroScene;
@@ -132,6 +133,14 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
       {/* Render the Circular Exhibition Architecture (Scenes 1, 2, 3) */}
       {!isPlanetary && (
         <group>
+          {/* Dynamic Cinematic Spotlighting Rig */}
+          <CinematicSpotlightRig
+            scene={scene}
+            activeSentinelIndex={activeSentinelIndex}
+            pedestalRadius={pedestalRadius}
+            timeInScene={timeInScene}
+          />
+
           <CircularExhibitionEnvironment
             glowIntensity={scene === 'awakening' ? Math.min(timeInScene * 0.25, 1) : 1}
             highlightIndex={scene === 'sentinels' ? activeSentinelIndex : null}
