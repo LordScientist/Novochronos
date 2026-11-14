@@ -74,13 +74,19 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
     });
   }, []);
 
-  // Update elapsed time & determine current scene
+  // Update elapsed time & determine current scene at full 60fps/120fps display refresh rate
   useEffect(() => {
     if (!isPlaying) return;
 
-    const interval = setInterval(() => {
+    let lastTime = performance.now();
+    let animId: number;
+
+    const tick = (now: number) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
+
       setElapsedTime((prev) => {
-        const next = prev + 0.1;
+        const next = prev + delta;
 
         if (next >= TOTAL_DURATION) {
           // Reached end of intro; stay on title-reveal with CTA
@@ -110,9 +116,13 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
 
         return next;
       });
-    }, 100);
 
-    return () => clearInterval(interval);
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(animId);
   }, [isPlaying, currentScene]);
 
   // Jump to specific scene from navigation
@@ -188,6 +198,18 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
       onClick={() => {
         // Unlock audio context on user interaction if needed
         initAudio();
+      }}
+      onWheel={(e) => {
+        initAudio();
+        if (e.deltaY > 35) {
+          if (currentScene === 'title-reveal') {
+            handleEnterArchive();
+          } else {
+            setElapsedTime((prev) => Math.min(TOTAL_DURATION, prev + 1.0));
+          }
+        } else if (e.deltaY < -35) {
+          setElapsedTime((prev) => Math.max(0, prev - 1.0));
+        }
       }}
     >
       {/* 3D WebGL Canvas Layer */}

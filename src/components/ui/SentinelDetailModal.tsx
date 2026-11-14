@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import { X, Play, Pause, RotateCcw, Volume2, Sparkles, Bookmark, Layers, ChevronDown } from 'lucide-react';
 import { ArtifactPodiumViewer } from '../canvas/ArtifactPodiumViewer';
 import narrationScripts from '../../data/narrationScripts.json';
@@ -67,6 +68,36 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
       setIsRendered(false);
     }
   }, [sentinelId]);
+
+  // Dedicated Lenis instance for smooth modal dossier inspection
+  useEffect(() => {
+    if (!isRendered || !scrollContainerRef.current) return;
+
+    const modalLenis = new Lenis({
+      wrapper: scrollContainerRef.current,
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+      autoRaf: true,
+    });
+
+    const handleScroll = (e: { progress: number; velocity: number }) => {
+      // Reaching the bottom of the card dossier and scrolling down triggers smooth ease exit
+      if (e.progress >= 0.992 && e.velocity > 0.03 && !exitTriggeredRef.current) {
+        exitTriggeredRef.current = true;
+        handleTriggerExit();
+      }
+    };
+
+    modalLenis.on('scroll', handleScroll);
+
+    return () => {
+      modalLenis.destroy();
+    };
+  }, [isRendered]);
 
   // Smooth exit ease animation handler
   const handleTriggerExit = () => {

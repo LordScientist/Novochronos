@@ -32,11 +32,11 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
     // Map scroll progress (0 to 1) to continuous card index space (0 to totalCards - 1)
     const targetIndex = scrollProgress * (totalCards - 1);
 
-    // Smooth single-direction damping strictly tied to scroll
+    // High-fidelity damping in lockstep with Lenis smooth momentum physics
     currentScrollIndexRef.current = THREE.MathUtils.damp(
       currentScrollIndexRef.current,
       targetIndex,
-      5.0,
+      18.0,
       delta
     );
   });

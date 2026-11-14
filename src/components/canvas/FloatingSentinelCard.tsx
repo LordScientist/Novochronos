@@ -58,17 +58,17 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     const targetScale = isActive ? 1.14 : helixScale;
     const targetZ = isActive ? position[2] + 0.35 : position[2];
 
-    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 6, delta);
-    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 6, delta);
-    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, targetZ, 6, delta);
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 18, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 18, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, targetZ, 18, delta);
 
-    cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
-    cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
-    cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
+    cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 18, delta);
+    cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 18, delta);
+    cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 18, delta);
 
-    cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 6, delta);
-    cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 6, delta);
-    cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 6, delta);
+    cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 18, delta);
+    cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 18, delta);
+    cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 18, delta);
   });
 
   const cardOpacity = Math.max(0.35, Math.min(1.0, 1.0 - distanceFromCenter * 0.22));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { CinematicIntro } from './components/journey/CinematicIntro';
@@ -8,8 +8,9 @@ import { SentinelDetailModal } from './components/ui/SentinelDetailModal';
 
 export const App: React.FC = () => {
   // App begins on the 3D Cinematic Opening Sequence ('intro')
-  // When user enters the archive, transitions directly to 'archive' (Shuttle & Cards)
+  // When user enters the archive, transitions smoothly to 'archive' (Shuttle & Cards)
   const [currentView, setCurrentView] = useState<'intro' | 'archive'>('intro');
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
 
   // Lenis smooth momentum scroll for the 3D Space Shuttle Corridor
@@ -17,12 +18,24 @@ export const App: React.FC = () => {
 
   // Control Lenis: activate strictly when in 'archive' view and no dossier modal is open
   useEffect(() => {
-    if (currentView === 'archive' && !selectedSentinelId) {
+    if (currentView === 'archive' && !selectedSentinelId && !isTransitioning) {
       lenis?.start();
     } else {
       lenis?.stop();
     }
-  }, [currentView, selectedSentinelId, lenis]);
+  }, [currentView, selectedSentinelId, isTransitioning, lenis]);
+
+  // Smooth cinematic ease transition from Intro into Archive
+  const handleTransitionToArchive = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentView('archive');
+      lenis?.scrollTo(0, { immediate: true });
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+    }, 500);
+  }, [lenis]);
 
   // Stepper navigation along the 3D helix
   const handleNavigateStep = (direction: 'prev' | 'next') => {
@@ -41,7 +54,7 @@ export const App: React.FC = () => {
       */}
       {currentView === 'intro' && (
         <CinematicIntro
-          onComplete={() => setCurrentView('archive')}
+          onComplete={handleTransitionToArchive}
         />
       )}
 
@@ -95,6 +108,13 @@ export const App: React.FC = () => {
           <div className="relative z-10 w-full h-[600vh] pointer-events-none" />
         </div>
       )}
+
+      {/* End-to-End Cinematic Stage Dissolve Transition Overlay */}
+      <div
+        className={`pointer-events-none fixed inset-0 z-50 bg-black transition-opacity duration-500 ease-in-out ${
+          isTransitioning ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
     </div>
   );
 };

@@ -10,6 +10,7 @@ export interface ScrollState {
 
 export function useSmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
+  const [lenis, setLenis] = useState<Lenis | null>(null);
   const [scrollState, setScrollState] = useState<ScrollState>({
     progress: 0,
     velocity: 0,
@@ -18,17 +19,21 @@ export function useSmoothScroll() {
   });
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.4,
+    // Primary Lenis smoother for 60/120fps end-to-end fluid motion
+    const instance = new Lenis({
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential out
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.5,
+      syncTouch: true, // Native-feel inertial momentum on touch/trackpads
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.3,
+      autoRaf: true,
     });
 
-    lenisRef.current = lenis;
+    lenisRef.current = instance;
+    setLenis(instance);
 
     const handleScroll = (e: { progress: number; velocity: number; scroll: number; direction: number }) => {
       setScrollState({
@@ -39,28 +44,26 @@ export function useSmoothScroll() {
       });
     };
 
-    lenis.on('scroll', handleScroll);
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    const rafId = requestAnimationFrame(raf);
+    instance.on('scroll', handleScroll);
 
     return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
+      instance.destroy();
       lenisRef.current = null;
+      setLenis(null);
     };
   }, []);
 
-  const scrollToProgress = useCallback((targetProgress: number) => {
+  const scrollToProgress = useCallback((targetProgress: number, duration = 1.2) => {
     if (!lenisRef.current) return;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const clamped = Math.max(0, Math.min(1, targetProgress));
-    lenisRef.current.scrollTo(clamped * maxScroll, { duration: 1.2 });
+    lenisRef.current.scrollTo(clamped * maxScroll, { duration });
   }, []);
 
-  return { lenis: lenisRef.current, scrollToProgress, ...scrollState };
+  const scrollTo = useCallback((target: number | HTMLElement | string, options?: any) => {
+    if (!lenisRef.current) return;
+    lenisRef.current.scrollTo(target, options);
+  }, []);
+
+  return { lenis, scrollToProgress, scrollTo, ...scrollState };
 }
