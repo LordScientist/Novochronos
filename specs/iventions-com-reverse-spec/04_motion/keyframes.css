@@ -1,0 +1,5 @@
+/* from 8fb42a0177568e49.css */
+@keyframes link-underline-hover { 0%{width:100%;left:0}25%{width:0;left:100%}50%{width:0;left:0}75%{width:100%;left:0}to{width:100%;left:0} }
+
+/* from 37682c6d324e11ab.css */
+@keyframes styles_wave__0LOc1 { 0%,40%,to{transform:translateY(0)}20%{transform:translateY(-10px)} }

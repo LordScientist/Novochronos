@@ -1,0 +1,104 @@
+/* from index.TL6TuoJb.css */
+@keyframes hero-card-dot-blink { 0%{opacity:1}50%{opacity:.2}to{opacity:1} }
+
+/* from index.TL6TuoJb.css */
+@keyframes bikini-btn-pulse-animation { 0%{transform:scale(.8)}50%{transform:scale(1)}to{transform:scale(.8)} }
+
+/* from index.TL6TuoJb.css */
+@keyframes grip-instruction-wheel-dash { 0%{stroke-dashoffset:2}to{stroke-dashoffset:0} }
+
+/* from index.TL6TuoJb.css */
+@keyframes newsletter-btn-loading { 0%,to{transform:translate(0)}50%{transform:translate(.25em)} }
+
+/* from player.css */
+@keyframes buffer { 100%{transform:translateX(-10px)} }
+
+/* from player.css */
+@keyframes throb { 0%,100%{background-color:#555}50%{background-color:#444} }
+
+/* from player.css */
+@keyframes wiggle { 0%{transform:translateY(10px)}20%{transform:translateY(0)}40%,80%{transform:translateX(8px)}60%{transform:translateX(-8px)}100%{transform:translateX(0)} }
+
+/* from player.css */
+@keyframes pulse { 50%{transform:scale(.9)} }
+
+/* from player.css */
+@keyframes dash { 0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-135px} }
+
+/* from player.css */
+@keyframes rotate { 100%{transform:rotate(360deg)} }
+
+/* from player.css */
+@keyframes scaleAnimation { 0%{transform:scale(.9,.9)}100%{transform:scale(1,1)} }
+
+/* from player.css */
+@keyframes LikeButton_module_heartbeat__3908feee { 0%{transform:scale(1)}10%{transform:scale(1)}20%{transform:scale(1.3)}30%{transform:scale(1.1)}40%{transform:scale(1.3)}100%{transform:scale(1)} }
+
+/* from player.css */
+@keyframes ShareButton_module_takeoff__26260904 { 0%{transform:translate(0,0)}20%{transform:translate(-3px,3px)}40%{transform:translate(2px,-2px)}60%{transform:translate(-1px,1px)}80%{transform:translate(.5px,-.5px)}100%{transform:translate(0,0)} }
+
+/* from player.css */
+@keyframes EmbedButton_module_embedPop__dece8678 { 0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)} }
+
+/* from player.css */
+@keyframes WatchLaterButton_module_pop__238c6c3b { 0%{transform:scale(1)}10%{transform:scale(1.15)}100%{transform:scale(1)} }
+
+/* from player.css */
+@keyframes TinyProgressBar_module_buffer__c04d36b1 { 100%{transform:translateX(-10px)} }
+
+/* from player.css */
+@keyframes ShareSheet_module_backdropFadeIn__5ab8a323 { from{opacity:0}to{opacity:1} }
+
+/* from player.css */
+@keyframes ShareSheet_module_backdropFadeOut__5ab8a323 { from{opacity:1}to{opacity:0} }
+
+/* from player.css */
+@keyframes ShareSheet_module_modalSlideIn__5ab8a323 { from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)} }
+
+/* from player.css */
+@keyframes ShareSheet_module_modalSlideOut__5ab8a323 { from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(12px) scale(.97)} }
+
+/* from player.css */
+@keyframes AiCreditsEnrollmentModal_module_backdropFadeIn__6d3d95f8 { from{opacity:0}to{opacity:1} }
+
+/* from player.css */
+@keyframes AiCreditsEnrollmentModal_module_backdropFadeOut__6d3d95f8 { from{opacity:1}to{opacity:0} }
+
+/* from player.css */
+@keyframes AiCreditsEnrollmentModal_module_modalSlideIn__6d3d95f8 { from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)} }
+
+/* from player.css */
+@keyframes AiCreditsEnrollmentModal_module_modalSlideOut__6d3d95f8 { from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(12px) scale(.97)} }
+
+/* from player.css */
+@keyframes OutroContentWrapper_module_fadeIn__06afa88b { 0%{opacity:0}100%{opacity:1} }
+
+/* from player.css */
+@keyframes LinkOutro_module_slideDown__0f1c39e6 { to{transform:translate(0,0);opacity:1} }
+
+/* from player.css */
+@keyframes Spinner_module_buffer__795e5e53 { 100%{transform:translateX(-10px)} }
+
+/* from player.css */
+@keyframes Spinner_module_throb__795e5e53 { 0%,100%{background-color:#555}50%{background-color:#444} }
+
+/* from player.css */
+@keyframes Spinner_module_wiggle__795e5e53 { 0%{transform:translateY(10px)}20%{transform:translateY(0)}40%,80%{transform:translateX(8px)}60%{transform:translateX(-8px)}100%{transform:translateX(0)} }
+
+/* from player.css */
+@keyframes Spinner_module_pulse__795e5e53 { 50%{transform:scale(.9)} }
+
+/* from player.css */
+@keyframes Spinner_module_dash__795e5e53 { 0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:89,200;stroke-dashoffset:-35px}100%{stroke-dasharray:89,200;stroke-dashoffset:-135px} }
+
+/* from player.css */
+@keyframes Spinner_module_rotate__795e5e53 { 100%{transform:rotate(360deg)} }
+
+/* from player.css */
+@keyframes Spinner_module_scaleAnimation__795e5e53 { 0%{transform:scale(.9,.9)}100%{transform:scale(1,1)} }
+
+/* from player.css */
+@keyframes AnimatedClock_module_hourHand__8976d762 { to{rotate:calc(45deg * var(--clock-rotate-direction))} }
+
+/* from player.css */
+@keyframes AnimatedClock_module_minuteHand__8976d762 { to{rotate:calc(360deg * var(--clock-rotate-direction))} }

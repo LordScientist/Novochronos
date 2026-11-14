@@ -1,0 +1,157 @@
+{
+  "tool": {
+    "name": "dissect",
+    "version": "0.1.0"
+  },
+  "reference": "https://iventions.com/",
+  "generatedAt": "2026-11-14T12:41:38.879Z",
+  "focus": {
+    "text": "3d, scroll animations, design-system",
+    "topics": [
+      "design-system",
+      "motion",
+      "3d"
+    ],
+    "specified": true
+  },
+  "target": "react + tailwind",
+  "start": "00_START_HERE.md",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "bytes": 3895
+    },
+    {
+      "path": "01_overview.md",
+      "bytes": 1446
+    },
+    {
+      "path": "02_design-system/README.md",
+      "bytes": 670
+    },
+    {
+      "path": "02_design-system/colors.md",
+      "bytes": 1155
+    },
+    {
+      "path": "02_design-system/css-variables.md",
+      "bytes": 10266
+    },
+    {
+      "path": "02_design-system/spacing-layout.md",
+      "bytes": 1050
+    },
+    {
+      "path": "02_design-system/tailwind.theme.snippet.js",
+      "bytes": 591
+    },
+    {
+      "path": "02_design-system/tokens.css",
+      "bytes": 1180
+    },
+    {
+      "path": "02_design-system/tokens.json",
+      "bytes": 1884
+    },
+    {
+      "path": "02_design-system/typography.md",
+      "bytes": 1243
+    },
+    {
+      "path": "03_structure/components.md",
+      "bytes": 618
+    },
+    {
+      "path": "03_structure/sitemap.md",
+      "bytes": 445
+    },
+    {
+      "path": "04_motion/README.md",
+      "bytes": 2007
+    },
+    {
+      "path": "04_motion/animations.md",
+      "bytes": 5759
+    },
+    {
+      "path": "04_motion/keyframes.css",
+      "bytes": 308
+    },
+    {
+      "path": "05_3d/README.md",
+      "bytes": 223
+    },
+    {
+      "path": "06_behaviour/interactions.md",
+      "bytes": 464
+    },
+    {
+      "path": "06_behaviour/responsive.md",
+      "bytes": 301
+    },
+    {
+      "path": "06_behaviour/theme-and-preferences.md",
+      "bytes": 143
+    },
+    {
+      "path": "07_stack-assets/assets-manifest.json",
+      "bytes": 11419
+    },
+    {
+      "path": "07_stack-assets/stack.md",
+      "bytes": 5318
+    },
+    {
+      "path": "08_evidence/INDEX.md",
+      "bytes": 1297
+    },
+    {
+      "path": "08_evidence/frames/home/load-01-1834ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-02-2445ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-03-3195ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-04-3278ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-05-3329ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-06-3376ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-07-3405ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "08_evidence/frames/home/load-08-4999ms.jpg",
+      "bytes": 8455
+    },
+    {
+      "path": "09_agent-tasks.md",
+      "bytes": 3401
+    },
+    {
+      "path": "10_implementation-guide.md",
+      "bytes": 3111
+    },
+    {
+      "path": "data/page-home.json",
+      "bytes": 23871
+    },
+    {
+      "path": "data/site.json",
+      "bytes": 36422
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+:root {
+  /* ---- inferred roles ---- */
+  --dz-color-background: #ffffff;
+}
+
+/* ---- the site's own global custom properties (verbatim) ---- */
+:root {
+  --vh: 1vh;
+  --h1: calc(164 * var(--screen-unit));
+  --h2: calc(68 * var(--screen-unit));
+  --h3: calc(45 * var(--screen-unit));
+  --h4: calc(32 * var(--screen-unit));
+  --h5: calc(20 * var(--screen-unit));
+  --sub1: calc(24 * var(--screen-unit));
+  --sub2: calc(16 * var(--screen-unit));
+  --body1: calc(38 * var(--screen-unit));
+  --body2: calc(24 * var(--screen-unit));
+  --body3: calc(18 * var(--screen-unit));
+  --quote: calc(30 * var(--screen-unit));
+  --default: calc(18 * var(--screen-unit));
+  --btn: calc(16 * var(--screen-unit));
+  --display-font: "halyard-display-variable";
+  --text-font: "halyard-text-variable";
+  --site-padding-x: 3.125vw;
+  --site-row-height: calc(var(--site-padding-x) * 8 / 60);
+  --site-padding-y: calc(var(--site-row-height) * 4);
+  --site-header: 21px;
+  --grid-columns: 16;
+  --grid-rows: 1;
+  --grid-gap-scale: calc(24 / 90);
+  --grid-gap-width: calc((100vw - var(--site-padding-x) * 2) / ((var(--grid-columns) / var(--grid-gap-scale)) + var(--grid-columns) - 1));
+  --grid-column-width: calc(var(--grid-gap-width) / var(--grid-gap-scale));
+  --grid-span-width: calc(var(--grid-gap-width) + var(--grid-column-width));
+  --grid-span-1: var(--grid-column-width);
+  --grid-span-2: calc(var(--grid-span-width) * 1 + var(--grid-column-width));
+  --grid-span-3: calc(var(--grid-span-width) * 2 + var(--grid-column-width));
+  --grid-span-4: calc(var(--grid-span-width) * 3 + var(--grid-column-width));
+  --grid-span-5: calc(var(--grid-span-width) * 4 + var(--grid-column-width));
+  --grid-span-6: calc(var(--grid-span-width) * 5 + var(--grid-column-width));
+  --grid-span-7: calc(var(--grid-span-width) * 6 + var(--grid-column-width));
+  --grid-span-8: calc(var(--grid-span-width) * 7 + var(--grid-column-width));
+  --grid-span-9: calc(var(--grid-span-width) * 8 + var(--grid-column-width));
+  --grid-span-10: calc(var(--grid-span-width) * 9 + var(--grid-column-width));
+  --grid-span-11: calc(var(--grid-span-width) * 10 + var(--grid-column-width));
+  --grid-span-12: calc(var(--grid-span-width) * 11 + var(--grid-column-width));
+  --grid-span-13: calc(var(--grid-span-width) * 12 + var(--grid-column-width));
+  --grid-span-14: calc(var(--grid-span-width) * 13 + var(--grid-column-width));
+  --grid-span-15: calc(var(--grid-span-width) * 14 + var(--grid-column-width));
+  --grid-span-16: calc(var(--grid-span-width) * 15 + var(--grid-column-width));
+  --color-white: #ffedd7;
+  --color-white-transparent: #ffedd700;
+  --color-black: #100904;
+  --color-black-transparent: #10090400;
+  --color-grey-brown: #6c5f51;
+  --color-green: #445231;
+  --color-green-light: #5d6c49;
+  --color-green-lightest: #f6e0c6;
+  --color-pure-white: #fff;
+  --color-pure-black: #000;
+  --color-orange: #dc5000;
+  --color-brown: #382416;
+  --inner-width: calc(100vw - var(--site-padding-x) * 2);
+  --screen-unit: min(var(--inner-width) / (1920 - 60 * 2), calc(var(--vh) * 100) / 1024 * 1.25);
+  --link-header: calc(16 * var(--screen-unit));
+  --clock-rotate-direction: 1;
+}

@@ -1,0 +1,1469 @@
+{
+ "tool": {
+  "name": "dissect",
+  "version": "0.1.0"
+ },
+ "run": {
+  "url": "https://iventions.com/",
+  "startedAt": "2026-11-14T12:40:45.604Z",
+  "finishedAt": "2026-11-14T12:41:38.879Z",
+  "viewport": {
+   "width": 1440,
+   "height": 900
+  },
+  "focus": {
+   "text": "3d, scroll animations, design-system",
+   "topics": [
+    "design-system",
+    "motion",
+    "3d"
+   ],
+   "specified": true
+  },
+  "target": "react + tailwind",
+  "assets": "refs",
+  "pagesAnalysed": 1,
+  "pagesFailed": 0
+ },
+ "stack": [
+  {
+   "name": "Google Tag Manager",
+   "category": "analytics",
+   "evidence": [
+    "url: https://www.googletagmanager.com/gtm.js?id=GTM-PVJC495"
+   ]
+  },
+  {
+   "name": "GSAP",
+   "category": "animation",
+   "evidence": [
+    "bundle text: vendors-a066095a-8ad9133e710378fe.js",
+    "bundle text: vendors-e1bed6ae-20243f73f44d9f2d.js",
+    "bundle text: vendors-c30ae5d1-69a189a3adf1e23f.js"
+   ]
+  },
+  {
+   "name": "GSAP ScrollTrigger",
+   "category": "animation",
+   "evidence": [
+    "bundle text: vendors-a066095a-8ad9133e710378fe.js",
+    "bundle text: vendors-e1bed6ae-20243f73f44d9f2d.js",
+    "bundle text: vendors-c30ae5d1-69a189a3adf1e23f.js"
+   ]
+  },
+  {
+   "name": "Next.js",
+   "category": "framework",
+   "evidence": [
+    "url: https://iventions.com/_next/static/css/0fca40a3ac297906.css",
+    "url: https://iventions.com/_next/static/css/8fb42a0177568e49.css",
+    "url: https://iventions.com/_next/static/css/37682c6d324e11ab.css",
+    "url: https://iventions.com/_next/static/media/6c7afd28724bc731-s.p.woff2",
+    "url: https://iventions.com/_next/static/media/4fb645a3dca26c7d-s.p.woff2"
+   ]
+  },
+  {
+   "name": "WordPress",
+   "category": "platform",
+   "evidence": [
+    "url: https://cms.iventions.com/wp-content/uploads/2025/06/icon-logo.svg",
+    "url: https://iventions.com/_next/image?url=https%3A%2F%2Fcms.iventions.com%2Fwp-content%2Fuploads%2F2025%2F07%2Ffooter-cert-n",
+    "url: https://iventions.com/_next/image?url=https%3A%2F%2Fcms.iventions.com%2Fwp-content%2Fuploads%2F2025%2F07%2FContact.jpg&w",
+    "url: https://iventions.com/_next/image?url=https%3A%2F%2Fcms.iventions.com%2Fwp-content%2Fuploads%2F2025%2F07%2FQuote.jpg&w=3",
+    "url: https://iventions.com/_next/image?url=https%3A%2F%2Fcms.iventions.com%2Fwp-content%2Fuploads%2F2026%2F07%2FUEFA-Champion"
+   ]
+  },
+  {
+   "name": "Lenis",
+   "category": "scroll",
+   "evidence": [
+    "bundle text: vendors-b9fa02b6-9863e06bb04f05d7.js"
+   ]
+  }
+ ],
+ "designSystem": {
+  "base": {},
+  "palette": [],
+  "roles": {
+   "background": "#ffffff",
+   "text": null,
+   "textMuted": null,
+   "surface": null,
+   "border": null,
+   "accent": null,
+   "accentSecondary": null,
+   "neutrals": [],
+   "contrast": {
+    "textOnBackground": null,
+    "mutedOnBackground": null,
+    "accentOnBackground": null
+   },
+   "dark": null,
+   "note": "Roles are inferred from frequency/area/saturation; verify against screenshots. If the site defines its own CSS variables (see css-variables.md) those names are the real tokens."
+  },
+  "gradients": [],
+  "typography": {
+   "families": [],
+   "scale": [],
+   "medianRatio": null,
+   "tags": {}
+  },
+  "spacing": {
+   "histogram": {},
+   "baseUnit": null,
+   "top": []
+  },
+  "radii": [],
+  "shadows": [],
+  "textShadows": [],
+  "filters": [],
+  "blends": [],
+  "clipPaths": [],
+  "zIndex": [],
+  "containers": [],
+  "cursors": [],
+  "transitions": [],
+  "motionTokens": {
+   "durations": [],
+   "easings": [],
+   "properties": []
+  },
+  "staticAnimations": [],
+  "breakpoints": [
+   {
+    "px": 768,
+    "min": 67,
+    "max": 0
+   },
+   {
+    "px": 1200,
+    "min": 158,
+    "max": 0
+   },
+   {
+    "px": 1440,
+    "min": 1,
+    "max": 0
+   }
+  ],
+  "css": {
+   "sheets": 12,
+   "bytes": 88728,
+   "features": {
+    "scrollDriven": 0,
+    "containerQueries": 0,
+    "layers": 0,
+    "supports": 0,
+    "registeredProps": [],
+    "prefersColorScheme": 0,
+    "prefersReducedMotion": 0,
+    "hoverMedia": 0,
+    "viewTransitions": 0,
+    "tailwind": false,
+    "lightDark": 0,
+    "colorMix": 0,
+    "modernColor": 0
+   },
+   "mediaQueries": [
+    [
+     "@media(min-width:1200px)",
+     158
+    ],
+    [
+     "@media(min-width:768px)",
+     67
+    ],
+    [
+     "@media(min-width:1440px)",
+     1
+    ]
+   ]
+  },
+  "variables": {
+   "rootCount": 30,
+   "byPrefix": {
+    "other": [
+     {
+      "name": "--easeOutQuart",
+      "value": "cubic-bezier(0.165,0.84,0.44,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeInOutQuart",
+      "value": "cubic-bezier(0.76,0,0.24,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeInQuart",
+      "value": "cubic-bezier(0.895,0.03,0.685,0.22)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeOutQuad",
+      "value": "cubic-bezier(0.5,1,0.89,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeInOutQuad",
+      "value": "cubic-bezier(0.45,0,0.55,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeOutCubic",
+      "value": "cubic-bezier(0.33,1,0.68,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--easeInOutCubic",
+      "value": "cubic-bezier(0.65,0,0.35,1)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--black",
+      "value": "#000",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--white",
+      "value": "#fff",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--purple",
+      "value": "#9c93e8",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "primary": [
+     {
+      "name": "--primary-black",
+      "value": "#1e1e1e",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-white",
+      "value": "#f3efeb",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-yellow",
+      "value": "#e0ff98",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-purple",
+      "value": "#8072ff",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-purple-50",
+      "value": "#ddd9ff80",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-pink",
+      "value": "#bfb8ff",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-blue",
+      "value": "#d1f3f5",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-orange",
+      "value": "#ffddc4",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--primary-yellow-light",
+      "value": "#f7ffdc",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "black": [
+     {
+      "name": "--black-20",
+      "value": "rgba(30,30,30,0.2)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--black-40",
+      "value": "rgba(30,30,30,0.4)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--black-60",
+      "value": "rgba(30,30,30,0.6)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "header": [
+     {
+      "name": "--header-menu-text-color",
+      "value": "#141415",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--header-project-text-color",
+      "value": "#404040",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "about": [
+     {
+      "name": "--about-talent-text-color",
+      "value": "rgba(30,30,30,0.2)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "article": [
+     {
+      "name": "--article-text-color",
+      "value": "rgba(2,2,2,0.7)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "gap": [
+     {
+      "name": "--gap-x",
+      "value": "1.6rem",
+      "scope": "html",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--gap-x-no-unit",
+      "value": "16",
+      "scope": "html",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ],
+    "padding": [
+     {
+      "name": "--padding-x",
+      "value": "1.6rem",
+      "scope": "html",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     },
+     {
+      "name": "--padding-x-no-unit",
+      "value": "16",
+      "scope": "html",
+      "context": "",
+      "sheet": "8fb42a0177568e49.css"
+     }
+    ]
+   },
+   "themed": [],
+   "scoped": [
+    {
+     "name": "--wrapper-width",
+     "value": "4.8rem",
+     "scope": ".VideoControl_iconInner__wCHTN",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4.8rem",
+     "scope": ".VideoControl_iconInner__wCHTN",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.2rem",
+     "scope": ".VideoControl_iconInner__wCHTN",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.2rem",
+     "scope": ".VideoControl_iconInner__wCHTN",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "50%",
+     "scope": ".VideoControl_iconInner__wCHTN",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "4.8rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4.8rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.9rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.4rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "8rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "@media(min-width:1200px)",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "8rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "@media(min-width:1200px)",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "2.9rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "@media(min-width:1200px)",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "2.1rem",
+     "scope": ".styles_arrow_icon___RUD4",
+     "context": "@media(min-width:1200px)",
+     "sheet": "0fca40a3ac297906.css"
+    },
+    {
+     "name": "--font-abc-arizona-mix",
+     "value": "\"ABCArizonaMix\",\"ABCArizonaMix Fallback\"",
+     "scope": ".__variable_6d1f58",
+     "context": "",
+     "sheet": "8fb42a0177568e49.css"
+    },
+    {
+     "name": "--font-soehne",
+     "value": "\"Soehne\",\"Soehne Fallback\"",
+     "scope": ".__variable_f5db82",
+     "context": "",
+     "sheet": "8fb42a0177568e49.css"
+    },
+    {
+     "name": "--size",
+     "value": "0px",
+     "scope": ".PageEffect_maskClip__mlGl_",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--y",
+     "value": "0px",
+     "scope": ".PageEffect_maskClip__mlGl_",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--x",
+     "value": "100vw",
+     "scope": ".PageEffect_maskClip__mlGl_",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--x",
+     "value": "0vw",
+     "scope": ".PageEffect_maskClip__mlGl_",
+     "context": "@media(min-width:1440px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "3.2rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "3.2rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "3.2rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "3.2rem",
+     "scope": ".styles_icon__E_plX",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "calc(40 / 812 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "calc(40 / 812 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "calc(14 / 812 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "calc(14 / 812 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "calc(40 / 1024 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "calc(40 / 1024 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "calc(14 / 1024 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "calc(14 / 1024 * 100lvh)",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "4.8rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4.8rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.4rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.4rem",
+     "scope": ".EventSliderActions_icon__u3iDJ",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "4.8rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4.8rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.4rem",
+     "scope": ".ProjectSliderActions_icon__5M3_9",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--size",
+     "value": "0px",
+     "scope": ".ContactMenu_maskClip__5_UqJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--y",
+     "value": "0px",
+     "scope": ".ContactMenu_maskClip__5_UqJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--x",
+     "value": "100vw",
+     "scope": ".ContactMenu_maskClip__5_UqJ",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--button-radius",
+     "value": "2.4rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--header-h",
+     "value": "4rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--button-w",
+     "value": "7.2rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-h",
+     "value": "0%",
+     "scope": ".styles_header__vbDbd",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-w",
+     "value": "9.5rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-h",
+     "value": "0%",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-w",
+     "value": "50%",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:768px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--header-h",
+     "value": "6rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--button-w",
+     "value": "16.4rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-h",
+     "value": "62rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--cp-full-w",
+     "value": "-32rem",
+     "scope": ".styles_header__vbDbd",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--size",
+     "value": "0px",
+     "scope": ".styles_maskClip__Rk0Jm",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--y",
+     "value": "0px",
+     "scope": ".styles_maskClip__Rk0Jm",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--x",
+     "value": "100vw",
+     "scope": ".styles_maskClip__Rk0Jm",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--x",
+     "value": "0vw",
+     "scope": ".styles_maskClip__Rk0Jm",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "4.8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "4.8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "1.9rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "1.4rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-width",
+     "value": "8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--wrapper-height",
+     "value": "8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--border-radius",
+     "value": "0.8rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-width",
+     "value": "2.9rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--icon-height",
+     "value": "2.1rem",
+     "scope": ".Service_icon__GNT_0",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--y-spacing",
+     "value": "0.8rem",
+     "scope": ".styles_dropdown_wrapper__KqF0M",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--y-spacing",
+     "value": "0.6rem",
+     "scope": ".styles_dropdown_wrapper__KqF0M",
+     "context": "@media(min-width:1200px)",
+     "sheet": "37682c6d324e11ab.css"
+    },
+    {
+     "name": "--input-spacing",
+     "value": "0.9rem",
+     "scope": ".styles_field__DFwH9",
+     "context": "",
+     "sheet": "37682c6d324e11ab.css"
+    }
+   ],
+   "total": 173
+  },
+  "fonts": {
+   "declared": [
+    {
+     "family": "ABCArizonaMix",
+     "weight": "300",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "/_next/static/media/4fb645a3dca26c7d-s.p.woff2",
+       "format": "woff2"
+      }
+     ],
+     "sheet": "8fb42a0177568e49.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "ABCArizonaMix Fallback",
+     "weight": "400",
+     "style": "normal",
+     "display": null,
+     "subsets": 1,
+     "src": [],
+     "sheet": "8fb42a0177568e49.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "Soehne",
+     "weight": "400",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "/_next/static/media/6c7afd28724bc731-s.p.woff2",
+       "format": "woff2"
+      }
+     ],
+     "sheet": "8fb42a0177568e49.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "Soehne",
+     "weight": "300",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "/_next/static/media/976112c01a49b705-s.p.woff2",
+       "format": "woff2"
+      }
+     ],
+     "sheet": "8fb42a0177568e49.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "Soehne Fallback",
+     "weight": "400",
+     "style": "normal",
+     "display": null,
+     "subsets": 1,
+     "src": [],
+     "sheet": "8fb42a0177568e49.css",
+     "usedOnPage": false
+    }
+   ],
+   "loaded": [],
+   "files": [
+    {
+     "url": "https://iventions.com/_next/static/media/6c7afd28724bc731-s.p.woff2",
+     "bytes": 36320
+    },
+    {
+     "url": "https://iventions.com/_next/static/media/4fb645a3dca26c7d-s.p.woff2",
+     "bytes": 47184
+    },
+    {
+     "url": "https://iventions.com/_next/static/media/976112c01a49b705-s.p.woff2",
+     "bytes": 38672
+    }
+   ],
+   "iconFonts": []
+  },
+  "misc3d": {
+   "perspective": 0,
+   "preserve3d": 0,
+   "matrix3d": 0,
+   "scrollSnap": 0,
+   "scrollDriven": 0
+  },
+  "willChange": {}
+ },
+ "assets": {
+  "byCategory": {
+   "document": {
+    "count": 2,
+    "bytes": 400
+   },
+   "script": {
+    "count": 65,
+    "bytes": 719897
+   },
+   "svg": {
+    "count": 24,
+    "bytes": 0
+   },
+   "css": {
+    "count": 12,
+    "bytes": 88728
+   },
+   "font": {
+    "count": 3,
+    "bytes": 122176
+   },
+   "image": {
+    "count": 22,
+    "bytes": 1528718
+   },
+   "api-json": {
+    "count": 1,
+    "bytes": 291
+   },
+   "api": {
+    "count": 49,
+    "bytes": 0
+   },
+   "other": {
+    "count": 1,
+    "bytes": 0
+   },
+   "media": {
+    "count": 2,
+    "bytes": 23192089
+   }
+  },
+  "total": 181,
+  "fonts": [
+   {
+    "url": "https://iventions.com/_next/static/media/6c7afd28724bc731-s.p.woff2",
+    "category": "font",
+    "bytes": 36320,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/media/4fb645a3dca26c7d-s.p.woff2",
+    "category": "font",
+    "bytes": 47184,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/media/976112c01a49b705-s.p.woff2",
+    "category": "font",
+    "bytes": 38672,
+    "firstSeenOn": "home"
+   }
+  ],
+  "models3d": [],
+  "lottie": [],
+  "media": [
+   {
+    "url": "https://player.vimeo.com/progressive_redirect/playback/1099706996/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&oauth2_token_id=1795368298&signature=d7b5c545266281f4086bf0338d3fa6032ac3c58bb71d0a005ebf5459f3906ff7",
+    "category": "media",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://download-video-ak.vimeocdn.com/v3-1/playback/385354b0-af25-4373-84e3-0812f9798feb/a011802b-065c73b5?__token__=st=1794660064~exp=1794663664~acl=%2Fv3-1%2Fplayback%2F385354b0-af25-4373-84e3-0812f9798feb%2Fa011802b-065c73b5%2A~hmac=f8fdf2815d88cd86843c443a8383a4cfe4605a6a95c419adfaddffb958575bf4&r=dXMtZWFzdDE%3D",
+    "category": "media",
+    "bytes": 23192089,
+    "firstSeenOn": "home"
+   }
+  ],
+  "css": [
+   {
+    "url": "https://iventions.com/_next/static/css/0fca40a3ac297906.css",
+    "category": "css",
+    "bytes": 1282,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/8fb42a0177568e49.css",
+    "category": "css",
+    "bytes": 16919,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/37682c6d324e11ab.css",
+    "category": "css",
+    "bytes": 49263,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/e8efc178841b3991.css",
+    "category": "css",
+    "bytes": 2525,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/e59f1a63f027f93c.css",
+    "category": "css",
+    "bytes": 2265,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/8d93b1e77a0bf658.css",
+    "category": "css",
+    "bytes": 6589,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/f1c55e2d7f3ffa23.css",
+    "category": "css",
+    "bytes": 2931,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/24fcb36c3a3e336d.css",
+    "category": "css",
+    "bytes": 465,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/2da337eed30ece16.css",
+    "category": "css",
+    "bytes": 2253,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/3dc70573dae1f132.css",
+    "category": "css",
+    "bytes": 326,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/9ac4d7d57188f2c3.css",
+    "category": "css",
+    "bytes": 2578,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/css/e1af6a862fbe6ad9.css",
+    "category": "css",
+    "bytes": 1332,
+    "firstSeenOn": "home"
+   }
+  ],
+  "scripts": [
+   {
+    "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+    "category": "script",
+    "bytes": 31853,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PVJC495",
+    "category": "script",
+    "bytes": 161586,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://consent.cookiebot.com/uc.js",
+    "category": "script",
+    "bytes": 37649,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/webpack-bae67a4d6467157d.js",
+    "category": "script",
+    "bytes": 5619,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-c0d76f48-a9675ade9e686ca1.js",
+    "category": "script",
+    "bytes": 80801,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-a066095a-8ad9133e710378fe.js",
+    "category": "script",
+    "bytes": 52226,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-e1bed6ae-20243f73f44d9f2d.js",
+    "category": "script",
+    "bytes": 68207,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-bc050c32-2469e5925e250301.js",
+    "category": "script",
+    "bytes": 43120,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-1029f98e-f425e31f8193efad.js",
+    "category": "script",
+    "bytes": 71002,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-c30ae5d1-69a189a3adf1e23f.js",
+    "category": "script",
+    "bytes": 43078,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-b9fa02b6-9863e06bb04f05d7.js",
+    "category": "script",
+    "bytes": 54413,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-4c7823de-78c2f9c0549b3ac3.js",
+    "category": "script",
+    "bytes": 14268,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-4a7382ad-9686debe43f199f7.js",
+    "category": "script",
+    "bytes": 35816,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-27f02048-35cd5d9d69cc457f.js",
+    "category": "script",
+    "bytes": 14308,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-9c587c8a-570f9cb8b099431b.js",
+    "category": "script",
+    "bytes": 5436,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-15492f81-3ef867eae466030f.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-27161c75-1ac32bdba4aff7a0.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-362d063c-abf1cd28842f75d9.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-dd69008d-a3f08f5eb76047b1.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-6808aa01-540fbdde983027b3.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-89d5c698-fcaaf3717dcdf08e.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-17046ce7-1c51721bf7671b66.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-a6f90180-1db64c2d22accfb0.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-eafbb181-b3a4a89d87f28f4b.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-d91c2bd6-788d5fb784d0bd2e.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-9a66d3c2-5ea552f0b9d41600.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-735e2882-76b5ea12de32db5f.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/vendors-8cbd2506-a041966fdc3e3e5c.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/4306-72fcff9627be2209.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/app/(withQuoteContact)/layout-41b6822294bd8aee.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/2228-2a1aec16d6b08b67.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/7051-94cd094f4a3e8f0a.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/6991-847be48f7ae359c9.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/main-app-350b41eb93bff02c.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/app/layout-f13770764cb0625c.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/2642-bd174e4e453c81d1.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/3930-5a2b1ec52287565c.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://iventions.com/_next/static/chunks/app/(withQuoteContact)/page-2f419b88353d9d34.js",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://consentcdn.cookiebot.com/consentconfig/40d26b48-572d-413d-865c-63cb48e445df/iventions.com/configuration.js",
+    "category": "script",
+    "bytes": 359,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://consent.cookiebot.com/40d26b48-572d-413d-865c-63cb48e445df/cc.js?renew=false&referer=iventions.com&dnt=false&init=false",
+    "category": "script",
+    "bytes": 156,
+    "firstSeenOn": "home"
+   }
+  ],
+  "keyAssetFiles": []
+ }
+}

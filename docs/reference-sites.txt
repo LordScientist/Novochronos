@@ -1,3 +1,25 @@
-# List of 3D / Award-Winning Reference Sites to Dissect
-# Add one URL per line below:
+# 3D Websites Inspiration Library (Analyzed via dissect)
+# 2026 NASA Space Apps Challenge — Novochronos
 
+# 1. The Space Debris / Orbital Hardware Reference:
+https://spacetrashsigns.org/
+
+# 2. Benchmark for One Object with Weight, Lighting & Z-Depth Scroll:
+https://oryzo.ai/
+
+# 3. Benchmark for Spotlit 3D Installation Gallery & Easing Curves:
+https://iventions.com/
+
+# 4. Monolith & Cursor Reveal Benchmark:
+https://hubtown.co.in/
+
+# 5. Atmospheric 3D Flythrough:
+https://atmos.leeroy.ca/
+
+# 6. Technical Precision WebGL Experience:
+https://www.orano.group/experience/innovation/en
+
+# 7. Studio Benchmarks:
+https://activetheory.net/
+https://lusion.co/about
+https://brand.ivress.co.jp/

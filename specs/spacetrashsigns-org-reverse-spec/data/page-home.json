@@ -1,0 +1,171 @@
+{
+ "url": "https://spacetrashsigns.org/",
+ "slug": "home",
+ "index": 0,
+ "mode": "full",
+ "errors": [
+  {
+   "stage": "idle",
+   "message": "page.evaluate: Target page, context or browser has been closed"
+  },
+  {
+   "stage": "budget",
+   "message": "exceeded the 45s per-page budget; results for this page are partial"
+  }
+ ],
+ "pageErrors": [],
+ "evidence": [
+  {
+   "path": "08_evidence/frames/home/load-01-1746ms.jpg",
+   "desc": "Page-load frame ~1746ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1746
+  },
+  {
+   "path": "08_evidence/frames/home/load-02-4195ms.jpg",
+   "desc": "Page-load frame ~4195ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 4195
+  },
+  {
+   "path": "08_evidence/frames/home/load-03-10045ms.jpg",
+   "desc": "Page-load frame ~10045ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10045
+  },
+  {
+   "path": "08_evidence/frames/home/load-04-10072ms.jpg",
+   "desc": "Page-load frame ~10072ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10072
+  },
+  {
+   "path": "08_evidence/frames/home/load-05-10105ms.jpg",
+   "desc": "Page-load frame ~10105ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10105
+  },
+  {
+   "path": "08_evidence/frames/home/load-06-10138ms.jpg",
+   "desc": "Page-load frame ~10138ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10138
+  },
+  {
+   "path": "08_evidence/frames/home/load-07-10171ms.jpg",
+   "desc": "Page-load frame ~10171ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10171
+  },
+  {
+   "path": "08_evidence/frames/home/load-08-10203ms.jpg",
+   "desc": "Page-load frame ~10203ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 10203
+  }
+ ],
+ "nav": {
+  "status": 200,
+  "finalUrl": "https://spacetrashsigns.org/",
+  "frames": [
+   {
+    "path": "08_evidence/frames/home/load-01-1746ms.jpg",
+    "desc": "Page-load frame ~1746ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1746
+   },
+   {
+    "path": "08_evidence/frames/home/load-02-4195ms.jpg",
+    "desc": "Page-load frame ~4195ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 4195
+   },
+   {
+    "path": "08_evidence/frames/home/load-03-10045ms.jpg",
+    "desc": "Page-load frame ~10045ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10045
+   },
+   {
+    "path": "08_evidence/frames/home/load-04-10072ms.jpg",
+    "desc": "Page-load frame ~10072ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10072
+   },
+   {
+    "path": "08_evidence/frames/home/load-05-10105ms.jpg",
+    "desc": "Page-load frame ~10105ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10105
+   },
+   {
+    "path": "08_evidence/frames/home/load-06-10138ms.jpg",
+    "desc": "Page-load frame ~10138ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10138
+   },
+   {
+    "path": "08_evidence/frames/home/load-07-10171ms.jpg",
+    "desc": "Page-load frame ~10171ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10171
+   },
+   {
+    "path": "08_evidence/frames/home/load-08-10203ms.jpg",
+    "desc": "Page-load frame ~10203ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 10203
+   }
+  ],
+  "loadEventMs": 37392
+ },
+ "dismissedOverlay": null,
+ "idle": {
+  "rafPerSec": 0,
+  "movers": []
+ },
+ "cursor": null,
+ "scroll": {
+  "docH": 0,
+  "steps": 0,
+  "positions": []
+ },
+ "reveal": {
+  "tracked": 0,
+  "total": 0,
+  "patterns": []
+ },
+ "motionLibs": {},
+ "parallax": [],
+ "liveAnimations": [],
+ "webgl": null,
+ "meta": {},
+ "structure": null,
+ "components": null,
+ "styles": null,
+ "stackGlobals": {},
+ "fontsLoaded": [],
+ "idleLiveAnimations": 0,
+ "hover": [],
+ "responsive": null,
+ "theme": null,
+ "timing": {
+  "totalMs": 46777
+ }
+}

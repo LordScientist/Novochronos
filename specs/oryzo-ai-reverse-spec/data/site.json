@@ -1,0 +1,1476 @@
+{
+ "tool": {
+  "name": "dissect",
+  "version": "0.1.0"
+ },
+ "run": {
+  "url": "https://oryzo.ai/",
+  "startedAt": "2026-11-14T12:39:26.623Z",
+  "finishedAt": "2026-11-14T12:40:32.118Z",
+  "viewport": {
+   "width": 1440,
+   "height": 900
+  },
+  "focus": {
+   "text": "3d, scroll animations, design-system",
+   "topics": [
+    "design-system",
+    "motion",
+    "3d"
+   ],
+   "specified": true
+  },
+  "target": "react + tailwind",
+  "assets": "refs",
+  "pagesAnalysed": 1,
+  "pagesFailed": 0
+ },
+ "stack": [
+  {
+   "name": "Three.js",
+   "category": "3d",
+   "evidence": [
+    "bundle text: hoisted.CRsATKbF.js",
+    "bundle text: player.module.js"
+   ]
+  },
+  {
+   "name": "Three.js postprocessing (EffectComposer/passes)",
+   "category": "3d",
+   "evidence": [
+    "bundle text: hoisted.CRsATKbF.js"
+   ]
+  },
+  {
+   "name": "GSAP",
+   "category": "animation",
+   "evidence": [
+    "bundle text: hoisted.CRsATKbF.js"
+   ]
+  },
+  {
+   "name": "Rive",
+   "category": "animation",
+   "evidence": [
+    "url: https://unpkg.com/@rive-app/canvas@2.37.0/rive.wasm",
+    "url: https://oryzo.ai/rive/oryzo.riv",
+    "bundle text: hoisted.CRsATKbF.js"
+   ]
+  },
+  {
+   "name": "Adobe Fonts (Typekit)",
+   "category": "fonts",
+   "evidence": [
+    "url: https://use.typekit.net/pmn6ngx.css",
+    "url: https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a"
+   ]
+  },
+  {
+   "name": "Astro",
+   "category": "framework",
+   "evidence": [
+    "url: https://oryzo.ai/_astro/index.TL6TuoJb.css",
+    "url: https://oryzo.ai/_astro/hoisted.CRsATKbF.js",
+    "url: https://oryzo.ai/_astro/SplatsWorker-DSMxtdkh.js",
+    "url: https://oryzo.ai/_astro/splat_sorter_bg-BfJrILzx.wasm"
+   ]
+  }
+ ],
+ "designSystem": {
+  "base": {},
+  "palette": [],
+  "roles": {
+   "background": "#ffffff",
+   "text": null,
+   "textMuted": null,
+   "surface": null,
+   "border": null,
+   "accent": null,
+   "accentSecondary": null,
+   "neutrals": [],
+   "contrast": {
+    "textOnBackground": null,
+    "mutedOnBackground": null,
+    "accentOnBackground": null
+   },
+   "dark": null,
+   "note": "Roles are inferred from frequency/area/saturation; verify against screenshots. If the site defines its own CSS variables (see css-variables.md) those names are the real tokens."
+  },
+  "gradients": [],
+  "typography": {
+   "families": [],
+   "scale": [],
+   "medianRatio": null,
+   "tags": {}
+  },
+  "spacing": {
+   "histogram": {},
+   "baseUnit": null,
+   "top": []
+  },
+  "radii": [],
+  "shadows": [],
+  "textShadows": [],
+  "filters": [],
+  "blends": [],
+  "clipPaths": [],
+  "zIndex": [],
+  "containers": [],
+  "cursors": [],
+  "transitions": [],
+  "motionTokens": {
+   "durations": [],
+   "easings": [],
+   "properties": []
+  },
+  "staticAnimations": [],
+  "breakpoints": [
+   {
+    "px": 250,
+    "min": 0,
+    "max": 2
+   },
+   {
+    "px": 299,
+    "min": 0,
+    "max": 12
+   },
+   {
+    "px": 300,
+    "min": 4,
+    "max": 0
+   },
+   {
+    "px": 375,
+    "min": 0,
+    "max": 4
+   },
+   {
+    "px": 400,
+    "min": 2,
+    "max": 0
+   },
+   {
+    "px": 414,
+    "min": 0,
+    "max": 3
+   },
+   {
+    "px": 480,
+    "min": 0,
+    "max": 2
+   },
+   {
+    "px": 560,
+    "min": 2,
+    "max": 0
+   },
+   {
+    "px": 640,
+    "min": 1,
+    "max": 0
+   },
+   {
+    "px": 677,
+    "min": 2,
+    "max": 0
+   },
+   {
+    "px": 720,
+    "min": 2,
+    "max": 0
+   },
+   {
+    "px": 740,
+    "min": 0,
+    "max": 1
+   },
+   {
+    "px": 768,
+    "min": 3,
+    "max": 97
+   },
+   {
+    "px": 800,
+    "min": 2,
+    "max": 0
+   },
+   {
+    "px": 960,
+    "min": 4,
+    "max": 0
+   }
+  ],
+  "css": {
+   "sheets": 4,
+   "bytes": 309611,
+   "features": {
+    "scrollDriven": 0,
+    "containerQueries": 0,
+    "layers": 0,
+    "supports": 0,
+    "registeredProps": [],
+    "prefersColorScheme": 0,
+    "prefersReducedMotion": 5,
+    "hoverMedia": 2,
+    "viewTransitions": 0,
+    "tailwind": false,
+    "lightDark": 0,
+    "colorMix": 0,
+    "modernColor": 0
+   },
+   "mediaQueries": [
+    [
+     "@media (max-width: 767.98px)",
+     95
+    ],
+    [
+     "@media (max-width:299px),(max-height:169px)",
+     12
+    ],
+    [
+     "@media (prefers-reduced-motion:reduce)",
+     5
+    ],
+    [
+     "@media (min-width:300px) and (max-width:375px)",
+     4
+    ],
+    [
+     "@media (min-width:960px) and (min-height:430px)",
+     4
+    ],
+    [
+     "@media (min-width: 768px)",
+     3
+    ],
+    [
+     "@media (max-width:414px),(max-height:168px)",
+     3
+    ],
+    [
+     "@media (hover:hover)",
+     2
+    ],
+    [
+     "@media screen and (max-height:200px),screen and (max-width:480px)",
+     2
+    ],
+    [
+     "@media screen and (max-height:200px),screen and (max-width:250px)",
+     2
+    ],
+    [
+     "@media (max-width: 767.98px) and (max-width: 767.98px)",
+     1
+    ],
+    [
+     "@media (min-width:400px) and (min-height:225px) and (min-aspect-ratio:640 / 360)",
+     1
+    ],
+    [
+     "@media (min-width:400px) and (min-height:225px) and (max-aspect-ratio:640 / 360)",
+     1
+    ],
+    [
+     "@media (min-width:640px) and (min-height:360px)",
+     1
+    ],
+    [
+     "@media (min-width:677px) and (min-height:303px) and (min-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:677px) and (min-height:303px) and (max-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:800px) and (min-height:358px) and (min-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:800px) and (min-height:358px) and (max-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:720px) and (min-height:322px) and (min-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:720px) and (min-height:322px) and (max-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:560px) and (min-height:250px) and (min-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media (min-width:560px) and (min-height:250px) and (max-aspect-ratio:960 / 430)",
+     1
+    ],
+    [
+     "@media screen and (max-height:200px)",
+     1
+    ],
+    [
+     "@media screen and (max-height:350px),screen and (max-width:740px)",
+     1
+    ],
+    [
+     "@media (max-height:175px)",
+     1
+    ]
+   ]
+  },
+  "variables": {
+   "rootCount": 58,
+   "byPrefix": {
+    "other": [
+     {
+      "name": "--vh",
+      "value": "1vh",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--h1",
+      "value": "calc(164 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--h2",
+      "value": "calc(68 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--h3",
+      "value": "calc(45 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--h4",
+      "value": "calc(32 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--h5",
+      "value": "calc(20 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--sub1",
+      "value": "calc(24 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--sub2",
+      "value": "calc(16 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--body1",
+      "value": "calc(38 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--body2",
+      "value": "calc(24 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--body3",
+      "value": "calc(18 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--quote",
+      "value": "calc(30 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--default",
+      "value": "calc(18 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--btn",
+      "value": "calc(16 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "display": [
+     {
+      "name": "--display-font",
+      "value": "\"halyard-display-variable\"",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "text": [
+     {
+      "name": "--text-font",
+      "value": "\"halyard-text-variable\"",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "site": [
+     {
+      "name": "--site-padding-x",
+      "value": "3.125vw",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--site-row-height",
+      "value": "calc(var(--site-padding-x) * 8 / 60)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--site-padding-y",
+      "value": "calc(var(--site-row-height) * 4)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--site-header",
+      "value": "21px",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "grid": [
+     {
+      "name": "--grid-columns",
+      "value": "16",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-rows",
+      "value": "1",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-gap-scale",
+      "value": "calc(24 / 90)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-gap-width",
+      "value": "calc((100vw - var(--site-padding-x) * 2) / ((var(--grid-columns) / var(--grid-gap-scale)) + var(--grid-columns) - 1))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-column-width",
+      "value": "calc(var(--grid-gap-width) / var(--grid-gap-scale))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-width",
+      "value": "calc(var(--grid-gap-width) + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-1",
+      "value": "var(--grid-column-width)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-2",
+      "value": "calc(var(--grid-span-width) * 1 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-3",
+      "value": "calc(var(--grid-span-width) * 2 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-4",
+      "value": "calc(var(--grid-span-width) * 3 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-5",
+      "value": "calc(var(--grid-span-width) * 4 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-6",
+      "value": "calc(var(--grid-span-width) * 5 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-7",
+      "value": "calc(var(--grid-span-width) * 6 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-8",
+      "value": "calc(var(--grid-span-width) * 7 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-9",
+      "value": "calc(var(--grid-span-width) * 8 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-10",
+      "value": "calc(var(--grid-span-width) * 9 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-11",
+      "value": "calc(var(--grid-span-width) * 10 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-12",
+      "value": "calc(var(--grid-span-width) * 11 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-13",
+      "value": "calc(var(--grid-span-width) * 12 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-14",
+      "value": "calc(var(--grid-span-width) * 13 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-15",
+      "value": "calc(var(--grid-span-width) * 14 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--grid-span-16",
+      "value": "calc(var(--grid-span-width) * 15 + var(--grid-column-width))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "color": [
+     {
+      "name": "--color-white",
+      "value": "#ffedd7",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-white-transparent",
+      "value": "#ffedd700",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-black",
+      "value": "#100904",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-black-transparent",
+      "value": "#10090400",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-grey-brown",
+      "value": "#6c5f51",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-green",
+      "value": "#445231",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-green-light",
+      "value": "#5d6c49",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-green-lightest",
+      "value": "#f6e0c6",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-pure-white",
+      "value": "#fff",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-pure-black",
+      "value": "#000",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-orange",
+      "value": "#dc5000",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     },
+     {
+      "name": "--color-brown",
+      "value": "#382416",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "inner": [
+     {
+      "name": "--inner-width",
+      "value": "calc(100vw - var(--site-padding-x) * 2)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "screen": [
+     {
+      "name": "--screen-unit",
+      "value": "min(var(--inner-width) / (1920 - 60 * 2), calc(var(--vh) * 100) / 1024 * 1.25)",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "link": [
+     {
+      "name": "--link-header",
+      "value": "calc(16 * var(--screen-unit))",
+      "scope": ":root",
+      "context": "",
+      "sheet": "index.TL6TuoJb.css"
+     }
+    ],
+    "clock": [
+     {
+      "name": "--clock-rotate-direction",
+      "value": "1",
+      "scope": ":root",
+      "context": "",
+      "sheet": "player.css"
+     }
+    ]
+   },
+   "themed": [
+    {
+     "name": "--glow-color",
+     "value": "rgba(220, 80, 0, 0)",
+     "scope": ".btn.is-dark",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-color",
+     "value": "var(--color-brown)",
+     "scope": ".btn.is-dark",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-color",
+     "value": "var(--color-brown)",
+     "scope": ".btn.is-dark",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-text-color",
+     "value": "var(--color-white)",
+     "scope": ".btn.is-dark",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-text-color",
+     "value": "var(--color-white)",
+     "scope": ".btn.is-dark",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--glow-color",
+     "value": "rgba(220, 80, 0, 1)",
+     "scope": ".btn.is-dark:hover,.btn.is-dark.is-active",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    }
+   ],
+   "scoped": [
+    {
+     "name": "--dashline-color",
+     "value": "var(--color-white)",
+     "scope": ".o-dashline",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-color",
+     "value": "var(--color-white)",
+     "scope": ".btn",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-color",
+     "value": "var(--color-black)",
+     "scope": ".btn",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-text-color",
+     "value": "var(--color-black)",
+     "scope": ".btn",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-text-color",
+     "value": "var(--color-white)",
+     "scope": ".btn",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-color",
+     "value": "var(--color-orange)",
+     "scope": ".btn.is-orange",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-color",
+     "value": "var(--color-white)",
+     "scope": ".btn.is-orange",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-text-color",
+     "value": "var(--color-black)",
+     "scope": ".btn.is-orange",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--btn-active-text-color",
+     "value": "var(--color-black)",
+     "scope": ".btn.is-orange",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--dashline-color",
+     "value": "var(--color-black)",
+     "scope": "#site-header.is-light .o-dashline",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--r",
+     "value": "2.5rem",
+     "scope": "#video-overlay__inner",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--pulse",
+     "value": "0",
+     "scope": "#video-overlay__inner",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--r",
+     "value": "1.5rem",
+     "scope": "#video-overlay__inner",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--active-ratio",
+     "value": "1",
+     "scope": "#hero",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--width",
+     "value": "calc(var(--grid-span-width) * 7 + var(--grid-column-width) * .5)",
+     "scope": "#hero-logo-ref",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--width",
+     "value": "calc(var(--grid-span-4) + var(--grid-gap-width) * .4)",
+     "scope": "#hero-logo-ref",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--r",
+     "value": ".75rem",
+     "scope": "#hero-video-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--size",
+     "value": "2em",
+     "scope": "#ai-instruction-icon",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--small-size",
+     "value": "calc(var(--vh) * 80 * .6)",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--main-width",
+     "value": "calc(var(--vh) * 80 * 85 / 110)",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--main-height",
+     "value": "calc(var(--vh) * 80)",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--px",
+     "value": "calc(var(--main-width) / 850)",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--thumb-scale",
+     "value": ".35",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--thumb-width",
+     "value": "calc(var(--thumb-scale) * var(--main-width))",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--thumb-height",
+     "value": "calc(var(--thumb-scale) * var(--main-height))",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--thumb-gap",
+     "value": "calc(var(--thumb-width) * .08)",
+     "scope": "#wearable",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--small-size",
+     "value": "min(var(--vh) * 80 * .6, 80vw)",
+     "scope": "#wearable",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--main-width",
+     "value": "var(--small-size)",
+     "scope": "#wearable",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--main-height",
+     "value": "calc(var(--small-size) * 110 / 85)",
+     "scope": "#wearable",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--desc-aspect",
+     "value": "7.311",
+     "scope": "#wearable-copy",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--desc-from-width",
+     "value": "calc(100vw - var(--site-padding-x) * 2)",
+     "scope": "#wearable-copy",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--desc-from-width",
+     "value": "var(--small-size)",
+     "scope": "#wearable-copy",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--icon-size",
+     "value": "60px",
+     "scope": "#features",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--icon-size",
+     "value": "37px",
+     "scope": "#features",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--slider-height",
+     "value": "calc(var(--vh) * 50)",
+     "scope": "#features-temperature-slider",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--slider-height",
+     "value": "calc(var(--vh) * 30)",
+     "scope": "#features-temperature-slider",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--box-width",
+     "value": "calc(var(--vh) * 35)",
+     "scope": "#grip",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--width",
+     "value": "calc(var(--box-width) * 1.2)",
+     "scope": "#grip-instruction",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--size",
+     "value": "2em",
+     "scope": "#grip-instruction-icon",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--item-padding",
+     "value": "calc(var(--site-padding-x) * .5)",
+     "scope": ".sustainability-item",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--item-padding",
+     "value": "calc(var(--site-padding-x) * 1.25)",
+     "scope": ".sustainability-item",
+     "context": "@media (max-width: 767.98px)",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-columns",
+     "value": "4",
+     "scope": ".sustainability-item:nth-child(1)",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-columns",
+     "value": "6",
+     "scope": ".sustainability-item:nth-child(2),.sustainability-item:nth-child(3)",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--px",
+     "value": "calc(var(--vh) * 80 / 1080)",
+     "scope": "#social-content-items-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--block-size",
+     "value": "calc(var(--grid-column-width) / 3)",
+     "scope": "#footer-lusion-logo",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-start",
+     "value": "1",
+     "scope": "#footer-love",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-span",
+     "value": "3",
+     "scope": "#footer-love",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-start",
+     "value": "5",
+     "scope": "#footer-email",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-span",
+     "value": "5",
+     "scope": "#footer-email",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-start",
+     "value": "5",
+     "scope": "#footer-contact-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-span",
+     "value": "4",
+     "scope": "#footer-contact-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-start",
+     "value": "9",
+     "scope": "#footer-social-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-span",
+     "value": "2",
+     "scope": "#footer-social-wrapper",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-start",
+     "value": "12",
+     "scope": "#footer-caption",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--grid-column-span",
+     "value": "5",
+     "scope": "#footer-caption",
+     "context": "",
+     "sheet": "index.TL6TuoJb.css"
+    },
+    {
+     "name": "--connected-color",
+     "value": "var(--color-two)",
+     "scope": ".ChromecastButton_module_chromecastButton__6a7b0286",
+     "context": "",
+     "sheet": "player.css"
+    },
+    {
+     "name": "--menu-width",
+     "value": "16em",
+     "scope": ".SpeedMenu_module_speedMenuPopover__74402423",
+     "context": "",
+     "sheet": "player.css"
+    },
+    {
+     "name": "--menu-transition-settings",
+     "value": "height 200ms ease,max-height 200ms ease",
+     "scope": ".PopoverMenu_module_menu__9ead6f2c",
+     "context": "",
+     "sheet": "player.css"
+    },
+    {
+     "name": "--clock-rotate-direction",
+     "value": "-1",
+     "scope": ".AnimatedClock_module_hands__8976d762.AnimatedClock_module_reverse__8976d762",
+     "context": "",
+     "sheet": "player.css"
+    }
+   ],
+   "total": 141
+  },
+  "fonts": {
+   "declared": [
+    {
+     "family": "Literata",
+     "weight": "200 900",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "/fonts/Literata.woff2",
+       "format": "woff2"
+      }
+     ],
+     "sheet": "index.TL6TuoJb.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "DM Mono",
+     "weight": "400",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "/fonts/DM-Mono-400-Latin.woff2",
+       "format": "woff2"
+      }
+     ],
+     "sheet": "index.TL6TuoJb.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "halyard-text-variable",
+     "weight": "100 800",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "https://use.typekit.net/af/778414/0000000000000000775abe87/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "woff2"
+      },
+      {
+       "url": "https://use.typekit.net/af/778414/0000000000000000775abe87/31/d?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "woff"
+      },
+      {
+       "url": "https://use.typekit.net/af/778414/0000000000000000775abe87/31/a?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "opentype"
+      }
+     ],
+     "sheet": "pmn6ngx.css",
+     "usedOnPage": false
+    },
+    {
+     "family": "halyard-display-variable",
+     "weight": "100 900",
+     "style": "normal",
+     "display": "swap",
+     "subsets": 1,
+     "src": [
+      {
+       "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "woff2"
+      },
+      {
+       "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/d?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "woff"
+      },
+      {
+       "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/a?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+       "format": "opentype"
+      }
+     ],
+     "sheet": "pmn6ngx.css",
+     "usedOnPage": false
+    }
+   ],
+   "loaded": [],
+   "files": [
+    {
+     "url": "https://oryzo.ai/fonts/DM-Mono-400-Latin.woff2",
+     "bytes": 14820
+    },
+    {
+     "url": "https://oryzo.ai/fonts/Literata.woff2",
+     "bytes": 110080
+    },
+    {
+     "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+     "bytes": 223516
+    }
+   ],
+   "iconFonts": []
+  },
+  "misc3d": {
+   "perspective": 0,
+   "preserve3d": 0,
+   "matrix3d": 0,
+   "scrollSnap": 0,
+   "scrollDriven": 0
+  },
+  "willChange": {}
+ },
+ "assets": {
+  "byCategory": {
+   "document": {
+    "count": 2,
+    "bytes": 0
+   },
+   "css": {
+    "count": 4,
+    "bytes": 94358
+   },
+   "image": {
+    "count": 99,
+    "bytes": 7578952
+   },
+   "script": {
+    "count": 7,
+    "bytes": 1517074
+   },
+   "font": {
+    "count": 3,
+    "bytes": 348416
+   },
+   "api": {
+    "count": 30,
+    "bytes": 7200465
+   },
+   "rive": {
+    "count": 1,
+    "bytes": 59177
+   },
+   "api-json": {
+    "count": 3,
+    "bytes": 18
+   },
+   "media": {
+    "count": 2,
+    "bytes": 6450408
+   }
+  },
+  "total": 151,
+  "fonts": [
+   {
+    "url": "https://oryzo.ai/fonts/DM-Mono-400-Latin.woff2",
+    "category": "font",
+    "bytes": 14820,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://oryzo.ai/fonts/Literata.woff2",
+    "category": "font",
+    "bytes": 110080,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+    "category": "font",
+    "bytes": 223516,
+    "firstSeenOn": "home"
+   }
+  ],
+  "models3d": [],
+  "lottie": [
+   {
+    "url": "https://oryzo.ai/rive/oryzo.riv",
+    "category": "rive",
+    "bytes": 59177,
+    "firstSeenOn": "home"
+   }
+  ],
+  "media": [
+   {
+    "url": "https://oryzo.ai/images/wearable-gallery/yoga.mp4",
+    "category": "media",
+    "bytes": 3881726,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://oryzo.ai/images/wearable-gallery/bite.mp4",
+    "category": "media",
+    "bytes": 2568682,
+    "firstSeenOn": "home"
+   }
+  ],
+  "css": [
+   {
+    "url": "https://oryzo.ai/_astro/index.TL6TuoJb.css",
+    "category": "css",
+    "bytes": 69220,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://use.typekit.net/pmn6ngx.css",
+    "category": "css",
+    "bytes": 667,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://p.typekit.net/p.css?s=1&k=pmn6ngx&ht=tk&f=52149.52151&a=83030954&app=typekit&e=css",
+    "category": "css",
+    "bytes": 5,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://f.vimeocdn.com/p/4.46.150/css/player.css",
+    "category": "css",
+    "bytes": 24466,
+    "firstSeenOn": "home"
+   }
+  ],
+  "scripts": [
+   {
+    "url": "https://static.cloudflareinsights.com/beacon.min.js",
+    "category": "script",
+    "bytes": 31853,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://oryzo.ai/_astro/hoisted.CRsATKbF.js",
+    "category": "script",
+    "bytes": 1097784,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://player.vimeo.com/cdn-cgi/challenge-platform/scripts/precursor/main.js?ray=a5a6149d2c68287f",
+    "category": "script",
+    "bytes": 0,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://player.vimeo.com/cdn-cgi/challenge-platform/h/b/scripts/precursor/f8df4d4a0cd6/main.js?ray=a5a6149d2c68287f",
+    "category": "script",
+    "bytes": 59764,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://f.vimeocdn.com/p/4.46.150/js/vendor.module.js",
+    "category": "script",
+    "bytes": 94440,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://f.vimeocdn.com/p/4.46.150/js/player.module.js",
+    "category": "script",
+    "bytes": 229962,
+    "firstSeenOn": "home"
+   },
+   {
+    "url": "https://oryzo.ai/_astro/SplatsWorker-DSMxtdkh.js",
+    "category": "script",
+    "bytes": 3271,
+    "firstSeenOn": "home"
+   }
+  ],
+  "keyAssetFiles": []
+ }
+}

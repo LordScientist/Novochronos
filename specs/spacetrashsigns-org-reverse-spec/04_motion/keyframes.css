@@ -1,0 +1,14 @@
+/* from main.css */
+@keyframes swiper-preloader-spin { 0%{transform:rotate(0)}to{transform:rotate(360deg)} }
+
+/* from main.css */
+@keyframes appear { 0%{opacity:0}to{opacity:1} }
+
+/* from main.css */
+@keyframes up { 0%{transform:translateY(var(--bottom-top-value));opacity:0}50%{opacity:1}to{transform:translateY(0);opacity:1} }
+
+/* from main.css */
+@keyframes blink { 0%,to{opacity:0}50%{opacity:1} }
+
+/* from main.css */
+@keyframes rotate { 0%{transform:rotate(0)}to{transform:rotate(360deg)} }

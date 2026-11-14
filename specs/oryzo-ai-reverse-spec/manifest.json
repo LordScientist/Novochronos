@@ -1,0 +1,129 @@
+{
+  "tool": {
+    "name": "dissect",
+    "version": "0.1.0"
+  },
+  "reference": "https://oryzo.ai/",
+  "generatedAt": "2026-11-14T12:40:32.118Z",
+  "focus": {
+    "text": "3d, scroll animations, design-system",
+    "topics": [
+      "design-system",
+      "motion",
+      "3d"
+    ],
+    "specified": true
+  },
+  "target": "react + tailwind",
+  "start": "00_START_HERE.md",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "bytes": 4108
+    },
+    {
+      "path": "01_overview.md",
+      "bytes": 1609
+    },
+    {
+      "path": "02_design-system/README.md",
+      "bytes": 670
+    },
+    {
+      "path": "02_design-system/colors.md",
+      "bytes": 1155
+    },
+    {
+      "path": "02_design-system/css-variables.md",
+      "bytes": 11331
+    },
+    {
+      "path": "02_design-system/spacing-layout.md",
+      "bytes": 1784
+    },
+    {
+      "path": "02_design-system/tailwind.theme.snippet.js",
+      "bytes": 781
+    },
+    {
+      "path": "02_design-system/tokens.css",
+      "bytes": 3141
+    },
+    {
+      "path": "02_design-system/tokens.json",
+      "bytes": 4123
+    },
+    {
+      "path": "02_design-system/typography.md",
+      "bytes": 1209
+    },
+    {
+      "path": "03_structure/components.md",
+      "bytes": 618
+    },
+    {
+      "path": "03_structure/sitemap.md",
+      "bytes": 440
+    },
+    {
+      "path": "04_motion/README.md",
+      "bytes": 1501
+    },
+    {
+      "path": "04_motion/animations.md",
+      "bytes": 5156
+    },
+    {
+      "path": "04_motion/keyframes.css",
+      "bytes": 4939
+    },
+    {
+      "path": "05_3d/README.md",
+      "bytes": 223
+    },
+    {
+      "path": "06_behaviour/interactions.md",
+      "bytes": 472
+    },
+    {
+      "path": "06_behaviour/responsive.md",
+      "bytes": 490
+    },
+    {
+      "path": "06_behaviour/theme-and-preferences.md",
+      "bytes": 140
+    },
+    {
+      "path": "07_stack-assets/assets-manifest.json",
+      "bytes": 3676
+    },
+    {
+      "path": "07_stack-assets/stack.md",
+      "bytes": 2940
+    },
+    {
+      "path": "08_evidence/INDEX.md",
+      "bytes": 352
+    },
+    {
+      "path": "08_evidence/frames/home/load-02-6071ms.jpg",
+      "bytes": 8456
+    },
+    {
+      "path": "09_agent-tasks.md",
+      "bytes": 2964
+    },
+    {
+      "path": "10_implementation-guide.md",
+      "bytes": 3052
+    },
+    {
+      "path": "data/page-home.json",
+      "bytes": 1327
+    },
+    {
+      "path": "data/site.json",
+      "bytes": 34365
+    }
+  ]
+}

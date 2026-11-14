@@ -1,0 +1,1174 @@
+{
+ "url": "https://iventions.com/",
+ "slug": "home",
+ "index": 0,
+ "mode": "full",
+ "errors": [
+  {
+   "stage": "cursor",
+   "message": "mouse.move: Target page, context or browser has been closed"
+  },
+  {
+   "stage": "budget",
+   "message": "exceeded the 45s per-page budget; results for this page are partial"
+  }
+ ],
+ "pageErrors": [],
+ "evidence": [
+  {
+   "path": "08_evidence/frames/home/load-01-1834ms.jpg",
+   "desc": "Page-load frame ~1834ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 1834
+  },
+  {
+   "path": "08_evidence/frames/home/load-02-2445ms.jpg",
+   "desc": "Page-load frame ~2445ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 2445
+  },
+  {
+   "path": "08_evidence/frames/home/load-03-3195ms.jpg",
+   "desc": "Page-load frame ~3195ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3195
+  },
+  {
+   "path": "08_evidence/frames/home/load-04-3278ms.jpg",
+   "desc": "Page-load frame ~3278ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3278
+  },
+  {
+   "path": "08_evidence/frames/home/load-05-3329ms.jpg",
+   "desc": "Page-load frame ~3329ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3329
+  },
+  {
+   "path": "08_evidence/frames/home/load-06-3376ms.jpg",
+   "desc": "Page-load frame ~3376ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3376
+  },
+  {
+   "path": "08_evidence/frames/home/load-07-3405ms.jpg",
+   "desc": "Page-load frame ~3405ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 3405
+  },
+  {
+   "path": "08_evidence/frames/home/load-08-4999ms.jpg",
+   "desc": "Page-load frame ~4999ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 4999
+  }
+ ],
+ "nav": {
+  "status": 200,
+  "finalUrl": "https://iventions.com/",
+  "frames": [
+   {
+    "path": "08_evidence/frames/home/load-01-1834ms.jpg",
+    "desc": "Page-load frame ~1834ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 1834
+   },
+   {
+    "path": "08_evidence/frames/home/load-02-2445ms.jpg",
+    "desc": "Page-load frame ~2445ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 2445
+   },
+   {
+    "path": "08_evidence/frames/home/load-03-3195ms.jpg",
+    "desc": "Page-load frame ~3195ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3195
+   },
+   {
+    "path": "08_evidence/frames/home/load-04-3278ms.jpg",
+    "desc": "Page-load frame ~3278ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3278
+   },
+   {
+    "path": "08_evidence/frames/home/load-05-3329ms.jpg",
+    "desc": "Page-load frame ~3329ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3329
+   },
+   {
+    "path": "08_evidence/frames/home/load-06-3376ms.jpg",
+    "desc": "Page-load frame ~3376ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3376
+   },
+   {
+    "path": "08_evidence/frames/home/load-07-3405ms.jpg",
+    "desc": "Page-load frame ~3405ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 3405
+   },
+   {
+    "path": "08_evidence/frames/home/load-08-4999ms.jpg",
+    "desc": "Page-load frame ~4999ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 4999
+   }
+  ],
+  "loadEventMs": 15926
+ },
+ "dismissedOverlay": null,
+ "idle": {
+  "rafPerSec": 114,
+  "movers": [
+   {
+    "selector": "button > div > div.ContactMenu_hamburger__ZUTHE:nth-of-type(2) > div:nth-of-type(1) > span",
+    "tag": "span",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 23.8056, 0)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, 0)",
+     "opacity": "1"
+    },
+    "rect": [
+     1401,
+     20,
+     24,
+     2
+    ]
+   },
+   {
+    "selector": "button > div > div.ContactMenu_hamburger__ZUTHE:nth-of-type(2) > div:nth-of-type(2) > span",
+    "tag": "span",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 22.8618, 0)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0.00024, 0)",
+     "opacity": "1"
+    },
+    "rect": [
+     1401,
+     24,
+     24,
+     2
+    ]
+   },
+   {
+    "selector": "div > div.styles_clipPath__jYDI7:nth-of-type(2) > div > figure > div",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(0, 0, 0, 0, -792, -792)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(0.952, 0, 0, 0.952, -792, -792)",
+     "opacity": "1"
+    },
+    "rect": [
+     -34,
+     -304,
+     1508,
+     1508
+    ]
+   },
+   {
+    "selector": "div.styles_clipPath__jYDI7:nth-of-type(2) > div > figure > div > div",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(-0.819152, -0.573576, 0.573576, -0.819152, 0, 0)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(-0.819152, -0.573576, 0.573576, -0.819152, 0, 0)",
+     "opacity": "1"
+    },
+    "rect": [
+     -330,
+     -600,
+     2100,
+     2100
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(1) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2176,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(2) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2230,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(3) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2284,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(1) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(2) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     732,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(1) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2565,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(2) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2590,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(3) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2615,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(1) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2176,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(2) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2230,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(3) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2284,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(1) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(2) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     732,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(1) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2540,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(2) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2565,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(3) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2590,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(4) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2615,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(1) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2176,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(2) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2230,
+     921,
+     62
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(1) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div:nth-of-type(2) > div > p.undefined.will-change-transform > div.line-mask > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -26.041)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -40.5)",
+     "opacity": "1"
+    },
+    "rect": [
+     732,
+     2611,
+     212,
+     27
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(1) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2540,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(2) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2565,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(3) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2590,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div.js-project-description.undefined > span > div.line-mask:nth-of-type(4) > div.line",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -24.2929)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -37.7812)",
+     "opacity": "1"
+    },
+    "rect": [
+     1086,
+     2615,
+     330,
+     25
+    ]
+   },
+   {
+    "selector": "div > div > h3.undefined.will-change-transform > div.line-mask.fix-mask-clip-mask:nth-of-type(1) > div.line.fix-clip",
+    "tag": "div",
+    "from": {
+     "transform": "matrix(1, 0, 0, 1, 0, -59.3156)",
+     "opacity": "1"
+    },
+    "to": {
+     "transform": "matrix(1, 0, 0, 1, 0, -92.25)",
+     "opacity": "1"
+    },
+    "rect": [
+     496,
+     2176,
+     921,
+     62
+    ]
+   }
+  ]
+ },
+ "cursor": null,
+ "scroll": {
+  "docH": 0,
+  "steps": 0,
+  "positions": []
+ },
+ "reveal": {
+  "tracked": 0,
+  "total": 0,
+  "patterns": []
+ },
+ "motionLibs": {},
+ "parallax": [],
+ "liveAnimations": [],
+ "threeReactivity": {
+  "renderFps": 12.2,
+  "autonomousChanges": [
+   {
+    "path": "camera.fov",
+    "from": 40,
+    "to": 75
+   },
+   {
+    "path": "camera.far",
+    "from": 2000,
+    "to": 1000
+   },
+   {
+    "path": "camera.position",
+    "from": [
+     -6.934,
+     3.905,
+     4.203
+    ],
+    "to": [
+     0,
+     0,
+     5
+    ]
+   },
+   {
+    "path": "camera.rotation",
+    "from": [
+     -0.749,
+     -0.88,
+     -0.621
+    ],
+    "to": [
+     0,
+     0,
+     0
+    ]
+   }
+  ],
+  "scrollChanges": [],
+  "pointerChanges": []
+ },
+ "three": {
+  "revision": "176",
+  "at": 19680,
+  "scenes": [
+   {
+    "index": 0,
+    "uuid": "b802bf0e-6ae7-49e4-a719-88b3a372e543",
+    "fog": null,
+    "counts": {
+     "meshes": 0,
+     "instancedMeshes": 0,
+     "groups": 2,
+     "lights": 0,
+     "points": 0,
+     "lines": 0,
+     "sprites": 0,
+     "other": 1,
+     "total": 3
+    },
+    "nodes": [
+     {
+      "type": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "type": "Group",
+      "parent": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ],
+      "visible": false
+     },
+     {
+      "type": "Group",
+      "parent": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ],
+      "visible": false
+     }
+    ],
+    "materials": [],
+    "geometries": [],
+    "shaders": []
+   },
+   {
+    "index": 1,
+    "uuid": "16cc1744-bbab-4032-9b65-b3f91af17ee5",
+    "fog": null,
+    "counts": {
+     "meshes": 0,
+     "instancedMeshes": 0,
+     "groups": 4,
+     "lights": 2,
+     "points": 1,
+     "lines": 0,
+     "sprites": 0,
+     "other": 2,
+     "total": 9
+    },
+    "nodes": [
+     {
+      "type": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "type": "Group",
+      "parent": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       2.8,
+       2.8,
+       2.8
+      ]
+     },
+     {
+      "type": "Group",
+      "parent": "Group",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "type": "Points",
+      "parent": "Group",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ],
+      "geometry": "IcosahedronGeometry",
+      "material": "ShaderMaterial"
+     },
+     {
+      "type": "PerspectiveCamera",
+      "parent": "Scene",
+      "pos": [
+       -6.934,
+       3.905,
+       4.203
+      ],
+      "rot": [
+       -0.749,
+       -0.88,
+       -0.621
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "type": "DirectionalLight",
+      "parent": "PerspectiveCamera",
+      "pos": [
+       10,
+       5,
+       10
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ],
+      "light": {
+       "color": "#ffffff",
+       "intensity": 1
+      }
+     },
+     {
+      "type": "AmbientLight",
+      "parent": "PerspectiveCamera",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ],
+      "light": {
+       "color": "#ffffff",
+       "intensity": 1.5
+      }
+     },
+     {
+      "type": "Group",
+      "parent": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     },
+     {
+      "type": "Group",
+      "parent": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     }
+    ],
+    "materials": [
+     {
+      "type": "ShaderMaterial",
+      "transparent": true,
+      "side": 2,
+      "uniforms": {
+       "u_visibility": {
+        "texture": {
+         "type": "i7",
+         "src": "https://iventions.com/upload/earthspec_new.jpg",
+         "colorSpace": "",
+         "repeat": [
+          1,
+          1
+         ]
+        }
+       },
+       "u_size": 0.125,
+       "u_color_main": "#f2f2f2",
+       "u_clicked": [
+        0,
+        0,
+        1
+       ],
+       "u_time_since_click": 3
+      },
+      "shaderLengths": {
+       "vertex": 554,
+       "fragment": 405
+      }
+     }
+    ],
+    "geometries": [
+     {
+      "type": "IcosahedronGeometry",
+      "parameters": {
+       "radius": 1,
+       "detail": 64
+      },
+      "vertices": 253500,
+      "attributes": [
+       "position",
+       "normal",
+       "uv"
+      ]
+     }
+    ],
+    "shaders": [
+     {
+      "material": "ShaderMaterial",
+      "vertex": "\n    uniform sampler2D u_visibility;\n    uniform float u_size;\n    uniform float u_time_since_click;\n    uniform vec3 u_clicked;\n\n    varying float vOpacity;\n    varying vec2 vUv;\n\n    void main() {\n\n        vUv = uv;\n        vec4 mvPosition = modelViewMatrix * vec4(position, 1.);\n\n        float mask =1. - step(0.4, texture2D(u_visibility, uv).r);\n        vOpacity = length(mvPosition.xyz) - .7;\n        vOpacity *= mask;\n\n        gl_PointSize = u_size * (30.0 * vOpacity / -mvPosition.z);\n        gl_Position = projectionMatrix * mvPosition;\n\n    }\n  ",
+      "fragment": "\n    uniform vec3 u_color_main;\n    varying float vOpacity;\n    varying float vDepth;\n\n    float circle(vec2 st, float r) {\n        vec2 dist = st - vec2(.5);\n        return 1. - smoothstep(.99 * r, 1.01 * r, dot(dist, dist) * 4.);\n    }\n\n    void main() {\n        float dot = circle(gl_PointCoord.xy, .7);\n        if (dot < .5) discard;\n        gl_FragColor = vec4(u_color_main, dot * vOpacity);\n    }\n  "
+     }
+    ]
+   },
+   {
+    "index": 2,
+    "uuid": "6e179f08-0aac-4528-9394-a258d12d175a",
+    "fog": null,
+    "counts": {
+     "meshes": 0,
+     "instancedMeshes": 0,
+     "groups": 0,
+     "lights": 0,
+     "points": 0,
+     "lines": 0,
+     "sprites": 0,
+     "other": 1,
+     "total": 1
+    },
+    "nodes": [
+     {
+      "type": "Scene",
+      "pos": [
+       0,
+       0,
+       0
+      ],
+      "rot": [
+       0,
+       0,
+       0
+      ],
+      "scale": [
+       1,
+       1,
+       1
+      ]
+     }
+    ],
+    "materials": [],
+    "geometries": [],
+    "shaders": []
+   }
+  ],
+  "camera": {
+   "type": "PerspectiveCamera",
+   "fov": 75,
+   "aspect": 1,
+   "near": 0.1,
+   "far": 1000,
+   "zoom": 1,
+   "position": [
+    0,
+    0,
+    5
+   ],
+   "rotation": [
+    0,
+    0,
+    0
+   ]
+  },
+  "renderers": [
+   {
+    "canvas": "div:nth-of-type(3) > div > canvas",
+    "pixelRatio": 1,
+    "width": 1440,
+    "height": 900,
+    "toneMapping": 4,
+    "toneMappingExposure": 1,
+    "outputColorSpace": "srgb",
+    "shadowMap": {
+     "enabled": false,
+     "type": 2
+    },
+    "antialias": true,
+    "alpha": true,
+    "info": {
+     "frame": 16,
+     "calls": 0,
+     "triangles": 0,
+     "geometries": 1,
+     "textures": 0,
+     "programs": 1
+    }
+   }
+  ]
+ },
+ "webgl": null,
+ "meta": {},
+ "structure": null,
+ "components": null,
+ "styles": null,
+ "stackGlobals": {},
+ "fontsLoaded": [],
+ "idleLiveAnimations": 0,
+ "hover": [],
+ "responsive": null,
+ "theme": null,
+ "timing": {
+  "totalMs": 45674
+ }
+}

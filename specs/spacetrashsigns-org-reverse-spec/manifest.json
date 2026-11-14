@@ -1,0 +1,157 @@
+{
+  "tool": {
+    "name": "dissect",
+    "version": "0.1.0"
+  },
+  "reference": "https://spacetrashsigns.org/",
+  "generatedAt": "2026-11-14T12:39:07.425Z",
+  "focus": {
+    "text": "3d, scroll animations, design-system",
+    "topics": [
+      "design-system",
+      "motion",
+      "3d"
+    ],
+    "specified": true
+  },
+  "target": "react + tailwind",
+  "start": "00_START_HERE.md",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "bytes": 4110
+    },
+    {
+      "path": "01_overview.md",
+      "bytes": 1674
+    },
+    {
+      "path": "02_design-system/README.md",
+      "bytes": 669
+    },
+    {
+      "path": "02_design-system/colors.md",
+      "bytes": 1155
+    },
+    {
+      "path": "02_design-system/css-variables.md",
+      "bytes": 4889
+    },
+    {
+      "path": "02_design-system/spacing-layout.md",
+      "bytes": 1689
+    },
+    {
+      "path": "02_design-system/tailwind.theme.snippet.js",
+      "bytes": 591
+    },
+    {
+      "path": "02_design-system/tokens.css",
+      "bytes": 330
+    },
+    {
+      "path": "02_design-system/tokens.json",
+      "bytes": 969
+    },
+    {
+      "path": "02_design-system/typography.md",
+      "bytes": 1208
+    },
+    {
+      "path": "03_structure/components.md",
+      "bytes": 618
+    },
+    {
+      "path": "03_structure/sitemap.md",
+      "bytes": 451
+    },
+    {
+      "path": "04_motion/README.md",
+      "bytes": 1810
+    },
+    {
+      "path": "04_motion/animations.md",
+      "bytes": 1317
+    },
+    {
+      "path": "04_motion/keyframes.css",
+      "bytes": 497
+    },
+    {
+      "path": "05_3d/README.md",
+      "bytes": 223
+    },
+    {
+      "path": "06_behaviour/interactions.md",
+      "bytes": 464
+    },
+    {
+      "path": "06_behaviour/responsive.md",
+      "bytes": 451
+    },
+    {
+      "path": "06_behaviour/theme-and-preferences.md",
+      "bytes": 143
+    },
+    {
+      "path": "07_stack-assets/assets-manifest.json",
+      "bytes": 1900
+    },
+    {
+      "path": "07_stack-assets/stack.md",
+      "bytes": 1722
+    },
+    {
+      "path": "08_evidence/INDEX.md",
+      "bytes": 1309
+    },
+    {
+      "path": "08_evidence/frames/home/load-01-1746ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-02-4195ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-03-10045ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-04-10072ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-05-10105ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-06-10138ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-07-10171ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "08_evidence/frames/home/load-08-10203ms.jpg",
+      "bytes": 8452
+    },
+    {
+      "path": "09_agent-tasks.md",
+      "bytes": 3045
+    },
+    {
+      "path": "10_implementation-guide.md",
+      "bytes": 3111
+    },
+    {
+      "path": "data/page-home.json",
+      "bytes": 4693
+    },
+    {
+      "path": "data/site.json",
+      "bytes": 19700
+    }
+  ]
+}

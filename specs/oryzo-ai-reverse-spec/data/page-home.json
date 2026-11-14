@@ -1,0 +1,69 @@
+{
+ "url": "https://oryzo.ai/",
+ "slug": "home",
+ "index": 0,
+ "mode": "full",
+ "errors": [
+  {
+   "stage": "budget",
+   "message": "exceeded the 45s per-page budget; results for this page are partial"
+  }
+ ],
+ "pageErrors": [],
+ "evidence": [
+  {
+   "path": "08_evidence/frames/home/load-02-6071ms.jpg",
+   "desc": "Page-load frame ~6071ms after navigation commit (shows load/intro animation progress)",
+   "page": "home",
+   "kind": "load-frame",
+   "tMs": 6071
+  }
+ ],
+ "nav": {
+  "status": 200,
+  "finalUrl": "https://oryzo.ai/",
+  "frames": [
+   {
+    "path": "08_evidence/frames/home/load-02-6071ms.jpg",
+    "desc": "Page-load frame ~6071ms after navigation commit (shows load/intro animation progress)",
+    "page": "home",
+    "kind": "load-frame",
+    "tMs": 6071
+   }
+  ],
+  "loadEventMs": null
+ },
+ "dismissedOverlay": null,
+ "idle": {
+  "rafPerSec": 0,
+  "movers": []
+ },
+ "cursor": null,
+ "scroll": {
+  "docH": 0,
+  "steps": 0,
+  "positions": []
+ },
+ "reveal": {
+  "tracked": 0,
+  "total": 0,
+  "patterns": []
+ },
+ "motionLibs": {},
+ "parallax": [],
+ "liveAnimations": [],
+ "webgl": null,
+ "meta": {},
+ "structure": null,
+ "components": null,
+ "styles": null,
+ "stackGlobals": {},
+ "fontsLoaded": [],
+ "idleLiveAnimations": 0,
+ "hover": [],
+ "responsive": null,
+ "theme": null,
+ "timing": {
+  "totalMs": 47826
+ }
+}

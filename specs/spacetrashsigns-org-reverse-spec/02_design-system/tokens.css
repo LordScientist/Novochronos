@@ -1,0 +1,13 @@
+:root {
+  /* ---- inferred roles ---- */
+  --dz-color-background: #ffffff;
+}
+
+/* ---- the site's own global custom properties (verbatim) ---- */
+:root {
+  --swiper-theme-color: #007aff;
+  --constellation-panel-width: 37rem;
+  --constellation-panel-top-offset: 2.4rem;
+  --constellation-panel-right-offset: 2.4rem;
+  --vh: 1svh;
+}

@@ -1,0 +1,155 @@
+{
+  "note": "URLs are references to the reference site's assets. Files are only included in the bundle when run with --assets key.",
+  "summary": {
+    "document": {
+      "count": 2,
+      "bytes": 0
+    },
+    "css": {
+      "count": 4,
+      "bytes": 94358
+    },
+    "image": {
+      "count": 99,
+      "bytes": 7578952
+    },
+    "script": {
+      "count": 7,
+      "bytes": 1517074
+    },
+    "font": {
+      "count": 3,
+      "bytes": 348416
+    },
+    "api": {
+      "count": 30,
+      "bytes": 7200465
+    },
+    "rive": {
+      "count": 1,
+      "bytes": 59177
+    },
+    "api-json": {
+      "count": 3,
+      "bytes": 18
+    },
+    "media": {
+      "count": 2,
+      "bytes": 6450408
+    }
+  },
+  "fonts": [
+    {
+      "url": "https://oryzo.ai/fonts/DM-Mono-400-Latin.woff2",
+      "category": "font",
+      "bytes": 14820,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://oryzo.ai/fonts/Literata.woff2",
+      "category": "font",
+      "bytes": 110080,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://use.typekit.net/af/daa5d6/0000000000000000775abe8b/31/l?primer=388f68b35a7cbf1ee3543172445c23e26935269fadd3b392a13ac7b2903677eb&fvd=n4&v=3",
+      "category": "font",
+      "bytes": 223516,
+      "firstSeenOn": "home"
+    }
+  ],
+  "models3d": [],
+  "lottie": [
+    {
+      "url": "https://oryzo.ai/rive/oryzo.riv",
+      "category": "rive",
+      "bytes": 59177,
+      "firstSeenOn": "home"
+    }
+  ],
+  "media": [
+    {
+      "url": "https://oryzo.ai/images/wearable-gallery/yoga.mp4",
+      "category": "media",
+      "bytes": 3881726,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://oryzo.ai/images/wearable-gallery/bite.mp4",
+      "category": "media",
+      "bytes": 2568682,
+      "firstSeenOn": "home"
+    }
+  ],
+  "css": [
+    {
+      "url": "https://oryzo.ai/_astro/index.TL6TuoJb.css",
+      "category": "css",
+      "bytes": 69220,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://use.typekit.net/pmn6ngx.css",
+      "category": "css",
+      "bytes": 667,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://p.typekit.net/p.css?s=1&k=pmn6ngx&ht=tk&f=52149.52151&a=83030954&app=typekit&e=css",
+      "category": "css",
+      "bytes": 5,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.46.150/css/player.css",
+      "category": "css",
+      "bytes": 24466,
+      "firstSeenOn": "home"
+    }
+  ],
+  "scripts": [
+    {
+      "url": "https://static.cloudflareinsights.com/beacon.min.js",
+      "category": "script",
+      "bytes": 31853,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://oryzo.ai/_astro/hoisted.CRsATKbF.js",
+      "category": "script",
+      "bytes": 1097784,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://player.vimeo.com/cdn-cgi/challenge-platform/scripts/precursor/main.js?ray=a5a6149d2c68287f",
+      "category": "script",
+      "bytes": 0,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://player.vimeo.com/cdn-cgi/challenge-platform/h/b/scripts/precursor/f8df4d4a0cd6/main.js?ray=a5a6149d2c68287f",
+      "category": "script",
+      "bytes": 59764,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.46.150/js/vendor.module.js",
+      "category": "script",
+      "bytes": 94440,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.46.150/js/player.module.js",
+      "category": "script",
+      "bytes": 229962,
+      "firstSeenOn": "home"
+    },
+    {
+      "url": "https://oryzo.ai/_astro/SplatsWorker-DSMxtdkh.js",
+      "category": "script",
+      "bytes": 3271,
+      "firstSeenOn": "home"
+    }
+  ],
+  "savedFiles": []
+}
