@@ -6,14 +6,18 @@ import {
   Pause,
   RotateCcw,
   Volume2,
-  Sparkles,
-  Bookmark,
-  Layers,
   ChevronDown,
   Compass,
-  Award,
-  Cpu,
+  Target,
   ShieldCheck,
+  Radio,
+  Quote,
+  Camera,
+  Activity,
+  Wrench,
+  Crosshair,
+  Info,
+  Landmark,
 } from 'lucide-react';
 import { ArtifactPodiumViewer } from '../canvas/ArtifactPodiumViewer';
 import narrationScripts from '../../data/narrationScripts.json';
@@ -24,8 +28,6 @@ interface SentinelDetailModalProps {
   onClose: () => void;
 }
 
-// Map Sentinel ID to the authentic audio recordings in public/audio/
-// Odd-numbered sentinels (1, 3, 5, 7) and Even-numbered sentinels (2, 4, 6, 8)
 const SENTINEL_AUDIO_MAP: Record<string, string> = {
   'opportunity-rover': '/audio/novo1.mp3',
   'ingenuity-helicopter': '/audio/even/Novo_2.mp3',
@@ -37,6 +39,47 @@ const SENTINEL_AUDIO_MAP: Record<string, string> = {
   'surveyor-3': '/audio/even/Novo_8.mp3',
 };
 
+const getInstrumentIcon = (name: string, role: string) => {
+  const text = `${name} ${role}`.toLowerCase();
+  if (text.includes('camera') || text.includes('pancam') || text.includes('vidicon') || text.includes('imaging')) {
+    return <Camera className="w-3.5 h-3.5 text-sky-400 shrink-0" />;
+  }
+  if (
+    text.includes('spectrometer') ||
+    text.includes('seis') ||
+    text.includes('seismic') ||
+    text.includes('apxs') ||
+    text.includes('magnetometer') ||
+    text.includes('tes') ||
+    text.includes('heat')
+  ) {
+    return <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" />;
+  }
+  if (
+    text.includes('rat') ||
+    text.includes('abrasion') ||
+    text.includes('arm') ||
+    text.includes('tool') ||
+    text.includes('sampler') ||
+    text.includes('claw') ||
+    text.includes('mole') ||
+    text.includes('wheel') ||
+    text.includes('joystick')
+  ) {
+    return <Wrench className="w-3.5 h-3.5 text-amber-400 shrink-0" />;
+  }
+  if (text.includes('retroreflector') || text.includes('laser') || text.includes('lrrr') || text.includes('cube')) {
+    return <Crosshair className="w-3.5 h-3.5 text-amber-400 shrink-0" />;
+  }
+  if (text.includes('antenna') || text.includes('dish') || text.includes('radio') || text.includes('transmitter')) {
+    return <Radio className="w-3.5 h-3.5 text-cyan-400 shrink-0" />;
+  }
+  if (text.includes('plaque') || text.includes('marker') || text.includes('fabric') || text.includes('tribute')) {
+    return <Landmark className="w-3.5 h-3.5 text-amber-300 shrink-0" />;
+  }
+  return <Target className="w-3.5 h-3.5 text-sky-400 shrink-0" />;
+};
+
 export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   sentinelId,
   onClose,
@@ -46,7 +89,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   const [duration, setDuration] = useState(0);
   const [useSpeechFallback, setUseSpeechFallback] = useState(false);
 
-  // Transition and scroll-to-finish states
   const [isRendered, setIsRendered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -62,15 +104,8 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   const indexStr = `${String(sentinelIndex >= 0 ? sentinelIndex + 1 : 1).padStart(2, '0')} / ${String(narrationScripts.length).padStart(2, '0')}`;
   const audioSrc = sentinelId ? SENTINEL_AUDIO_MAP[sentinelId] : undefined;
 
-  // Clean all sound/voice bracketed director cues to convey only pure text
-  const cleanStoryText = sentinel
-    ? (sentinel.ttsCleanScript || sentinel.directorScript)
-        .replace(/\[(?:Sound|Voice|Pause)[^\]]*\]/gi, '')
-        .replace(/\[.*?\]/g, '')
-        .trim()
-    : '';
+  const storyText = sentinel ? (sentinel.ttsCleanScript || sentinel.directorScript).trim() : '';
 
-  // Manage smooth entrance transition when sentinelId changes
   useEffect(() => {
     if (sentinelId) {
       setIsRendered(true);
@@ -87,7 +122,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     }
   }, [sentinelId]);
 
-  // Dedicated Lenis instance for smooth modal dossier inspection
   useEffect(() => {
     if (!isRendered || !scrollContainerRef.current) return;
 
@@ -103,7 +137,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     });
 
     const handleScroll = (e: { progress: number; velocity: number }) => {
-      // Reaching the bottom of the card dossier and scrolling down triggers smooth ease exit
       if (e.progress >= 0.992 && e.velocity > 0.03 && !exitTriggeredRef.current) {
         exitTriggeredRef.current = true;
         handleTriggerExit();
@@ -117,7 +150,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     };
   }, [isRendered]);
 
-  // Smooth exit ease animation handler
   const handleTriggerExit = () => {
     if (isExiting) return;
     setIsExiting(true);
@@ -130,7 +162,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
       window.speechSynthesis.cancel();
     }
 
-    // Wait for the exit ease animation (400ms) to complete, then return to helix
     setTimeout(() => {
       setIsRendered(false);
       setIsExiting(false);
@@ -139,7 +170,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     }, 400);
   };
 
-  // Keyboard Escape listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -150,7 +180,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Cleanup audio or speech synthesis when switching or closing
   useEffect(() => {
     setIsPlaying(false);
     setCurrentTime(0);
@@ -178,7 +207,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   if (!isRendered && !sentinelId) return null;
   if (!sentinel) return null;
 
-  // Dedicated wheel scroll handler for page: when scroll reaches bottom, ease-exit
   const handleContainerWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     const container = scrollContainerRef.current;
     if (!container || exitTriggeredRef.current || isExiting) return;
@@ -186,14 +214,12 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     const { scrollTop, scrollHeight, clientHeight } = container;
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
 
-    // Scrolling down further past bottom finishes the page and triggers ease-exit
     if (isAtBottom && e.deltaY > 15) {
       exitTriggeredRef.current = true;
       handleTriggerExit();
     }
   };
 
-  // Touch handlers for mobile scroll-to-finish
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartYRef.current = e.touches[0].clientY;
   };
@@ -206,24 +232,21 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
     const { scrollTop, scrollHeight, clientHeight } = container;
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
 
-    // Upward swipe at bottom (downward scroll past end)
     if (isAtBottom && diff > 35) {
       exitTriggeredRef.current = true;
       handleTriggerExit();
     }
   };
 
-  // Toggle play/pause for MP3 audio with automatic Web Speech fallback
   const handleTogglePlay = () => {
     if (useSpeechFallback) {
-      // SpeechSynthesis playback
       if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
       if (isPlaying) {
         window.speechSynthesis.cancel();
         setIsPlaying(false);
       } else {
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(sentinel.ttsCleanScript);
+        const utterance = new SpeechSynthesisUtterance(storyText);
         utterance.rate = 0.95;
         utterance.onend = () => setIsPlaying(false);
         utterance.onerror = () => setIsPlaying(false);
@@ -243,10 +266,9 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         .play()
         .then(() => setIsPlaying(true))
         .catch(() => {
-          // If MP3 fails or is not found on disk, fallback to Web Speech API
           setUseSpeechFallback(true);
           if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(sentinel.ttsCleanScript);
+            const utterance = new SpeechSynthesisUtterance(storyText);
             utterance.rate = 0.95;
             utterance.onend = () => setIsPlaying(false);
             utterance.onerror = () => setIsPlaying(false);
@@ -277,7 +299,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
       }
     } else if (useSpeechFallback && typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(sentinel.ttsCleanScript);
+      const utterance = new SpeechSynthesisUtterance(storyText);
       utterance.rate = 0.95;
       utterance.onend = () => setIsPlaying(false);
       utterance.onerror = () => setIsPlaying(false);
@@ -298,13 +320,11 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         isVisible && !isExiting ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
       onClick={(e) => {
-        // Clicking backdrop triggers ease-exit
         if (e.target === e.currentTarget) {
           handleTriggerExit();
         }
       }}
     >
-      {/* Hidden HTML5 Audio Element */}
       {audioSrc && !useSpeechFallback && (
         <audio
           ref={audioRef}
@@ -324,12 +344,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         />
       )}
 
-      {/* 
-        Isolated Editorial Split Dossier Container:
-        - Desktop: 2-Column Split (Left: Sticky 3D Viewer + Telemetry; Right: Scrollable Story, Breakthroughs, Audio, Facts)
-        - Mobile / Tablet: Compact, balanced vertical flow perfectly scaled to fit mobile screens
-        - Typographic hierarchy: Swiss Neo-Grotesque
-      */}
       <div
         ref={scrollContainerRef}
         onWheel={handleContainerWheel}
@@ -343,7 +357,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
             : 'scale-90 opacity-0 translate-y-10'
         }`}
       >
-        {/* Floating Close Button */}
         <button
           onClick={handleTriggerExit}
           className="absolute top-2.5 right-2.5 sm:top-5 sm:right-5 p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors z-20"
@@ -352,34 +365,26 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        {/* Top Header Bar: Editorial Kicker & Index */}
         <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-3 sm:mb-5 pb-2 sm:pb-3 border-b border-white/10 pr-9 sm:pr-12">
           <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-heading font-normal tracking-[0.16em] sm:tracking-[0.2em] text-sky-400 uppercase">
             <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-sky-400 animate-pulse" />
             <span>NASA HISTORIC ARTIFACT DOSSIER • {indexStr}</span>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[11px] font-sans font-light tracking-[0.14em] sm:tracking-[0.16em] uppercase text-slate-400">
-            <Bookmark className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-400" />
+            <Radio className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-400" />
             <span>{artifactData?.status || 'PERMANENT ARCHIVE'}</span>
           </div>
         </div>
 
-        {/* EDITORIAL 2-COLUMN SPLIT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 lg:gap-8 xl:gap-10 items-start">
-          
-          {/* ========================================================
-              LEFT COLUMN: STICKY 3D VIEWER + TELEMETRY MICRO-DOSSIER
-             ======================================================== */}
           <div className="lg:col-span-5 lg:sticky lg:top-0 space-y-2.5 sm:space-y-4">
-            
-            {/* Title & Archetype Header */}
             <div>
               <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 mb-1 sm:mb-2 text-[9px] sm:text-xs">
                 <span className="px-2 sm:px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
                   {sentinel.celestialBody}
                 </span>
                 <span className="px-2 sm:px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-sans font-light tracking-[0.12em] sm:tracking-[0.14em] uppercase">
-                  {sentinel.characterArchetype}
+                  {artifactData?.characterArchetype || sentinel.characterArchetype}
                 </span>
               </div>
               <h1 className="text-xl xs:text-2xl sm:text-3xl xl:text-4xl font-heading font-extrabold text-white tracking-tight uppercase leading-tight mb-1 sm:mb-2">
@@ -392,12 +397,10 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               )}
             </div>
 
-            {/* Interactive 3D Artifact Podium */}
             <div className="relative group">
               <ArtifactPodiumViewer sentinelId={sentinel.id} />
             </div>
 
-            {/* Micro-Telemetry Grid */}
             <div className="p-2.5 sm:p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2 sm:space-y-3">
               <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] text-slate-400 uppercase border-b border-white/5 pb-1.5 sm:pb-2">
                 <span className="flex items-center gap-1.5 text-sky-400">
@@ -444,19 +447,12 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 <span>LANDED: {artifactData?.landingDate || 'Historic'}</span>
               </div>
             </div>
-
           </div>
 
-          {/* ========================================================
-              RIGHT COLUMN: SCROLLABLE NARRATIVE FEED & RESEARCH DOSSIER
-             ======================================================== */}
           <div className="lg:col-span-7 space-y-3 sm:space-y-4 lg:space-y-5">
-            
-            {/* Authentic Audio Narration Player */}
             <div className="p-2.5 sm:p-4 rounded-xl bg-sky-950/40 border border-sky-500/30 shadow-[0_0_24px_rgba(56,189,248,0.12)]">
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 mb-2 sm:mb-3">
                 <div className="flex items-center gap-1.5 sm:gap-3 w-full sm:w-auto">
-                  {/* Play / Pause Toggle Button */}
                   <button
                     onClick={handleTogglePlay}
                     className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-sm font-heading font-bold tracking-wider transition-all shadow-md ${
@@ -478,7 +474,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     )}
                   </button>
 
-                  {/* Restart Button */}
                   <button
                     onClick={handleRestart}
                     className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors"
@@ -489,7 +484,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                   </button>
                 </div>
 
-                {/* Audio Wave Activity Indicator */}
                 <div className="flex items-center gap-1.5 sm:gap-3 text-[10px] sm:text-xs text-sky-300 font-mono">
                   <div className="flex items-center gap-0.5 sm:gap-1 h-3 sm:h-4">
                     {[4, 8, 14, 10, 6, 12, 5].map((h, i) => (
@@ -516,7 +510,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 </div>
               </div>
 
-              {/* Interactive Audio Scrubber Bar */}
               {!useSpeechFallback && (
                 <div className="flex items-center gap-1.5 sm:gap-3 text-[9px] sm:text-xs text-slate-400 pt-0.5">
                   <span className="text-white font-mono">{formatTime(currentTime)}</span>
@@ -534,29 +527,17 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               )}
             </div>
 
-            {/* Student Takeaway Card */}
-            <div className="p-2.5 sm:p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30">
-              <div className="flex items-center gap-1.5 text-amber-400 text-[9px] sm:text-[11px] font-heading font-normal uppercase tracking-[0.14em] sm:tracking-[0.16em] mb-0.5 sm:mb-1">
-                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span>Core Takeaway for Young Explorers</span>
-              </div>
-              <p className="text-[11px] sm:text-sm text-amber-100/90 leading-snug sm:leading-relaxed font-sans font-light">
-                {sentinel.takeawayForKids}
-              </p>
-            </div>
-
-            {/* First-Person Authentic Story Monologue */}
             <div className="space-y-1.5 sm:space-y-2">
               <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
                 <span className="text-sky-400 flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>FIRST-PERSON PERSPECTIVE</span>
+                  <Quote className="w-3.5 h-3.5" />
+                  <span>MISSION LOG & HISTORICAL ACCOUNT</span>
                 </span>
-                <span className="text-slate-400">AUTHENTIC MONOLOGUE</span>
+                <span className="text-slate-400">ARCHIVAL RECORD</span>
               </div>
 
               <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-black/60 border border-white/10 text-[11px] sm:text-sm leading-normal sm:leading-relaxed text-slate-200 font-sans font-light space-y-2 sm:space-y-3">
-                {cleanStoryText.split('\n\n').map((paragraph, idx) => (
+                {storyText.split('\n\n').map((paragraph, idx) => (
                   <p key={idx} className="leading-normal sm:leading-relaxed">
                     {paragraph}
                   </p>
@@ -564,12 +545,11 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               </div>
             </div>
 
-            {/* Historic Breakthroughs & Milestones */}
             {artifactData?.breakthroughs && artifactData.breakthroughs.length > 0 && (
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
                   <span className="text-emerald-400 flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5" />
+                    <Target className="w-3.5 h-3.5" />
                     <span>HISTORIC BREAKTHROUGHS</span>
                   </span>
                   <span className="text-slate-400">{artifactData.breakthroughs.length} ACHIEVEMENTS</span>
@@ -589,7 +569,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               </div>
             )}
 
-            {/* Why Left Behind / Preserving Humanity's Heritage */}
             {artifactData?.whyLeftBehind && (
               <div className="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/50 border border-sky-500/20 space-y-1 sm:space-y-2">
                 <div className="flex items-center gap-1.5 text-sky-300 text-[10px] sm:text-[11px] font-heading font-normal uppercase tracking-[0.16em] sm:tracking-[0.18em]">
@@ -602,12 +581,11 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               </div>
             )}
 
-            {/* Scientific Instrumentation */}
             {artifactData?.instruments && artifactData.instruments.length > 0 && (
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
-                  <span className="text-purple-400 flex items-center gap-1.5">
-                    <Cpu className="w-3.5 h-3.5" />
+                  <span className="text-indigo-400 flex items-center gap-1.5">
+                    <Crosshair className="w-3.5 h-3.5" />
                     <span>SCIENTIFIC INSTRUMENTATION</span>
                   </span>
                   <span className="text-slate-400">{artifactData.instruments.length} SENSORS</span>
@@ -617,11 +595,14 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                   {artifactData.instruments.map((inst, idx) => (
                     <div
                       key={idx}
-                      className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-slate-900/40 border border-white/5 space-y-0.5"
+                      className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-slate-900/40 border border-white/5 space-y-1"
                     >
-                      <span className="block text-[10px] sm:text-[11px] font-mono text-sky-300 font-medium">
-                        {inst.name}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        {getInstrumentIcon(inst.name, inst.role)}
+                        <span className="text-[10px] sm:text-[11px] font-mono text-sky-300 font-medium truncate">
+                          {inst.name}
+                        </span>
+                      </div>
                       <span className="block text-[9px] sm:text-[11px] text-slate-400 font-sans font-light leading-snug sm:leading-relaxed">
                         {inst.role}
                       </span>
@@ -631,31 +612,30 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               </div>
             )}
 
-            {/* Did You Know? Trivia */}
             {artifactData?.didYouKnow && artifactData.didYouKnow.length > 0 && (
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
                   <span className="text-amber-400 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>DID YOU KNOW?</span>
+                    <Info className="w-3.5 h-3.5" />
+                    <span>FIELD OBSERVATIONS</span>
                   </span>
-                  <span className="text-slate-400">EXPLORER TRIVIA</span>
+                  <span className="text-slate-400">HISTORICAL NOTES</span>
                 </div>
 
                 <div className="space-y-1.5 sm:space-y-2">
                   {artifactData.didYouKnow.map((fact, idx) => (
                     <div
                       key={idx}
-                      className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-amber-950/15 border border-amber-500/20 text-[10px] sm:text-xs text-amber-100/90 font-sans font-light leading-snug sm:leading-relaxed"
+                      className="flex items-start gap-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-amber-950/15 border border-amber-500/20 text-[10px] sm:text-xs text-amber-100/90 font-sans font-light leading-snug sm:leading-relaxed"
                     >
-                      {fact}
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 shrink-0" />
+                      <span>{fact}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Scroll-to-Finish Exit Cue (Active Theory Interaction Pattern) */}
             <div
               onClick={handleTriggerExit}
               className="mt-4 sm:mt-6 p-2.5 sm:p-4 rounded-xl border border-sky-500/30 bg-sky-950/40 hover:bg-sky-900/50 cursor-pointer flex flex-col items-center justify-center gap-1 transition-all text-center group"
@@ -669,7 +649,6 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               </p>
             </div>
 
-            {/* Bottom Actions */}
             <div className="pt-1 sm:pt-2 flex justify-end">
               <button
                 onClick={handleTriggerExit}
@@ -678,9 +657,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 RETURN TO SHUTTLE CORRIDOR
               </button>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>

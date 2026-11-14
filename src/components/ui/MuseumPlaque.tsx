@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Cpu, Sparkles, AlertCircle, Award } from 'lucide-react';
+import { BookOpen, Cpu, Compass, AlertCircle, Award } from 'lucide-react';
 import { Artifact } from '../../types/artifact';
 
 interface MuseumPlaqueProps {
@@ -70,8 +70,8 @@ export const MuseumPlaque: React.FC<MuseumPlaqueProps> = ({ artifact }) => {
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Kids Dossier</span>
+            <Compass className="w-3.5 h-3.5" />
+            <span>Field Dossier</span>
           </button>
         </div>
       </div>
