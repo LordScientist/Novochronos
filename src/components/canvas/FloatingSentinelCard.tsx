@@ -53,12 +53,14 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     if (!cardRef.current) return;
 
     // Stable scale and position tied directly to scroll progress
+    // When active/clicked, smoothly scale forward towards camera in transition
     const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
-    const targetScale = isActive ? 1.04 : helixScale;
+    const targetScale = isActive ? 1.14 : helixScale;
+    const targetZ = isActive ? position[2] + 0.35 : position[2];
 
     cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 6, delta);
     cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 6, delta);
-    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 6, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, targetZ, 6, delta);
 
     cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
     cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
@@ -77,12 +79,11 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       position={position}
       rotation={rotation}
       onClick={(e) => {
-        if (!isFrontFacing) return;
+        // Any interface/element of the card triggers transition
         e.stopPropagation();
         onSelect?.(id);
       }}
       onPointerOver={(e) => {
-        if (!isFrontFacing) return;
         e.stopPropagation();
         document.body.style.cursor = 'pointer';
       }}
@@ -96,9 +97,9 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       */}
       <RoundedBox args={[3.46, 2.21, 0.04]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
         <meshBasicMaterial
-          color={isFrontFacing ? '#38bdf8' : '#1e293b'}
+          color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#1e293b'}
           transparent
-          opacity={isFrontFacing ? 0.85 : 0.3}
+          opacity={isActive ? 1.0 : isFrontFacing ? 0.85 : 0.3}
         />
       </RoundedBox>
 
