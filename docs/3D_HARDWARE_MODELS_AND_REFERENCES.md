@@ -113,6 +113,21 @@ These instructions guide how each tool will be **modeled, optimized, and rendere
 
 ---
 
+## 🚀 Central Narrative Spine — Space Shuttle Orbiter (Active Theory Replacement)
+
+| Asset | Role | NASA Science 3D Source | Local Path | Verified Size |
+|---|---|---|---|---|
+| **Space Shuttle Orbiter (A)** | Central 3D Flight Spine / Anchor | [Space Shuttle (A)](https://science.nasa.gov/3d-resources/space-shuttle-a/) | `public/models/space-shuttle.glb` | **1.19 MB** |
+| **Space Shuttle (C) (Proxy)** | Lightweight Mobile LOD Fallback | [Space Shuttle (C)](https://science.nasa.gov/3d-resources/space-shuttle-c/) | Optional fallback | **26 KB** |
+
+### Mechanics for Central Spine Integration:
+* **Position:** Fixed along the central scroll axis $(x=0, y=0, z=0)$.
+* **Inertial Response:** Banks (yaw/roll) dynamically based on wheel scroll velocity $\Delta v$.
+* **Exhaust Plume:** Trailing particle system simulating SSME rocket flare and ion plasma.
+* **Orbiting Carousel:** The 8 sentinels orbit around this vehicle in a 3D cylindrical formation.
+
+---
+
 ## 📦 Optimization & Web Delivery Protocol
 
 1. **Format:** Standardize all 3D assets to `.glb` (glTF binary) format with embedded Draco or Meshopt compression.
