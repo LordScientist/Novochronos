@@ -51,9 +51,10 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
     <group>
       {/* 
         True Black Depth Fog (Active Theory & Space Trash Signs Token)
-        Dissolves distant background geometry into pure obsidian #000000 void
+        Dissolves distant background geometry into pure obsidian #000000 void,
+        tuned to allow cards on the far side to remain crisply visible for deep 3D perspective!
       */}
-      <fog attach="fog" args={['#000000', 8.5, 23.0]} />
+      <fog attach="fog" args={['#000000', 16.0, 42.0]} />
 
       {/* Layer 1: Ambient Space Background (Stars, deep volumetric haze, Earth horizon) */}
       <AmbientSpaceBackground />
@@ -65,7 +66,7 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
         Layer 3: High-Contrast Cinematic Space Lighting
         Spotlight focal illumination with true pitch-black shadow falloff
       */}
-      <ambientLight intensity={0.25} color="#050811" />
+      <ambientLight intensity={0.45} color="#0f172a" />
 
       {/* The Sun / Stage Key Spotlight (Illuminates foreground active sentinel & launch stack) */}
       <directionalLight
@@ -88,8 +89,21 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
       {/* Earthshine Planetary Rim Light (Cold cyan glow from the side) */}
       <directionalLight
         position={[-14, -6, -6]}
-        intensity={1.2}
+        intensity={1.5}
         color="#38bdf8"
+      />
+
+      {/* Deep Space Far-Side Key & Fill (Illuminates cards orbiting behind the launch stack) */}
+      <directionalLight
+        position={[0, 8, -16]}
+        intensity={2.8}
+        color="#e2e8f0"
+      />
+      <pointLight
+        position={[0, 0, -6]}
+        intensity={3.4}
+        color="#38bdf8"
+        distance={26}
       />
 
       {/* Warm Launchpad / Engine Gantry Base Light */}
@@ -126,8 +140,13 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
           const x = Math.sin(angle) * orbitRadius;
           const z = Math.cos(angle) * orbitRadius;
 
-          // Smooth steady rotation - no sign-flip jitter or back-and-forth tilt
-          const cardRotation: [number, number, number] = [0, -angle, 0];
+          // Cylindrical perspective curvature: cards gracefully follow the orbital arc
+          // while always presenting their luminous front face to the camera so cards on the far side remain fully visible!
+          const cardRotation: [number, number, number] = [
+            -y * 0.02,
+            -Math.sin(angle) * 0.35,
+            0,
+          ];
 
           return (
             <FloatingSentinelCard

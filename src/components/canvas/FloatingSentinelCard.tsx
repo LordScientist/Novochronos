@@ -71,66 +71,69 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
     cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 18, delta);
   });
 
-  const cardOpacity = Math.max(0.35, Math.min(1.0, 1.0 - distanceFromCenter * 0.22));
+  const cardOpacity = Math.max(0.68, Math.min(1.0, 1.0 - distanceFromCenter * 0.07));
+
+  const handleSelect = (e?: any) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    onSelect?.(id);
+  };
+
+  const handlePointerOver = (e?: any) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    document.body.style.cursor = 'pointer';
+  };
+
+  const handlePointerOut = () => {
+    document.body.style.cursor = 'auto';
+  };
 
   return (
     <group
       ref={cardRef}
       position={position}
       rotation={rotation}
-      onClick={(e) => {
-        e.stopPropagation();
-        onSelect?.(id);
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = 'pointer';
-      }}
-      onPointerOut={() => {
-        document.body.style.cursor = 'auto';
-      }}
+      onClick={handleSelect}
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
     >
       {/* 
-        Full-Surface Interactive Hitbox:
-        Covers the entire card face (3.5 x 2.23) so clicking ANYWHERE on the card surface
+        Full-Surface 3D Interactive Bounding Hitbox:
+        A thick volumetric bounding box (3.6 x 2.3 x 0.5) covering the entire card face,
+        edges, text, and backing. Double-sided raycasting ensures clicking ANY area of the card
         reliably triggers navigation to the sentinel dossier page!
       */}
       <mesh
-        position={[0, 0, 0.05]}
-        onClick={(e) => {
-          e.stopPropagation();
-          onSelect?.(id);
-        }}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = 'pointer';
-        }}
-        onPointerOut={() => {
-          document.body.style.cursor = 'auto';
-        }}
+        position={[0, 0, 0.02]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
       >
-        <planeGeometry args={[3.5, 2.23]} />
-        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+        <boxGeometry args={[3.6, 2.3, 0.5]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 
       {/* 
-        Sleek Obsidian Backing Rim:
-        Clean solid rounded box without any wireframe cages
+        Sleek Obsidian & Cyan Backing Rim:
+        Clean solid rounded box with luminous rim that stays visible across the entire 3D depth
       */}
       <RoundedBox
         args={[3.46, 2.21, 0.04]}
         radius={0.12}
         smoothness={4}
         position={[0, 0, -0.01]}
-        onClick={(e) => {
-          e.stopPropagation();
-          onSelect?.(id);
-        }}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
       >
         <meshBasicMaterial
-          color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#1e293b'}
+          color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#0284c7'}
           transparent
-          opacity={isActive ? 1.0 : isFrontFacing ? 0.85 : 0.3}
+          opacity={isActive ? 1.0 : isFrontFacing ? 0.9 : 0.65}
+          side={THREE.DoubleSide}
         />
       </RoundedBox>
 
@@ -138,7 +141,12 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         Full Edge-to-Edge NASA Image:
         Fills the entire 3.4 x 2.15 card without any black boxes cutting it off!
       */}
-      <group position={[0, 0, 0.02]}>
+      <group
+        position={[0, 0, 0.02]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
         <Image
           url={`/images/sentinels/${id}.jpg`}
           scale={[3.4, 2.15]}
@@ -146,11 +154,20 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           transparent
           opacity={cardOpacity}
           toneMapped={true}
+          side={THREE.DoubleSide}
+          onClick={handleSelect}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
         />
       </group>
 
       {/* Top Header: Monospace Counter & Celestial Body with Text Stroke for 100% Readability */}
-      <group position={[0, 0.8, 0.04]}>
+      <group
+        position={[0, 0.8, 0.04]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
         <Text
           position={[-1.4, 0, 0]}
           fontSize={0.09}
@@ -161,6 +178,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           outlineWidth={0.018}
           outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
           {indexStr}
         </Text>
@@ -175,13 +193,19 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           outlineWidth={0.018}
           outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
           {celestialBody.toUpperCase()}
         </Text>
       </group>
 
       {/* Bottom Title: Clean, Punchy, Crisp White with Dark Outline to Pop Over Any Photo */}
-      <group position={[0, -0.74, 0.04]}>
+      <group
+        position={[0, -0.74, 0.04]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
         <Text
           position={[-1.4, 0, 0]}
           fontSize={0.2}
@@ -195,6 +219,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           outlineWidth={0.022}
           outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
           {headlineName}
         </Text>
@@ -208,6 +233,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
           outlineWidth={0.02}
           outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
           →
         </Text>
