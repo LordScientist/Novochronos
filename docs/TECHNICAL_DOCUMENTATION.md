@@ -139,12 +139,12 @@ The scroll mechanics adapt Active Theory's 3D cylindrical carousel, replacing th
 * **Velocity Hook:** `src/hooks/useSmoothScroll.ts` continuously streams `scrollProgress`, `scrollVelocity`, and `direction` to React Three Fiber via `useFrame`.
 * **Central Anchor (`SpaceShuttleSpine.tsx`):**
   * Loads `public/models/space-shuttle.glb` (1.19 MB glTF binary).
-  * Tilts and banks (roll angle $\propto -\text{velocity} \times 0.003$) dynamically during scroll.
-  * Emits 3 SSME rocket exhaust particle plumes with additive blending and thermal pulse scaling.
-* **Cylindrical Card Ring (`SentinelCarouselScene.tsx`):**
-  * 8 Sentinels positioned at $R = 6.0$, $\theta_i = \frac{2\pi \cdot i}{8}$.
-  * Scroll progression drives angular rotation $\Omega = \text{progress} \times 2\pi$.
-  * Cards feature pointer-tilt physics (`FloatingSentinelCard.tsx`), glassmorphic physical transmission, and 3D vector-sharp telemetry typography.
+  * **Vertical Launchpad Posture:** Statically aligned along the central Y-axis (Nose pointing UP $+Y$, Engines pointing DOWN $-Y$, scale `0.22`), spanning vertically across the entire viewport like a monumental launchpad stack (KSC Pad 39A).
+  * Emits cryogenic LOX boil-off vapor particles along the vertical fuselage, engine sparkler point lights, and responds to scroll with subtle organic spine twists and pre-launch tension micro-tremors.
+* **Helical Card Formation (`SentinelCarouselScene.tsx`):**
+  * 8 Sentinels arranged in a true **3D vertical helix** winding around the launch stack ($R = 4.7$, $\Delta\theta \approx 78.2^\circ$, vertical pitch $\Delta Y = 1.65$).
+  * Scroll progression continuously drives both vertical translation and angular rotation, smoothly climbing through each sentinel into the foreground focus sweet-spot ($y \approx 0, z \approx +R$).
+  * Cards feature pointer-tilt physics (`FloatingSentinelCard.tsx`), glassmorphic physical transmission, depth-fading for background occlusion, and 3D vector-sharp telemetry typography.
 
 ---
 
