@@ -61,8 +61,8 @@ export const ArtifactPodiumViewer: React.FC<ArtifactPodiumViewerProps> = ({
       </Canvas>
 
       {/* Interactive Controls Overlay Badge */}
-      <div className="pointer-events-none absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-slate-400">
-        <span className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-sky-300">
+      <div className="pointer-events-none absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] sm:text-[11px] font-sans font-normal tracking-[0.14em] uppercase text-slate-400">
+        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-sky-300">
           <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
           DRAG TO ROTATE 360° • SCROLL/PINCH TO ZOOM
         </span>

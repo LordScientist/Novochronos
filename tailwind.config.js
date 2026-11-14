@@ -7,9 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        orbitron: ['Orbitron', 'sans-serif'],
-        mono: ['Space Mono', 'monospace'],
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"General Sans"', '"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
+        mono: ['"General Sans"', '"Inter Tight"', 'Inter', 'monospace'],
+        orbitron: ['"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
       },
       colors: {
         space: {

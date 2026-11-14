@@ -317,7 +317,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         onWheel={handleContainerWheel}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        className={`relative w-full max-w-4xl max-h-[94vh] sm:max-h-[92vh] overflow-y-auto overscroll-contain bg-slate-950/95 border border-sky-500/30 rounded-2xl p-4 sm:p-7 shadow-[0_0_60px_rgba(56,189,248,0.25)] text-slate-100 font-mono transform transition-all duration-400 cubic-bezier(0.16, 1, 0.3, 1) ${
+        className={`relative w-full max-w-4xl max-h-[94vh] sm:max-h-[92vh] overflow-y-auto overscroll-contain bg-slate-950/95 border border-sky-500/30 rounded-2xl p-4 sm:p-7 shadow-[0_0_60px_rgba(56,189,248,0.25)] text-slate-100 font-sans transform transition-all duration-400 cubic-bezier(0.16, 1, 0.3, 1) ${
           isVisible && !isExiting
             ? 'scale-100 opacity-100 translate-y-0'
             : isExiting
@@ -336,20 +336,20 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
 
         {/* Top Badges & Metadata */}
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3 text-[10px] sm:text-xs pr-10 sm:pr-12">
-          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-400/30 font-bold">
-            {sentinel.celestialBody.toUpperCase()}
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-400/30 font-normal tracking-[0.16em] uppercase">
+            {sentinel.celestialBody}
           </span>
-          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-400/30">
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-400/30 font-light tracking-[0.14em] uppercase">
             {sentinel.characterArchetype}
           </span>
-          <span className="text-slate-400 flex items-center gap-1.5 ml-auto text-[10px] sm:text-[11px]">
+          <span className="text-slate-400 flex items-center gap-1.5 ml-auto text-[10px] sm:text-[11px] font-light tracking-[0.14em] uppercase">
             <Bookmark className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-sky-400" />
             DURATION: {formatTime(duration || sentinel.estimatedDurationSec)}
           </span>
         </div>
 
         {/* Sentinel Title */}
-        <h2 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-3 sm:mb-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase mb-3 sm:mb-4">
           {sentinel.name}
         </h2>
 
@@ -448,26 +448,26 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
 
         {/* Student Takeaway Card */}
         <div className="mb-4 sm:mb-5 p-3.5 sm:p-4 rounded-xl bg-amber-950/20 border border-amber-500/30">
-          <div className="flex items-center gap-2 text-amber-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-amber-400 text-[10px] sm:text-[11px] font-normal uppercase tracking-[0.16em] mb-1">
             <Sparkles className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
             <span>Core Takeaway for Young Explorers</span>
           </div>
-          <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-sans">
+          <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-light">
             {sentinel.takeawayForKids}
           </p>
         </div>
 
         {/* Full First-Person Authentic Story (Conveys only clean narrative text) */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 border-b border-white/10 pb-2">
-            <span className="font-bold tracking-widest text-sky-400 uppercase flex items-center gap-1.5">
+          <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 border-b border-white/10 pb-2 font-normal tracking-[0.18em] uppercase">
+            <span className="text-sky-400 flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5" />
               <span>FIRST-PERSON PERSPECTIVE</span>
             </span>
-            <span className="text-[10px] sm:text-[11px] text-slate-400">AUTHENTIC STORY</span>
+            <span className="text-slate-400">AUTHENTIC STORY</span>
           </div>
 
-          <div className="p-3.5 sm:p-5 rounded-xl bg-black/60 border border-white/10 text-xs sm:text-sm leading-relaxed text-slate-200 font-sans">
+          <div className="p-3.5 sm:p-5 rounded-xl bg-black/60 border border-white/10 text-xs sm:text-sm leading-relaxed text-slate-200 font-light">
             <p className="whitespace-pre-line leading-relaxed">{cleanStoryText}</p>
           </div>
         </div>
@@ -480,11 +480,11 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
           onClick={handleTriggerExit}
           className="mt-5 sm:mt-6 p-3.5 sm:p-4 rounded-xl border border-sky-500/30 bg-sky-950/40 hover:bg-sky-900/50 cursor-pointer flex flex-col items-center justify-center gap-1.5 transition-all text-center group"
         >
-          <div className="flex items-center gap-2 text-sky-400 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-sky-400 text-[10px] sm:text-[11px] font-normal uppercase tracking-[0.18em]">
             <span>Scroll down or click to exit to orbital helix</span>
             <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform animate-bounce" />
           </div>
-          <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono">
+          <p className="text-[10px] sm:text-[11px] text-slate-400 font-light tracking-wide">
             Eases out smoothly and resumes the 3D Space Shuttle corridor
           </p>
         </div>
@@ -493,7 +493,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         <div className="mt-4 sm:mt-5 flex justify-end">
           <button
             onClick={handleTriggerExit}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider transition-colors text-center"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider uppercase transition-colors text-center"
           >
             RETURN TO SHUTTLE CORRIDOR
           </button>
