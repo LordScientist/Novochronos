@@ -90,7 +90,7 @@ export const App: React.FC = () => {
   // -------------------------------------------------------------
   // Cinematic Rocket Launch & Game Initiation
   // -------------------------------------------------------------
-  const handleStartGame = (artifact?: Artifact) => {
+  const handleStartGame = (artifact?: Artifact, directPlay = false) => {
     // Keep user's chosen artifact, or currently selected card, or fallback to first
     const chosen =
       artifact ||
@@ -101,8 +101,19 @@ export const App: React.FC = () => {
     setActiveGameArtifact(chosen);
     setSelectedSentinelId(null);
     setCurrentView('corridor');
-    setLaunchState('LAUNCH_PREPARATION');
+    if (directPlay) {
+      setLaunchState('PLAYING');
+    } else {
+      setLaunchState('LAUNCH_PREPARATION');
+    }
   };
+
+  // Direct game access via query param ?game or auto-launch
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('game')) {
+      handleStartGame(undefined, true);
+    }
+  }, []);
 
   const handleLaunchComplete = () => {
     setLaunchState('PLAYING');
@@ -120,7 +131,10 @@ export const App: React.FC = () => {
         it smoothly transitions directly to the Space Shuttle corridor or Discovery Gallery!
       */}
       {currentView === 'intro' && (
-        <CinematicIntro onComplete={handleTransitionToCorridor} />
+        <CinematicIntro
+          onComplete={handleTransitionToCorridor}
+          onPlayGame={() => handleStartGame()}
+        />
       )}
 
       {/* Global View Switcher Bar (Visible outside Intro, hidden during active launch & game) */}

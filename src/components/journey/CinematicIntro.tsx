@@ -11,9 +11,10 @@ import {
 
 interface CinematicIntroProps {
   onComplete: () => void; // Transitions to Stage 1: Command Terminal
+  onPlayGame?: () => void;
 }
 
-export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) => {
+export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPlayGame }) => {
   // Narration Voiceover Audio Element ref
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -264,6 +265,18 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
               <span>START CINEMATIC INTRODUCTION</span>
             </button>
 
+            {onPlayGame && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPlayGame();
+                }}
+                className="w-full mt-2.5 py-2.5 px-4 rounded-xl bg-slate-900/90 border border-amber-500/40 hover:bg-slate-800 text-amber-400 font-orbitron font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>PLAY POWER RUN: THE LAST SIGNAL</span>
+              </button>
+            )}
+
             <div className="flex items-center justify-center gap-1.5 mt-3.5 font-mono text-[11px] text-slate-300/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
               <span>🔊</span>
               <span>Click anywhere on screen to begin</span>
@@ -288,6 +301,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete }) =>
         onReplay={handleReplay}
         onSelectScene={handleSelectScene}
         onEnterArchive={handleSkip}
+        onPlayGame={onPlayGame}
       />
     </div>
   );

@@ -19,6 +19,7 @@ interface CinematicIntroOverlayProps {
   onReplay?: () => void;
   onSelectScene?: (scene: IntroScene) => void;
   onEnterArchive: () => void;
+  onPlayGame?: () => void;
 }
 
 function formatTime(seconds: number): string {
@@ -40,6 +41,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
   onSeek,
   onSkip,
   onEnterArchive,
+  onPlayGame,
 }) => {
   const currentSentinel = ARTIFACTS[activeSentinelIndex] || ARTIFACTS[0];
   const activeCue = useMemo(() => getCueForTimestamp(currentTime), [currentTime]);
@@ -288,6 +290,16 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
               style={{ left: `${progress * 100}%` }}
             />
           </div>
+
+          {/* Play Game Button */}
+          {onPlayGame && (
+            <button
+              onClick={onPlayGame}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
+            >
+              <span>PLAY POWER RUN</span>
+            </button>
+          )}
 
           {/* Skip Intro button */}
           <button

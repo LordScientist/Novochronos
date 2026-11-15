@@ -1,9 +1,9 @@
 // POWER RUN: The Last Signal — Cinematic Rocket Launch Transition
 // Clear unobstructed rocket visibility, physically grounded liftoff, and seamless space countdown
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Stars } from '@react-three/drei';
+import { Stars, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { SpaceShuttleSpine } from '../canvas/SpaceShuttleSpine';
 import { LaunchState } from '../../types/game';
@@ -41,6 +41,11 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
   const [countdownText, setCountdownText] = useState<string>('READY');
   const [countdownSub, setCountdownSub] = useState<string>('CALIBRATING NAVIGATION LANES');
 
+  // Reset timer on stage transition
+  useEffect(() => {
+    stateTimerRef.current = 0;
+  }, [launchState]);
+
   // Handle launch stages
   useFrame((_, delta) => {
     stateTimerRef.current += delta;
@@ -55,9 +60,9 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
         targetCamPos.current.set(0, 0.2, 13.5);
         targetLookAt.current.set(0, -0.2, 0);
 
-        if (t > 2.0) {
+        if (t > 1.2) {
           stateTimerRef.current = 0;
-          gameAudio.playEngineIgnition(4.0);
+          gameAudio.playEngineIgnition(3.5);
           onLaunchProgress('ENGINE_IGNITION');
         }
         break;
@@ -65,7 +70,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
 
       case 'ENGINE_IGNITION': {
         // Subdued pad rumbling (subtle camera vibration, strictly NOT obscuring the vehicle)
-        const rumble = Math.min(t / 2.5, 1.0) * 0.035;
+        const rumble = Math.min(t / 1.5, 1.0) * 0.035;
         shakeX = (Math.random() - 0.5) * rumble;
         shakeY = (Math.random() - 0.5) * rumble;
 
@@ -73,10 +78,10 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
         targetLookAt.current.set(0, -1.2, 0);
 
         if (flameLightRef.current) {
-          flameLightRef.current.intensity = Math.min(t * 8.0, 18.0);
+          flameLightRef.current.intensity = Math.min(t * 12.0, 18.0);
         }
 
-        if (t > 2.6) {
+        if (t > 1.5) {
           stateTimerRef.current = 0;
           onLaunchProgress('LIFTOFF');
         }
@@ -85,12 +90,12 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
 
       case 'LIFTOFF': {
         // Liftoff: Progressive vertical acceleration
-        const liftoffShake = 0.045 * (1.0 - Math.min(t / 3.5, 0.6));
+        const liftoffShake = 0.045 * (1.0 - Math.min(t / 2.2, 0.6));
         shakeX = (Math.sin(t * 50) + Math.cos(t * 35)) * liftoffShake;
         shakeY = (Math.cos(t * 45) + Math.sin(t * 30)) * liftoffShake;
 
         // Quadratic vertical climb
-        velocityRef.current += 3.8 * delta;
+        velocityRef.current += 5.5 * delta;
         altitudeRef.current += velocityRef.current * delta;
 
         if (rocketGroupRef.current) {
@@ -101,7 +106,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
         targetCamPos.current.set(0, altitudeRef.current * 0.65 - 0.5, 14.0);
         targetLookAt.current.set(0, altitudeRef.current * 0.85, 0);
 
-        if (t > 3.6) {
+        if (t > 2.2) {
           stateTimerRef.current = 0;
           onLaunchProgress('ASCENT');
         }
@@ -110,7 +115,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
 
       case 'ASCENT': {
         // Transonic atmospheric climb
-        velocityRef.current += 7.5 * delta;
+        velocityRef.current += 9.5 * delta;
         altitudeRef.current += velocityRef.current * delta;
 
         if (rocketGroupRef.current) {
@@ -121,7 +126,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
         targetCamPos.current.set(0, altitudeRef.current * 0.75, 15.0);
         targetLookAt.current.set(0, altitudeRef.current + 1.0, 0);
 
-        if (t > 3.2) {
+        if (t > 1.8) {
           stateTimerRef.current = 0;
           onLaunchProgress('SPACE_TRANSITION');
         }
@@ -130,7 +135,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
 
       case 'SPACE_TRANSITION': {
         // Space transition: Rocket accelerates into the orbital cosmos
-        velocityRef.current += 12.0 * delta;
+        velocityRef.current += 14.0 * delta;
         altitudeRef.current += velocityRef.current * delta;
 
         if (rocketGroupRef.current) {
@@ -140,7 +145,7 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
         targetCamPos.current.set(0, altitudeRef.current * 0.85, 17.0);
         targetLookAt.current.set(0, altitudeRef.current + 4.0, 0);
 
-        if (t > 2.5) {
+        if (t > 1.5) {
           stateTimerRef.current = 0;
           onLaunchProgress('COUNTDOWN');
         }
@@ -149,25 +154,25 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
 
       case 'COUNTDOWN': {
         // Countdown sequence leading directly into gameplay
-        if (t < 0.8) {
+        if (t < 0.5) {
           if (countdownText !== '3') {
             setCountdownText('3');
             setCountdownSub('INITIALIZING ARTIFACT ONBOARD POWER');
             gameAudio.playCountdownBeep(false);
           }
-        } else if (t < 1.6) {
+        } else if (t < 1.0) {
           if (countdownText !== '2') {
             setCountdownText('2');
             setCountdownSub('SYNCHRONIZING 3-LANE RECON GRID');
             gameAudio.playCountdownBeep(false);
           }
-        } else if (t < 2.4) {
+        } else if (t < 1.5) {
           if (countdownText !== '1') {
             setCountdownText('1');
             setCountdownSub('HAZARD SENSORS ENGAGED');
             gameAudio.playCountdownBeep(false);
           }
-        } else if (t < 3.2) {
+        } else if (t < 2.0) {
           if (countdownText !== 'GO!') {
             setCountdownText('GO!');
             setCountdownSub('THE LAST SIGNAL — RUN ACTIVE');
@@ -306,59 +311,61 @@ export const RocketLaunchTransition: React.FC<RocketLaunchTransitionProps> = ({
       {/* ----------------------------------------------------------- */}
       {/* HTML TELEMETRY & COUNTDOWN BROADCAST OVERLAY                */}
       {/* ----------------------------------------------------------- */}
-      <div className="fixed inset-0 z-40 pointer-events-none flex flex-col justify-between p-6">
-        {/* Top Telemetry Header */}
-        <div className="w-full flex items-center justify-between pointer-events-auto">
-          <div className="bg-slate-950/85 border border-white/15 px-4 py-2 rounded-full backdrop-blur-md flex items-center gap-2.5 shadow-xl">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-            <span className="font-mono text-xs text-amber-400 font-bold uppercase tracking-widest">
-              NASA LAUNCH CONTROL // {launchState.replace('_', ' ')}
-            </span>
+      <Html fullscreen zIndexRange={[40, 50]}>
+        <div className="fixed inset-0 z-40 pointer-events-none flex flex-col justify-between p-6">
+          {/* Top Telemetry Header */}
+          <div className="w-full flex items-center justify-between pointer-events-auto">
+            <div className="bg-slate-950/85 border border-white/15 px-4 py-2 rounded-full backdrop-blur-md flex items-center gap-2.5 shadow-xl">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+              <span className="font-mono text-xs text-amber-400 font-bold uppercase tracking-widest">
+                NASA LAUNCH CONTROL // {launchState.replace('_', ' ')}
+              </span>
+            </div>
+
+            {/* Skip Button */}
+            <button
+              onClick={onLaunchComplete}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-white/20 hover:bg-slate-800 text-slate-300 hover:text-white font-mono text-xs font-bold transition-all shadow-lg cursor-pointer pointer-events-auto active:scale-95"
+            >
+              <FastForward className="w-3.5 h-3.5" />
+              <span>SKIP LAUNCH</span>
+            </button>
           </div>
 
-          {/* Skip Button */}
-          <button
-            onClick={onLaunchComplete}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-white/20 hover:bg-slate-800 text-slate-300 hover:text-white font-mono text-xs font-bold transition-all shadow-lg cursor-pointer pointer-events-auto active:scale-95"
-          >
-            <FastForward className="w-3.5 h-3.5" />
-            <span>SKIP LAUNCH</span>
-          </button>
-        </div>
+          {/* Pre-Game COUNTDOWN Overlay: Reveals Selected Artifact */}
+          {launchState === 'COUNTDOWN' && (
+            <div className="my-auto mx-auto max-w-md w-full text-center space-y-4 animate-fadeIn">
+              {/* Artifact Identification Badge */}
+              <div className="bg-slate-950/90 border border-sky-400/40 p-4 rounded-2xl backdrop-blur-md shadow-2xl space-y-2">
+                <div className="flex items-center justify-center gap-2 text-sky-400 text-xs font-mono uppercase tracking-widest">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>SPACECRAFT DEPLOYMENT CONFIRMED</span>
+                </div>
 
-        {/* Pre-Game COUNTDOWN Overlay: Reveals Selected Artifact */}
-        {launchState === 'COUNTDOWN' && (
-          <div className="my-auto mx-auto max-w-md w-full text-center space-y-4 animate-fadeIn">
-            {/* Artifact Identification Badge */}
-            <div className="bg-slate-950/90 border border-sky-400/40 p-4 rounded-2xl backdrop-blur-md shadow-2xl space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sky-400 text-xs font-mono uppercase tracking-widest">
-                <ShieldCheck className="w-4 h-4" />
-                <span>SPACECRAFT DEPLOYMENT CONFIRMED</span>
+                <h3 className="text-xl font-bold font-orbitron text-white">
+                  {selectedArtifact.name}
+                </h3>
+
+                <p className="text-xs font-mono text-slate-300">
+                  DESTINATION: <span className="text-amber-400 font-bold">{selectedArtifact.celestialBody.toUpperCase()}</span> ({selectedArtifact.landingSite})
+                </p>
               </div>
 
-              <h3 className="text-xl font-bold font-orbitron text-white">
-                {selectedArtifact.name}
-              </h3>
-
-              <p className="text-xs font-mono text-slate-300">
-                DESTINATION: <span className="text-amber-400 font-bold">{selectedArtifact.celestialBody.toUpperCase()}</span> ({selectedArtifact.landingSite})
-              </p>
+              {/* Giant Countdown Callout */}
+              <div className="space-y-1">
+                <h1 className="text-6xl sm:text-7xl font-orbitron font-black text-amber-400 tracking-wider animate-pulse drop-shadow-[0_0_35px_rgba(245,158,11,0.6)]">
+                  {countdownText}
+                </h1>
+                <p className="font-mono text-xs text-slate-300 tracking-widest uppercase">
+                  {countdownSub}
+                </p>
+              </div>
             </div>
+          )}
 
-            {/* Giant Countdown Callout */}
-            <div className="space-y-1">
-              <h1 className="text-6xl sm:text-7xl font-orbitron font-black text-amber-400 tracking-wider animate-pulse drop-shadow-[0_0_35px_rgba(245,158,11,0.6)]">
-                {countdownText}
-              </h1>
-              <p className="font-mono text-xs text-slate-300 tracking-widest uppercase">
-                {countdownSub}
-              </p>
-            </div>
-          </div>
-        )}
-
-        <div />
-      </div>
+          <div />
+        </div>
+      </Html>
     </>
   );
 };
