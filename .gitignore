@@ -10,3 +10,8 @@ __pycache__/
 *.pyc
 venv/
 .env
+
+# Scratch audio matching / transcription scripts
+scripts/*.py
+*.webm
+*.mp4

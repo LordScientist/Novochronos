@@ -35,6 +35,17 @@ All data, scripts, coordinates, and historical context have already been curated
 
 ---
 
+### 0. Stage 0 — Dedicated Cinematic 3D Opening Sequence ("Echoes of Exploration")
+* **Status:** Implemented (`src/components/journey/CinematicIntro.tsx`, `IntroScene3D.tsx`, `IntroCameraController.tsx`).
+* **Lifecycle:** Positioned as Stage 0 before the NASA Command Terminal. Features 5 scenes:
+  1. *Awakening:* Atmospheric darkness, stars, circular amphitheater emerging.
+  2. *The Eight Sentinels:* Sequential mechanical reveals for Opportunity, Ingenuity, Apollo 11, InSight, Apollo 15 LRV, Sojourner, Pioneer 10, Surveyor 3.
+  3. *Grand Exhibition:* 360° orbital panoramic sweep of all eight sentinels.
+  4. *Planetary Staging:* Transition into 3D Martian terrain with geological depth and historical accuracy notes.
+  5. *Title Reveal:* Novochronos identity + "ENTER THE ARCHIVE" CTA, with skip intro and replay options.
+
+---
+
 ### 1. Roland — 3D Motion Inspiration & 3D Stage Design Lead
 
 #### 🎯 Role Overview

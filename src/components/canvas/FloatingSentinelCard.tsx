@@ -1,239 +1,252 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { RoundedBox, Text } from '@react-three/drei';
+import { RoundedBox, Text, Image } from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface FloatingSentinelCardProps {
   id: string;
   name: string;
   celestialBody: string;
-  characterArchetype: string;
+  characterArchetype?: string;
   index: number;
   totalCards: number;
   position: [number, number, number];
   rotation?: [number, number, number];
   scrollVelocity?: number;
   isActive?: boolean;
-  distanceFromCenter?: number; // Distance in helical index space (|relIndex|)
+  distanceFromCenter?: number;
   onSelect?: (id: string) => void;
 }
+
+// Concise, non-overflowing canonical names for the 8 featured sentinels
+const SENTINEL_SHORT_NAMES: Record<string, string> = {
+  'opportunity-rover': 'OPPORTUNITY',
+  'ingenuity-helicopter': 'INGENUITY',
+  'apollo-11-descent': 'APOLLO 11',
+  'insight-lander': 'INSIGHT',
+  'apollo-15-lrv': 'APOLLO 15 LRV',
+  'sojourner-pathfinder': 'SOJOURNER',
+  'pioneer-10': 'PIONEER 10',
+  'surveyor-3': 'SURVEYOR 3',
+};
 
 export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   id,
   name,
   celestialBody,
-  characterArchetype,
   index,
   totalCards,
   position,
   rotation = [0, 0, 0],
-  scrollVelocity = 0,
   isActive = false,
   distanceFromCenter = 0,
   onSelect,
 }) => {
   const cardRef = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
 
-  // Format index string (e.g. "01 / 08")
   const indexStr = `${String(index + 1).padStart(2, '0')} / ${String(totalCards).padStart(2, '0')}`;
+  const headlineName = SENTINEL_SHORT_NAMES[id] || name.split('(')[0].trim().toUpperCase();
 
-  // Short clean name for headline
-  const headlineName = name.split('(')[0].trim().toUpperCase();
-
-  // Accent color per celestial body
-  const bodyColor = celestialBody.toLowerCase().includes('mars')
-    ? '#f97316' // Warm Martian orange
-    : celestialBody.toLowerCase().includes('moon')
-    ? '#e2e8f0' // Lunar regolith silver
-    : '#38bdf8'; // Deep space cyan
-
-  // Whether this card is close enough to the foreground sweet-spot to be interactable
-  const isFrontFacing = distanceFromCenter < 1.35;
+  const isFrontFacing = distanceFromCenter < 1.3;
 
   useFrame((state, delta) => {
     if (!cardRef.current) return;
 
-    // Active Theory helical focus physics:
-    // When near center (distanceFromCenter -> 0), scale is 1.0; farther cards taper to 0.78
+    // Mobile scale optimization: slightly tighter proportions on mobile screens
+    const isMobile = state.size.width < 768;
+    const mobileScale = isMobile ? 0.86 : 1.0;
+
+    // Stable scale and position tied directly to scroll progress
+    // When active/clicked, smoothly translate along local radial normal towards camera
     const helixScale = Math.max(0.78, 1.0 - distanceFromCenter * 0.08);
-    const targetScale = hovered && isFrontFacing ? 1.08 : isActive ? 1.04 : helixScale;
+    const targetScale = (isActive ? 1.14 : helixScale) * mobileScale;
 
-    // Hover pointer tilt (only active on front-facing card to prevent erratic background tilt)
-    const targetTiltX = hovered && isFrontFacing ? -state.pointer.y * 0.35 : 0;
-    const targetTiltY = hovered && isFrontFacing ? state.pointer.x * 0.35 : 0;
+    // Push outward along the card's facing angle towards the orbiting camera
+    const normalX = Math.sin(rotation[1]);
+    const normalZ = Math.cos(rotation[1]);
+    const pushDist = isActive ? 0.45 : 0;
 
-    // Velocity skew on scroll
-    const velocityTiltZ = -scrollVelocity * 0.0015;
+    const targetX = position[0] + normalX * pushDist;
+    const targetY = position[1];
+    const targetZ = position[2] + normalZ * pushDist;
 
-    // Smooth lerps for position, rotation and scale
-    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, position[0], 5, delta);
-    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, position[1], 5, delta);
-    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, position[2], 5, delta);
+    cardRef.current.position.x = THREE.MathUtils.damp(cardRef.current.position.x, targetX, 18, delta);
+    cardRef.current.position.y = THREE.MathUtils.damp(cardRef.current.position.y, targetY, 18, delta);
+    cardRef.current.position.z = THREE.MathUtils.damp(cardRef.current.position.z, targetZ, 18, delta);
 
-    cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 6, delta);
-    cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 6, delta);
-    cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 6, delta);
+    cardRef.current.scale.x = THREE.MathUtils.damp(cardRef.current.scale.x, targetScale, 18, delta);
+    cardRef.current.scale.y = THREE.MathUtils.damp(cardRef.current.scale.y, targetScale, 18, delta);
+    cardRef.current.scale.z = THREE.MathUtils.damp(cardRef.current.scale.z, targetScale, 18, delta);
 
-    cardRef.current.rotation.x = THREE.MathUtils.damp(
-      cardRef.current.rotation.x,
-      rotation[0] + targetTiltX,
-      5,
-      delta
-    );
-    cardRef.current.rotation.y = THREE.MathUtils.damp(
-      cardRef.current.rotation.y,
-      rotation[1] + targetTiltY,
-      5,
-      delta
-    );
-    cardRef.current.rotation.z = THREE.MathUtils.damp(
-      cardRef.current.rotation.z,
-      rotation[2] + velocityTiltZ,
-      5,
-      delta
-    );
+    cardRef.current.rotation.x = THREE.MathUtils.damp(cardRef.current.rotation.x, rotation[0], 18, delta);
+    cardRef.current.rotation.y = THREE.MathUtils.damp(cardRef.current.rotation.y, rotation[1], 18, delta);
+    cardRef.current.rotation.z = THREE.MathUtils.damp(cardRef.current.rotation.z, rotation[2], 18, delta);
   });
 
-  // Calculate dynamic opacity: front cards are vivid, cards behind the shuttle fade into atmospheric haze
-  const cardOpacity = Math.max(0.25, Math.min(0.95, 1.0 - distanceFromCenter * 0.22));
+  const cardOpacity = Math.max(0.68, Math.min(1.0, 1.0 - distanceFromCenter * 0.07));
+
+  const handleSelect = (e?: any) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    onSelect?.(id);
+  };
+
+  const handlePointerOver = (e?: any) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    document.body.style.cursor = 'pointer';
+  };
+
+  const handlePointerOut = () => {
+    document.body.style.cursor = 'auto';
+  };
 
   return (
     <group
       ref={cardRef}
       position={position}
       rotation={rotation}
-      onClick={(e) => {
-        if (!isFrontFacing) return;
-        e.stopPropagation();
-        onSelect?.(id);
-      }}
-      onPointerOver={(e) => {
-        if (!isFrontFacing) return;
-        e.stopPropagation();
-        setHovered(true);
-        document.body.style.cursor = 'pointer';
-      }}
-      onPointerOut={() => {
-        setHovered(false);
-        document.body.style.cursor = 'auto';
-      }}
+      onClick={handleSelect}
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
     >
-      {/* 3D Glassmorphic Obsidian Slab */}
-      <RoundedBox args={[3.2, 2.0, 0.08]} radius={0.12} smoothness={4}>
-        <meshPhysicalMaterial
-          color={hovered && isFrontFacing ? '#0f172a' : '#080d1a'}
-          roughness={0.25}
-          metalness={0.65}
-          transmission={0.35}
-          ior={1.4}
-          thickness={0.5}
+      {/* 
+        Full-Surface 3D Interactive Bounding Hitbox:
+        Positioned at z = 0.08 in front of all text and image layers.
+        Covers the full card face and edges so clicking anywhere immediately opens the card!
+      */}
+      <mesh
+        position={[0, 0, 0.08]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
+        <planeGeometry args={[3.6, 2.3]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+
+      {/* 
+        Sleek Obsidian & Cyan Backing Rim:
+        Clean solid rounded box with luminous rim that stays visible across the entire 3D depth
+      */}
+      <RoundedBox
+        args={[3.46, 2.21, 0.04]}
+        radius={0.12}
+        smoothness={4}
+        position={[0, 0, -0.01]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
+        <meshBasicMaterial
+          color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#0284c7'}
+          transparent
+          opacity={isActive ? 1.0 : isFrontFacing ? 0.9 : 0.65}
+          side={THREE.DoubleSide}
+        />
+      </RoundedBox>
+
+      {/* 
+        Full Edge-to-Edge NASA Image:
+        Fills the entire 3.4 x 2.15 card without any black boxes cutting it off!
+      */}
+      <group
+        position={[0, 0, 0.02]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
+        <Image
+          url={`/images/sentinels/${id}.jpg`}
+          scale={[3.4, 2.15]}
+          radius={0.12}
           transparent
           opacity={cardOpacity}
-          clearcoat={1.0}
-          clearcoatRoughness={0.1}
+          toneMapped={true}
+          side={THREE.DoubleSide}
+          onClick={handleSelect}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
         />
-      </RoundedBox>
+      </group>
 
-      {/* Glowing Border Frame */}
-      <RoundedBox args={[3.24, 2.04, 0.06]} radius={0.12} smoothness={4} position={[0, 0, -0.01]}>
-        <meshBasicMaterial
-          color={hovered && isFrontFacing ? '#38bdf8' : isFrontFacing ? '#60a5fa' : '#334155'}
-          wireframe
-          transparent
-          opacity={hovered && isFrontFacing ? 0.9 : isFrontFacing ? 0.5 : 0.2}
-        />
-      </RoundedBox>
-
-      {/* Top Telemetry Header */}
-      <group position={[0, 0.65, 0.05]}>
+      {/* Top Header: Monospace Counter & Celestial Body with Text Stroke for 100% Readability */}
+      <group
+        position={[0, 0.8, 0.04]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+      >
         <Text
-          position={[-1.3, 0, 0]}
+          position={[-1.4, 0, 0]}
           fontSize={0.09}
-          color="#94a3b8"
+          color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
-          {`MISSION ${indexStr}`}
+          {indexStr}
         </Text>
 
         <Text
-          position={[1.3, 0, 0]}
+          position={[1.4, 0, 0]}
           fontSize={0.09}
-          color={bodyColor}
+          color="#38bdf8"
           anchorX="right"
           anchorY="middle"
-          letterSpacing={0.1}
+          letterSpacing={0.12}
+          outlineWidth={0.018}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
           {celestialBody.toUpperCase()}
         </Text>
       </group>
 
-      {/* Divider Line */}
-      <mesh position={[0, 0.48, 0.05]}>
-        <planeGeometry args={[2.7, 0.01]} />
-        <meshBasicMaterial
-          color={hovered && isFrontFacing ? '#38bdf8' : '#334155'}
-          transparent
-          opacity={cardOpacity * 0.7}
-        />
-      </mesh>
-
-      {/* Main Title (Headline) */}
-      <Text
-        position={[-1.3, 0.22, 0.05]}
-        fontSize={0.2}
-        color="#ffffff"
-        anchorX="left"
-        anchorY="middle"
-        letterSpacing={0.06}
-        maxWidth={2.6}
-        fillOpacity={cardOpacity}
+      {/* Bottom Title: Clean, Punchy, Crisp White with Dark Outline to Pop Over Any Photo */}
+      <group
+        position={[0, -0.74, 0.04]}
+        onClick={handleSelect}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
       >
-        {headlineName}
-      </Text>
-
-      {/* Archetype Subtitle */}
-      <Text
-        position={[-1.3, -0.06, 0.05]}
-        fontSize={0.11}
-        color="#38bdf8"
-        anchorX="left"
-        anchorY="middle"
-        letterSpacing={0.04}
-        fillOpacity={cardOpacity}
-      >
-        {`// ${characterArchetype}`}
-      </Text>
-
-      {/* Bottom CTA / Action Bar */}
-      <group position={[0, -0.65, 0.05]}>
-        <mesh position={[-1.25, 0, 0]}>
-          <circleGeometry args={[0.04, 16]} />
-          <meshBasicMaterial
-            color={hovered && isFrontFacing ? '#22c55e' : isFrontFacing ? '#38bdf8' : '#475569'}
-            transparent
-            opacity={cardOpacity}
-          />
-        </mesh>
-
         <Text
-          position={[-1.1, 0, 0]}
-          fontSize={0.09}
-          color={hovered && isFrontFacing ? '#ffffff' : isFrontFacing ? '#94a3b8' : '#64748b'}
+          position={[-1.4, 0, 0]}
+          fontSize={0.2}
+          color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.08}
+          maxWidth={2.6}
+          overflowWrap="break-word"
+          lineHeight={1.1}
+          outlineWidth={0.022}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
+          onClick={handleSelect}
         >
-          {hovered && isFrontFacing
-            ? 'CLICK TO DOCK & LISTEN →'
-            : isFrontFacing
-            ? 'ABANDONED SENTINEL'
-            : 'ORBITAL TELEMETRY'}
+          {headlineName}
+        </Text>
+
+        <Text
+          position={[1.4, 0, 0]}
+          fontSize={0.16}
+          color={isFrontFacing ? '#38bdf8' : '#ffffff'}
+          anchorX="right"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#000000"
+          fillOpacity={cardOpacity}
+          onClick={handleSelect}
+        >
+          →
         </Text>
       </group>
     </group>

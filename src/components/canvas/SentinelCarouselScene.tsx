@@ -1,9 +1,10 @@
 import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { SpaceShuttleSpine } from './SpaceShuttleSpine';
 import { FloatingSentinelCard } from './FloatingSentinelCard';
 import { AmbientSpaceBackground } from './AmbientSpaceBackground';
+import { OrbitalDepthRings } from './OrbitalDepthRings';
 import narrationScripts from '../../data/narrationScripts.json';
 
 interface SentinelCarouselSceneProps {
@@ -19,70 +20,141 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
   selectedSentinelId,
   onSelectSentinel,
 }) => {
-  const currentScrollIndexRef = useRef<number>(0);
+  const { camera } = useThree();
+  const currentScrollProgressRef = useRef<number>(0);
+  const currentLookAtRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 2.5, 0));
 
-  // Helical geometry parameters (Active Theory spiral architecture)
-  const totalCards = narrationScripts.length;
-  const orbitRadius = 5.2; // Radius of helix around the complete launch stack
-  const stepY = 1.7; // Vertical pitch between consecutive cards along the launch stack
-  const deltaTheta = (Math.PI * 2) / 4.6; // Angle pitch (~78.2 degrees per card)
+  // Helical spiral parameters around the stationary Space Shuttle
+  // Replicating Active Theory's spiral staircase flight path:
+  // Starts high up at the tip of the shuttle nose and spirals down to the base rocket engines and gantry heat!
+  const totalCards = narrationScripts.length; // 8 sentinels
+  const heightTop = 3.2;      // Camera & card elevation at scroll progress 0 (Shuttle Tip)
+  const heightBottom = -3.5;  // Camera & card elevation at scroll progress 1 (Rocket Engine Heat)
+  const totalAngle = Math.PI * 2 * 1.35; // 1.35 full spiral revolutions (~486 degrees)
+  const orbitRadius = 5.2;    // Card distance from central shuttle axis
+  const cameraDistance = 9.8; // Viewpoint distance from central shuttle axis
 
-  useFrame((_, delta) => {
-    // Map scroll progress (0 to 1) to continuous card index space (0 to totalCards - 1)
-    const targetIndex = scrollProgress * (totalCards - 1);
-
-    // Smooth exponential damping for scroll inertia
-    currentScrollIndexRef.current = THREE.MathUtils.damp(
-      currentScrollIndexRef.current,
-      targetIndex,
-      4.8,
+  useFrame((state, delta) => {
+    // High-fidelity damping locked directly with Lenis scroll momentum
+    currentScrollProgressRef.current = THREE.MathUtils.damp(
+      currentScrollProgressRef.current,
+      scrollProgress,
+      18.0,
       delta
     );
+
+    const p = currentScrollProgressRef.current;
+
+    // Responsive camera distance for mobile vs desktop viewports
+    const isMobile = state.size.width < 768;
+    const effectiveCamDist = isMobile ? 12.2 : cameraDistance;
+
+    // Moving on a spiral staircase around the stationary shuttle
+    const currentAngle = p * totalAngle;
+    const currentY = THREE.MathUtils.lerp(heightTop, heightBottom, p);
+
+    const targetCamX = Math.sin(currentAngle) * effectiveCamDist;
+    const targetCamZ = Math.cos(currentAngle) * effectiveCamDist;
+    const targetCamY = currentY;
+
+    // Smoothly update camera coordinates
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, targetCamX, 18.0, delta);
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, targetCamY, 18.0, delta);
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, targetCamZ, 18.0, delta);
+
+    // Camera continuously aims at the shuttle axis at the current elevation
+    const targetLookAtY = currentY * 0.72 - 0.15;
+    currentLookAtRef.current.y = THREE.MathUtils.damp(currentLookAtRef.current.y, targetLookAtY, 18.0, delta);
+    camera.lookAt(0, currentLookAtRef.current.y, 0);
   });
 
+  // Calculate fixed helical spiral positions for all 8 cards around the stationary shuttle
   const cardTransforms = useMemo(() => {
     return narrationScripts.map((sentinel, index) => {
-      return { sentinel, index };
+      const t = index / (totalCards - 1);
+      const angle = t * totalAngle;
+      const y = THREE.MathUtils.lerp(heightTop, heightBottom, t);
+      const x = Math.sin(angle) * orbitRadius;
+      const z = Math.cos(angle) * orbitRadius;
+
+      // Card faces radially outward toward where the camera orbits
+      const rotation: [number, number, number] = [0, angle, 0];
+
+      return {
+        sentinel,
+        index,
+        t,
+        position: [x, y, z] as [number, number, number],
+        rotation,
+      };
     });
-  }, []);
+  }, [totalCards, heightTop, heightBottom, totalAngle, orbitRadius]);
 
   return (
     <group>
       {/* 
-        Layer 1: Ambient Space Environment
-        Stars, micro-meteoroid sparkles, volumetric nebulae, and Earth orbital horizon
+        True Black Depth Fog (Active Theory & Space Trash Signs Token)
+        Dissolves distant background geometry into pure obsidian #000000 void,
+        tuned to allow cards on the far side to remain crisply visible for deep 3D perspective!
       */}
+      <fog attach="fog" args={['#000000', 16.0, 42.0]} />
+
+      {/* Layer 1: Ambient Space Background (Stars, deep volumetric haze, Earth horizon) */}
       <AmbientSpaceBackground />
 
+      {/* Layer 2: Concentric Orbital Depth Rings (Establishes 3D perspective plane) */}
+      <OrbitalDepthRings />
+
       {/* 
-        Layer 2: Photorealistic Outer Space Lighting
-        Direct solar illumination + soft planetary Earthshine reflection
+        Layer 3: High-Contrast Cinematic Space Lighting
+        Spotlight focal illumination with true pitch-black shadow falloff
       */}
       <ambientLight intensity={0.45} color="#0f172a" />
 
-      {/* The Sun: High-intensity directional sunlight with sharp space shadows */}
+      {/* The Sun / Stage Key Spotlight (Illuminates foreground active sentinel & launch stack) */}
       <directionalLight
         position={[14, 22, 14]}
-        intensity={3.2}
+        intensity={3.4}
         color="#ffffff"
         castShadow
-        shadow-mapSize={[2048, 2048]}
       />
 
-      {/* Earthshine: Soft cyan-blue planetary bounce light from Earth below */}
+      {/* Focused Center Spotlight for Dramatic Depth Falloff */}
+      <spotLight
+        position={[0, 8, 14]}
+        angle={0.45}
+        penumbra={0.8}
+        intensity={3.2}
+        color="#f8fafc"
+        distance={25}
+      />
+
+      {/* Earthshine Planetary Rim Light (Cold cyan glow from the side) */}
       <directionalLight
-        position={[-12, -8, -6]}
-        intensity={1.1}
+        position={[-14, -6, -6]}
+        intensity={1.5}
         color="#38bdf8"
       />
 
-      {/* Launchpad Gantry / Engine Ignition Glow */}
-      <pointLight position={[0, -5, 2]} intensity={2.0} color="#f59e0b" distance={12} />
+      {/* Deep Space Far-Side Key & Fill (Illuminates cards orbiting behind the launch stack) */}
+      <directionalLight
+        position={[0, 8, -16]}
+        intensity={2.8}
+        color="#e2e8f0"
+      />
+      <pointLight
+        position={[0, 0, -6]}
+        intensity={3.4}
+        color="#38bdf8"
+        distance={26}
+      />
+
+      {/* Warm Launchpad / Engine Gantry Base Light */}
+      <pointLight position={[0, -5, 2]} intensity={2.2} color="#f59e0b" distance={10} />
 
       {/* 
-        Layer 3: The Complete NASA Space Transportation System (STS) Launch Stack
-        External Tank (Orange) + Twin Solid Rocket Boosters (White) + Orbiter
-        Inspired by the launchpad reference image, standing as a monumental vertical spine.
+        Layer 4: Central Space Transportation System (STS) Launch Stack
+        External Tank + Twin SRBs + Orbiter standing completely rock-solid.
       */}
       <SpaceShuttleSpine
         scrollProgress={scrollProgress}
@@ -90,34 +162,16 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
         scale={0.92}
         position={[0, 0, 0]}
         rotation={[0, 0, 0]}
-        showAnnotations={true}
       />
 
       {/* 
-        Layer 4: 3D Helical Card Formation
-        Winding around the tall vertical launch stack.
+        Layer 5: Helical Card Formation wrapped around the Shuttle
+        Fixed steps along the spiral staircase around the Space Shuttle
       */}
       <group position={[0, 0, 0]}>
-        {cardTransforms.map(({ sentinel, index }) => {
-          const relIndex = index - currentScrollIndexRef.current;
-          const dist = Math.abs(relIndex);
-
-          // Helical vertical displacement
-          const y = -relIndex * stepY;
-
-          // Helical angular spiral
-          const angle = relIndex * deltaTheta;
-
-          // Cylindrical coordinates
-          const x = Math.sin(angle) * orbitRadius;
-          const z = Math.cos(angle) * orbitRadius;
-
-          // Card orientation: Tangent to helix + facing outwards towards camera
-          const cardRotation: [number, number, number] = [
-            -0.03 * Math.sign(relIndex),
-            -angle,
-            0,
-          ];
+        {cardTransforms.map(({ sentinel, index, position, rotation }) => {
+          const currentIndex = currentScrollProgressRef.current * (totalCards - 1);
+          const dist = Math.abs(index - currentIndex);
 
           return (
             <FloatingSentinelCard
@@ -128,8 +182,8 @@ export const SentinelCarouselScene: React.FC<SentinelCarouselSceneProps> = ({
               characterArchetype={sentinel.characterArchetype}
               index={index}
               totalCards={totalCards}
-              position={[x, y, z]}
-              rotation={cardRotation}
+              position={position}
+              rotation={rotation}
               scrollVelocity={scrollVelocity}
               isActive={selectedSentinelId === sentinel.id}
               distanceFromCenter={dist}

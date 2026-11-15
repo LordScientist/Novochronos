@@ -13,11 +13,12 @@ Rather than presenting information as dry historical textbooks, the application 
 
 ---
 
-## 🎬 The 7-Stage Cinematic User Journey
+## 🎬 The 8-Stage Cinematic User Journey
 
 ```mermaid
 flowchart TD
-    A["Stage 1: NASA Command Terminal<br/>(Boot-up sequence, authorization, telemetry)"] -->|Auto-scroll / Transition| B["Stage 2: Mission Control Command Center<br/>(Flight consoles, orbital tracks, global telemetry)"]
+    Z["Stage 0: Cinematic 3D Introduction<br/>('Echoes of Exploration' opening sequence, 5 scenes)"] -->|Enter Archive / Skip| A["Stage 1: NASA Command Terminal<br/>(Boot-up sequence, authorization, telemetry)"]
+    A -->|Auto-scroll / Transition| B["Stage 2: Mission Control Command Center<br/>(Flight consoles, orbital tracks, global telemetry)"]
     B -->|Ignition sequence| C["Stage 3: Space Launch Experience<br/>(Rocket ignition, atmospheric ascent into the dark)"]
     C -->|Orbital insertion| D["Stage 4: Cinematic Video Overview<br/>(Humanity's off-world hardware montage)"]
     D -->|Scroll / Video Complete| E["Stage 5: Exhibition Gallery & Project Cards<br/>(Overview cards for each featured sentinel)"]
@@ -29,6 +30,17 @@ flowchart TD
 ---
 
 ### Detailed Stage Breakdown
+
+### Stage 0: Cinematic 3D Introduction (Echoes of Exploration)
+* **Visual Direction:** Circular aerospace exhibition architecture, deep space environment, authentic NASA exploration models, documentary-grade camera choreography.
+* **The 5-Scene Sequence:**
+  1. **Scene 1 (Awakening):** Pitch-black cosmic void; subtle stars and monumental circular architectural ribs emerge from darkness as the camera glides into the exhibition hall.
+  2. **Scene 2 (The Eight Sentinels):** Sequential dramatic mechanical spotlight reveals focusing on Opportunity's solar panels & mast, Ingenuity's coaxial rotors, Apollo 11's golden descent stage & ALSEP laser prism, InSight's solar fans & seismometer, Apollo 15's piano-wire wheels & umbrella dish, Sojourner's micro-chassis, Pioneer 10's parabolic dish & gold plaque, and Surveyor 3's soil claw.
+  3. **Scene 3 (Grand Exhibition):** Panoramic 360° orbital sweep displaying all eight machines arranged around the circular amphitheater.
+  4. **Scene 4 (Planetary Reveal):** Transition to a 3D Martian landscape with geological depth, rocks, and an explicit **Historical Staging Notice** clarifying artifact planetary homes (Moon, Mars, Deep Space).
+  5. **Scene 5 (Title Reveal & Call-to-Action):** Hero composition with monumental **NOVOCHRONOS: ECHOES OF EXPLORATION** branding and primary **ENTER THE ARCHIVE** button (plus Skip Intro and Replay controls).
+
+---
 
 ### Stage 1: NASA Command Interface (The Boot Sequence)
 * **Visual Aesthetic:** Minimalist retro-futuristic aerospace terminal (`#030712` background, CRT scanline glow, monospace terminal font).
