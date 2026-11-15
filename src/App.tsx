@@ -145,50 +145,50 @@ export const App: React.FC = () => {
 
       {/* Global Astronomical Navigation Bar */}
       {currentView !== 'intro' && launchState === 'GALLERY' && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 p-1.5 rounded-full bg-obsidian/85 border border-titanium/15 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+        <div className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-1rem)] flex items-center gap-1 sm:gap-2 p-1 sm:p-1.5 rounded-full bg-obsidian/90 border border-titanium/15 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
           <button
             onClick={() => handleSwitchView('corridor')}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wider transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full font-mono text-[10px] sm:text-[11px] tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               currentView === 'corridor'
                 ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_20px_rgba(26,47,251,0.5)]'
                 : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/60'
             }`}
           >
-            <Orbit className="w-3.5 h-3.5" />
-            <span>3D CORRIDOR</span>
+            <Orbit className="w-3.5 h-3.5 shrink-0" />
+            <span><span className="hidden xs:inline">3D </span>CORRIDOR</span>
           </button>
 
           <button
             onClick={() => handleSwitchView('discovery')}
-            className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wider transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full font-mono text-[10px] sm:text-[11px] tracking-wider transition-all cursor-pointer whitespace-nowrap ${
               currentView === 'discovery'
                 ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_20px_rgba(26,47,251,0.5)]'
                 : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/60'
             }`}
           >
-            <Grid className="w-3.5 h-3.5" />
-            <span>ARTIFACT EXHIBITION</span>
+            <Grid className="w-3.5 h-3.5 shrink-0" />
+            <span><span className="hidden sm:inline">ARTIFACT </span>EXHIBITION</span>
           </button>
 
-          <div className="w-px h-4 bg-titanium/20 mx-0.5" />
+          <div className="w-px h-3.5 sm:h-4 bg-titanium/20 mx-0.5 shrink-0" />
 
           {/* On Cards/Exhibition page: Return to Intro; On 3D Corridor: Play Game */}
           {currentView === 'discovery' ? (
             <button
               onClick={handleReplayIntro}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-cosmicNavy/90 hover:bg-stellarBlue/30 text-lunarWhite font-mono font-semibold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(26,47,251,0.3)] cursor-pointer active:scale-95 border border-titanium/20"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-cosmicNavy/90 hover:bg-stellarBlue/30 text-lunarWhite font-mono font-semibold text-[10px] sm:text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(26,47,251,0.3)] cursor-pointer active:scale-95 border border-titanium/20 whitespace-nowrap"
               title="Return to Stage 0 Cinematic Introduction"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-nebulaCyan" />
-              <span>RETURN TO INTRO</span>
+              <RotateCcw className="w-3.5 h-3.5 text-nebulaCyan shrink-0" />
+              <span><span className="hidden sm:inline">RETURN TO </span>INTRO</span>
             </button>
           ) : (
             <button
               onClick={() => handleStartGame()}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-stellarBlue via-indigo-600 to-blue-700 hover:brightness-110 text-lunarWhite font-mono font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(26,47,251,0.5)] cursor-pointer active:scale-95 border border-nebulaCyan/40"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-stellarBlue via-indigo-600 to-blue-700 hover:brightness-110 text-lunarWhite font-mono font-bold text-[10px] sm:text-[11px] tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(26,47,251,0.5)] cursor-pointer active:scale-95 border border-nebulaCyan/40 whitespace-nowrap"
             >
-              <Flame className="w-3.5 h-3.5 text-nebulaCyan" />
-              <span>PLAY GAME</span>
+              <Flame className="w-3.5 h-3.5 text-nebulaCyan shrink-0" />
+              <span>PLAY<span className="hidden xs:inline"> GAME</span></span>
             </button>
           )}
         </div>

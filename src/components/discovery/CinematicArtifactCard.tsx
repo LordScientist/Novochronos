@@ -142,7 +142,7 @@ export const CinematicArtifactCard: React.FC<CinematicArtifactCardProps> = ({
       </div>
 
       {/* Editorial Content Card Body */}
-      <div className="p-5 flex-1 flex flex-col justify-between">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Status & Archetype Micro-Row */}
           <div className="flex items-center justify-between gap-2 mb-2 font-mono">
@@ -159,17 +159,17 @@ export const CinematicArtifactCard: React.FC<CinematicArtifactCardProps> = ({
           </div>
 
           {/* Canonical Headline Name */}
-          <h3 className="font-display text-lg sm:text-xl font-bold text-lunarWhite group-hover:text-nebulaCyan transition-colors duration-300 tracking-tight leading-snug">
+          <h3 className="font-display text-base sm:text-xl font-bold text-lunarWhite group-hover:text-nebulaCyan transition-colors duration-300 tracking-tight leading-snug">
             {artifact.name.split('(')[0].trim()}
           </h3>
 
           {/* Subtitle / Tagline */}
-          <p className="font-sans text-xs text-dustGrey font-normal mt-2 line-clamp-2 leading-relaxed">
+          <p className="font-sans text-xs text-dustGrey font-normal mt-1.5 sm:mt-2 line-clamp-2 leading-relaxed">
             {artifact.tagline}
           </p>
 
           {/* Micro Telemetry Strip */}
-          <div className="mt-3 grid grid-cols-2 gap-2 p-2 rounded-lg bg-deepSpace/50 border border-titanium/10 font-mono text-[9px] text-dustGrey">
+          <div className="mt-2.5 sm:mt-3 grid grid-cols-2 gap-1.5 sm:gap-2 p-2 rounded-lg bg-deepSpace/50 border border-titanium/10 font-mono text-[9px] text-dustGrey">
             <div>
               <span className="text-titanium/50 block text-[8px] uppercase tracking-wider">LIFESPAN</span>
               <span className="text-lunarWhite/90 font-medium truncate block">
@@ -186,15 +186,15 @@ export const CinematicArtifactCard: React.FC<CinematicArtifactCardProps> = ({
         </div>
 
         {/* Card Footer: Resting Coordinates & Action Pill */}
-        <div className="mt-5 pt-3.5 border-t border-titanium/10 flex items-center justify-between text-dustGrey font-mono text-[11px]">
+        <div className="mt-3.5 sm:mt-5 pt-3 sm:pt-3.5 border-t border-titanium/10 flex items-center justify-between text-dustGrey font-mono text-[11px]">
           <div className="flex items-center gap-1.5 truncate max-w-[55%]">
             <Compass className="w-3.5 h-3.5 text-dustGrey shrink-0" />
             <span className="truncate text-dustGrey text-[10px]">{artifact.landingSite.split(',')[0]}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cosmicNavy/60 group-hover:bg-stellarBlue/25 border border-titanium/15 group-hover:border-nebulaCyan/40 text-nebulaCyan font-semibold transition-all duration-300 shadow-sm">
+          <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-cosmicNavy/60 group-hover:bg-stellarBlue/25 border border-titanium/15 group-hover:border-nebulaCyan/40 text-nebulaCyan font-semibold transition-all duration-300 shadow-sm">
             <span className="text-[10px] uppercase tracking-wider">INSPECT</span>
-            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
           </div>
         </div>
       </div>

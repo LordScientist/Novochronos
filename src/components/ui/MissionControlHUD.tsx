@@ -19,13 +19,13 @@ export const MissionControlHUD: React.FC<MissionControlHUDProps> = ({
 
   return (
     <div className="pointer-events-none fixed inset-0 z-20 flex flex-col justify-between p-4 sm:p-6 select-none font-mono">
-      {/* Top Floating Action: Return to Intro Button */}
+      {/* Top Floating Action: Return to Intro Button (Desktop only; on mobile the global nav handles intro) */}
       <div className="w-full flex items-center justify-between pointer-events-auto">
         <div />
         {handleAction && (
           <button
             onClick={handleAction}
-            className="flex items-center gap-2 px-4 py-2 rounded-full obsidian-card hover:bg-stellarBlue/25 text-lunarWhite font-mono font-semibold text-xs tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(26,47,251,0.35)] cursor-pointer active:scale-95 border border-titanium/20"
+            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full obsidian-card hover:bg-stellarBlue/25 text-lunarWhite font-mono font-semibold text-xs tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(26,47,251,0.35)] cursor-pointer active:scale-95 border border-titanium/20"
             title="Return to Stage 0 Cinematic Introduction"
           >
             <RotateCcw className="w-3.5 h-3.5 text-nebulaCyan" />

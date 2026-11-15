@@ -69,35 +69,35 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-4 sm:p-6 md:p-8 font-sans">
+    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-3 xs:p-4 sm:p-6 md:p-8 font-sans">
       {/* Top Header Controls: Timecode readout & Audio Controls (Top-Right) */}
-      <div className="w-full flex justify-between items-center pointer-events-auto">
+      <div className="w-full flex justify-between items-center pointer-events-auto gap-2">
         {/* Master Clock Readout */}
-        <div className="flex items-center gap-2 obsidian-card border border-titanium/15 rounded-full px-3 py-1 backdrop-blur-md shadow-2xl">
-          <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse" />
-          <span className="font-mono text-[11px] tracking-wider text-titanium font-medium">
+        <div className="flex items-center gap-1.5 sm:gap-2 obsidian-card border border-titanium/15 rounded-full px-2.5 sm:px-3 py-1 backdrop-blur-md shadow-2xl">
+          <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse shrink-0" />
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-wider text-titanium font-medium whitespace-nowrap">
             {formatTime(currentTime)} <span className="text-dustGrey">/</span> {formatTime(duration)}
           </span>
-          <span className="text-titanium/30 text-xs">|</span>
-          <span className="font-mono text-[10px] text-nebulaCyan uppercase tracking-widest font-semibold">
+          <span className="text-titanium/30 text-xs hidden xs:inline">|</span>
+          <span className="font-mono text-[9px] sm:text-[10px] text-nebulaCyan uppercase tracking-widest font-semibold hidden xs:inline truncate max-w-[100px] sm:max-w-none">
             {scene.replace('-', ' ')}
           </span>
         </div>
 
         {/* Audio Controls */}
-        <div className="flex items-center gap-2 obsidian-card border border-titanium/15 rounded-full px-3 py-1.5 backdrop-blur-md shadow-2xl">
+        <div className="flex items-center gap-1.5 sm:gap-2 obsidian-card border border-titanium/15 rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 backdrop-blur-md shadow-2xl shrink-0">
           {/* Mute Toggle */}
           {onToggleMute && (
             <button
               onClick={onToggleMute}
               aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-              className="p-1.5 rounded-full hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer"
+              className="p-1 sm:p-1.5 rounded-full hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer"
               title={isMuted ? 'Unmute Narration' : 'Mute Narration'}
             >
               {isMuted ? (
-                <VolumeX className="w-4 h-4 text-rose-400" />
+                <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400" />
               ) : (
-                <Volume2 className="w-4 h-4 text-nebulaCyan" />
+                <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-nebulaCyan" />
               )}
             </button>
           )}
@@ -107,18 +107,18 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
             <button
               onClick={onTogglePlay}
               aria-label={isPlaying ? 'Pause Intro' : 'Play Intro'}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-xs transition-colors cursor-pointer"
+              className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-xs transition-colors cursor-pointer"
               title={isPlaying ? 'Pause Intro' : 'Play Intro'}
             >
               {isPlaying ? (
                 <>
-                  <Pause className="w-3.5 h-3.5 text-solarAmber fill-current" />
-                  <span className="text-[11px] font-semibold">PAUSE</span>
+                  <Pause className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-solarAmber fill-current" />
+                  <span className="text-[10px] sm:text-[11px] font-semibold">PAUSE</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-3.5 h-3.5 text-signalGreen fill-current ml-0.5" />
-                  <span className="text-[11px] font-semibold text-signalGreen">PLAY</span>
+                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-signalGreen fill-current ml-0.5" />
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-signalGreen">PLAY</span>
                 </>
               )}
             </button>
@@ -247,10 +247,10 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
       {/* Bottom Bar: Interactive Timeline Scrubber & Skip Button */}
       <div className="w-full flex flex-col gap-2 pointer-events-auto">
         {/* Timeline Scrubber Bar */}
-        <div className="w-full flex items-center gap-3 obsidian-card border border-titanium/15 rounded-xl px-4 py-2 backdrop-blur-xl shadow-2xl">
-          {/* Progress bar container */}
+        <div className="w-full flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 obsidian-card border border-titanium/15 rounded-xl p-2.5 sm:px-4 sm:py-2 backdrop-blur-xl shadow-2xl">
+          {/* Progress bar container (full width on mobile) */}
           <div
-            className="relative flex-1 h-3 bg-cosmicNavy rounded-full cursor-pointer group flex items-center"
+            className="relative w-full sm:flex-1 h-3.5 sm:h-3 bg-cosmicNavy rounded-full cursor-pointer group flex items-center order-1"
             onClick={handleProgressBarClick}
             title="Click to scrub audio timeline"
           >
@@ -286,30 +286,33 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
             {/* Playhead thumb */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-lunarWhite shadow-[0_0_8px_rgba(255,255,255,0.8)] border-2 border-stellarBlue pointer-events-none group-hover:scale-125 transition-transform"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 sm:w-3.5 sm:h-3.5 rounded-full bg-lunarWhite shadow-[0_0_8px_rgba(255,255,255,0.8)] border-2 border-stellarBlue pointer-events-none group-hover:scale-125 transition-transform"
               style={{ left: `${progress * 100}%` }}
             />
           </div>
 
-          {/* Play Game Button */}
-          {onPlayGame && (
-            <button
-              onClick={onPlayGame}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(245,166,35,0.4)] cursor-pointer active:scale-95"
-            >
-              <span>PLAY POWER RUN</span>
-            </button>
-          )}
+          {/* Action buttons (inline on desktop, full-width row on mobile) */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto order-2">
+            {/* Play Game Button */}
+            {onPlayGame && (
+              <button
+                onClick={onPlayGame}
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-[10px] sm:text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(245,166,35,0.4)] cursor-pointer active:scale-95 whitespace-nowrap"
+              >
+                <span>POWER RUN</span>
+              </button>
+            )}
 
-          {/* Skip Intro button */}
-          <button
-            onClick={onSkip}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-[11px] tracking-wider transition-colors cursor-pointer group"
-            title="Skip Intro to Stage 1: Command Terminal"
-          >
-            <span>SKIP INTRO</span>
-            <SkipForward className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+            {/* Skip Intro button */}
+            <button
+              onClick={onSkip}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-[10px] sm:text-[11px] tracking-wider transition-colors cursor-pointer group whitespace-nowrap"
+              title="Skip Intro to Stage 1: Command Terminal"
+            >
+              <span>SKIP INTRO</span>
+              <SkipForward className="w-3 h-3 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

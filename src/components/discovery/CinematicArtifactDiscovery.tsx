@@ -58,23 +58,23 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
   }, [selectedArtifact]);
 
   return (
-    <div className="relative min-h-screen bg-deepSpace text-lunarWhite select-none px-4 sm:px-8 md:px-16 py-10 md:py-16 flex flex-col justify-between">
+    <div className="relative min-h-screen bg-deepSpace text-lunarWhite select-none px-3 xs:px-5 sm:px-8 md:px-16 py-8 sm:py-10 md:py-16 flex flex-col justify-between">
       {/* Background Subtle Radial Depth */}
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,24,42,0.45)_0%,_rgba(5,7,13,0.98)_70%)]" />
 
       {/* Main Container */}
       <div className="relative z-10 max-w-7xl w-full mx-auto">
         {/* Editorial Top Navigation & Header */}
-        <div className="border-b border-titanium/15 pb-10 mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+        <div className="border-b border-titanium/15 pb-6 sm:pb-10 mb-8 sm:mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
               <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse" />
-              <span className="font-mono text-[11px] tracking-[0.22em] text-nebulaCyan uppercase font-semibold">
+              <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.22em] text-nebulaCyan uppercase font-semibold">
                 ECHOES OF EXPLORATION // PERMANENT MONUMENTS
               </span>
             </div>
 
-            <h1 className="type-section text-lunarWhite font-extrabold tracking-tight leading-none mb-4">
+            <h1 className="type-section text-lunarWhite font-extrabold tracking-tight leading-none mb-3 sm:mb-4">
               THE EIGHT SENTINELS
             </h1>
 
@@ -84,8 +84,8 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
             </p>
           </div>
 
-          {/* Celestial Filter Tabs */}
-          <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-obsidian/85 border border-titanium/15 backdrop-blur-xl shadow-xl shrink-0 self-start lg:self-auto font-mono">
+          {/* Celestial Filter Tabs (horizontally scrollable without scrollbar on mobile) */}
+          <div className="flex items-center gap-1.5 p-1 sm:p-1.5 rounded-full bg-obsidian/85 border border-titanium/15 backdrop-blur-xl shadow-xl shrink-0 self-start lg:self-auto font-mono max-w-full overflow-x-auto no-scrollbar">
             {(['ALL', 'Mars', 'Moon', 'Asteroid / Deep Space'] as const).map((cat) => {
               const count =
                 cat === 'ALL'
@@ -98,7 +98,7 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-[11px] tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-[11px] tracking-wider transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
                     isActive
                       ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_15px_rgba(26,47,251,0.4)]'
                       : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/50'
@@ -119,7 +119,7 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
         </div>
 
         {/* Artifact Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-7">
           {filteredArtifacts.map((artifact, idx) => (
             <CinematicArtifactCard
               key={artifact.id}

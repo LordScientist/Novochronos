@@ -640,40 +640,108 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* IN-GAME HUD: Top Telemetry Bar                                */}
       {/* ------------------------------------------------------------- */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-        {/* Left: Artifact & Environment Identification */}
-        <div className="flex items-center gap-3">
-          <div className="obsidian-card border border-titanium/15 px-3.5 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 shadow-lg">
-            <span className="w-2.5 h-2.5 rounded-full bg-signalGreen animate-pulse" />
-            <span className="text-lunarWhite font-bold text-xs uppercase tracking-wider">
-              {selectedArtifact.name}
-            </span>
-            <span className="text-dustGrey text-[11px] font-normal">
-              // {destination.toUpperCase()}
+      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 z-20 flex flex-col gap-2 pointer-events-none">
+        {/* Top Row: Mission Status & Sound / Pause Controls */}
+        <div className="flex items-center justify-between w-full">
+          {/* Left: Artifact & Environment Identification */}
+          <div className="flex items-center gap-1.5 sm:gap-3 pointer-events-auto">
+            <div className="obsidian-card border border-titanium/15 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 sm:gap-2 shadow-lg">
+              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-signalGreen animate-pulse shrink-0" />
+              <span className="text-lunarWhite font-bold text-[10px] sm:text-xs uppercase tracking-wider truncate max-w-[110px] xs:max-w-[170px] sm:max-w-none">
+                {selectedArtifact.name.split('(')[0].trim()}
+              </span>
+              <span className="text-dustGrey text-[10px] sm:text-[11px] font-normal hidden xs:inline">
+                // {destination.toUpperCase()}
+              </span>
+            </div>
+
+            <div className="obsidian-card border border-titanium/15 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full backdrop-blur-md flex items-center gap-1.5 text-titanium text-[10px] sm:text-xs shadow-lg">
+              <span className="text-nebulaCyan font-bold">{telemetry.distance}</span>
+              <span className="text-[9px] sm:text-[10px] text-dustGrey uppercase">M</span>
+            </div>
+          </div>
+
+          {/* Center: Desktop High-Clarity Battery & Power Meter (hidden on mobile, rendered below) */}
+          <div className="hidden md:flex obsidian-card border border-titanium/15 px-5 py-2 rounded-full backdrop-blur-md items-center gap-3.5 shadow-2xl">
+            <div className="flex items-center gap-1.5">
+              <Zap
+                className={`w-4 h-4 ${
+                  telemetry.power < 25
+                    ? 'text-red-500 animate-bounce'
+                    : 'text-solarAmber fill-current'
+                }`}
+              />
+              <span className="text-xs text-dustGrey font-bold">POWER:</span>
+            </div>
+
+            {/* Dynamic Power Bar Container */}
+            <div className="w-32 sm:w-44 h-3 bg-cosmicNavy rounded-full overflow-hidden border border-titanium/20 p-0.5 relative">
+              <div
+                className={`h-full rounded-full transition-all duration-150 ${
+                  telemetry.power > 50
+                    ? 'bg-gradient-to-r from-stellarBlue to-nebulaCyan'
+                    : telemetry.power > 25
+                    ? 'bg-solarAmber'
+                    : 'bg-red-500 animate-pulse'
+                }`}
+                style={{ width: `${telemetry.power}%` }}
+              />
+            </div>
+
+            <span
+              className={`text-xs font-bold font-mono min-w-[3rem] text-right ${
+                telemetry.power < 25 ? 'text-red-400' : 'text-lunarWhite'
+              }`}
+            >
+              {telemetry.power}%
             </span>
           </div>
 
-          <div className="obsidian-card border border-titanium/15 px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 text-titanium text-xs shadow-lg">
-            <span className="text-nebulaCyan font-bold">{telemetry.distance}</span>
-            <span className="text-[10px] text-dustGrey uppercase">METERS</span>
+          {/* Right: Sound, Pause & Exit Controls */}
+          <div className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+            <button
+              onClick={() => setIsMuted(gameAudio.toggleMute())}
+              className="p-1.5 sm:p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
+              title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+              aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+            >
+              {isMuted ? <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-nebulaCyan" />}
+            </button>
+
+            <button
+              onClick={() => setIsPaused((prev) => !prev)}
+              className="p-1.5 sm:p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
+              title="Pause Game (P or Esc)"
+              aria-label="Pause Game"
+            >
+              {isPaused ? <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-signalGreen" /> : <Pause className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-solarAmber" />}
+            </button>
+
+            <button
+              onClick={onExit}
+              className="p-1.5 sm:p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-red-950/40 text-dustGrey hover:text-red-300 transition-colors cursor-pointer backdrop-blur-md shadow-lg"
+              title="Return to Archive"
+              aria-label="Return to Archive"
+            >
+              <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </button>
           </div>
         </div>
 
-        {/* Center: High-Clarity Battery & Power Meter */}
-        <div className="obsidian-card border border-titanium/15 px-5 py-2 rounded-full backdrop-blur-md flex items-center gap-3.5 shadow-2xl">
+        {/* Mobile Dedicated Full-Width Power Bar (rendered on < md) */}
+        <div className="flex md:hidden items-center justify-between obsidian-card border border-titanium/15 px-3 py-1.5 rounded-full backdrop-blur-md shadow-xl w-full pointer-events-auto">
           <div className="flex items-center gap-1.5">
             <Zap
-              className={`w-4 h-4 ${
+              className={`w-3.5 h-3.5 ${
                 telemetry.power < 25
                   ? 'text-red-500 animate-bounce'
                   : 'text-solarAmber fill-current'
               }`}
             />
-            <span className="text-xs text-dustGrey font-bold">POWER:</span>
+            <span className="text-[10px] text-dustGrey font-bold">POWER:</span>
           </div>
 
-          {/* Dynamic Power Bar Container */}
-          <div className="w-32 sm:w-44 h-3 bg-cosmicNavy rounded-full overflow-hidden border border-titanium/20 p-0.5 relative">
+          <div className="flex-1 mx-2.5 h-2.5 bg-cosmicNavy rounded-full overflow-hidden border border-titanium/20 p-0.5 relative">
             <div
               className={`h-full rounded-full transition-all duration-150 ${
                 telemetry.power > 50
@@ -687,49 +755,32 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
           </div>
 
           <span
-            className={`text-xs font-bold font-mono min-w-[3rem] text-right ${
+            className={`text-[11px] font-bold font-mono min-w-[2.5rem] text-right ${
               telemetry.power < 25 ? 'text-red-400' : 'text-lunarWhite'
             }`}
           >
             {telemetry.power}%
           </span>
         </div>
-
-        {/* Right: Sound & Pause Controls */}
-        <div className="flex items-center gap-2 pointer-events-auto">
-          <button
-            onClick={() => setIsMuted(gameAudio.toggleMute())}
-            className="p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
-            title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-          >
-            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-nebulaCyan" />}
-          </button>
-
-          <button
-            onClick={() => setIsPaused((prev) => !prev)}
-            className="p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
-            title="Pause Game (P or Esc)"
-          >
-            {isPaused ? <Play className="w-4 h-4 text-signalGreen" /> : <Pause className="w-4 h-4 text-solarAmber" />}
-          </button>
-        </div>
       </div>
 
       {/* ------------------------------------------------------------- */}
       {/* ON-SCREEN MOBILE TOUCH CONTROLS (Bottom Right)                */}
       {/* ------------------------------------------------------------- */}
-      <div className="absolute bottom-6 right-6 z-20 flex flex-col gap-2.5 sm:hidden">
+      <div className="absolute bottom-5 right-4 z-20 flex flex-col gap-2 sm:hidden">
         <button
           onClick={() => changeLane('up')}
-          className="w-14 h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl"
+          className="w-12 h-12 xs:w-14 xs:h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl active:scale-95 transition-transform"
+          aria-label="Move Up"
         >
-          <ChevronUp className="w-7 h-7" />
+          <ChevronUp className="w-6 h-6 xs:w-7 xs:h-7" />
         </button>
         <button
           onClick={() => changeLane('down')}
-          className="w-14 h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl"
+          className="w-12 h-12 xs:w-14 xs:h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl active:scale-95 transition-transform"
+          aria-label="Move Down"
         >
-          <ChevronDown className="w-7 h-7" />
+          <ChevronDown className="w-6 h-6 xs:w-7 xs:h-7" />
         </button>
       </div>
 
@@ -737,13 +788,17 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* INITIAL RUN CONTROL TUTORIAL OVERLAY                          */}
       {/* ------------------------------------------------------------- */}
       {showTutorial && !gameOver && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-fadeIn">
-          <div className="obsidian-card border border-titanium/20 px-6 py-2.5 rounded-full backdrop-blur-md flex items-center gap-3 text-xs text-titanium shadow-2xl">
-            <span className="px-2 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↑ / W</span>
-            <span className="px-2 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↓ / S</span>
-            <span className="text-dustGrey">NAVIGATE LANES</span>
+        <div className="absolute bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-fadeIn w-[92vw] max-w-md">
+          <div className="obsidian-card border border-titanium/20 px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full backdrop-blur-md flex items-center justify-center gap-2 text-[10px] sm:text-xs text-titanium shadow-2xl text-center">
+            <span className="hidden sm:inline-flex items-center gap-1">
+              <span className="px-1.5 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↑ / W</span>
+              <span className="px-1.5 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↓ / S</span>
+            </span>
+            <span className="text-nebulaCyan font-semibold sm:text-dustGrey">
+              <span className="sm:hidden">SWIPE OR USE BUTTONS TO </span>NAVIGATE LANES
+            </span>
             <span className="text-titanium/30">•</span>
-            <span className="text-solarAmber font-semibold">COLLECT CELLS TO MAINTAIN POWER</span>
+            <span className="text-solarAmber font-semibold whitespace-nowrap">COLLECT CELLS</span>
           </div>
         </div>
       )}
@@ -796,8 +851,8 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* CLEAN GAME-OVER RESULTS SCREEN                                */}
       {/* ------------------------------------------------------------- */}
       {gameOver && (
-        <div className="absolute inset-0 z-30 bg-deepSpace/95 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-          <div className="obsidian-card border border-solarAmber/40 rounded-3xl p-6 sm:p-9 max-w-lg w-full text-center space-y-6 shadow-[0_0_60px_rgba(245,166,35,0.25)]">
+        <div className="absolute inset-0 z-30 bg-deepSpace/95 backdrop-blur-md flex items-center justify-center p-3 xs:p-4 animate-fadeIn">
+          <div className="obsidian-card border border-solarAmber/40 rounded-2xl sm:rounded-3xl p-4 xs:p-6 sm:p-9 max-w-lg w-full text-center space-y-4 sm:space-y-6 shadow-[0_0_60px_rgba(245,166,35,0.25)] max-h-[94vh] overflow-y-auto">
             <div className="space-y-1">
               <div className="flex items-center justify-center gap-2 text-solarAmber text-xs font-mono tracking-widest uppercase font-semibold">
                 <ShieldAlert className="w-4 h-4" />
