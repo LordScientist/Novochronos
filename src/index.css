@@ -2,97 +2,157 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Design Tokens — Primary Palette */
+  --color-deep-space: #05070D;
+  --color-obsidian: #090D16;
+  --color-cosmic-navy: #10182A;
+  --color-stellar-blue: #1A2FFB;
+  --color-nebula-cyan: #54C9F5;
+  --color-lunar-white: #F0F1FA;
+  --color-dust-grey: #9299A8;
+  --color-titanium: #C4CBD6;
+  --color-solar-amber: #F5A623;
+  --color-signal-green: #69D69A;
+
+  /* Typography Families */
+  --font-display: 'Manrope', 'General Sans', sans-serif;
+  --font-technical: 'IBM Plex Mono', monospace;
+
+  /* Motion Easing Curves */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
 @layer base {
   body {
-    @apply bg-black text-slate-100 font-sans antialiased font-light;
-    background-color: #030712;
+    background-color: var(--color-deep-space);
+    color: var(--color-lunar-white);
+    font-family: var(--font-display);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-white;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-lunar-white);
+    letter-spacing: -0.025em;
   }
 }
 
-/* Swiss Neo-Grotesque Typography tokens matching the portfolio specification:
-   Light text for normal copy/subheads with wide tracking, and bold for headlines */
-.grotesk-heading {
-  font-family: 'General Sans', 'Inter Tight', 'Inter', sans-serif;
+/* Fluid Typography Utilities */
+.type-hero {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 8.5vw, 8.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   font-weight: 800;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
 }
 
-.grotesk-subhead {
-  font-family: 'General Sans', 'Inter Tight', 'Inter', sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.type-section {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 700;
 }
 
-.grotesk-body {
-  font-family: 'General Sans', 'Inter Tight', 'Inter', sans-serif;
-  font-weight: 300;
+.type-page-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 3.8vw, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+.type-subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.85rem);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  color: var(--color-dust-grey);
+}
+
+.type-body {
+  font-family: var(--font-display);
+  font-size: 1.0625rem; /* 17px */
   line-height: 1.65;
+  font-weight: 400;
+  color: var(--color-titanium);
 }
 
-/* Glassmorphism helpers */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.type-technical {
+  font-family: var(--font-technical);
+  font-size: 0.75rem; /* 12px */
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
-.glass-panel-glow {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+.type-technical-sm {
+  font-family: var(--font-technical);
+  font-size: 0.6875rem; /* 11px */
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
-/* Scanlines overlay */
-.crt-overlay::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  z-index: 20;
-  background-size: 100% 3px, 3px 100%;
-  pointer-events: none;
+/* Refined Observational Surface Panels */
+.obsidian-card {
+  background: rgba(9, 13, 22, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(196, 203, 214, 0.1);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.65);
 }
 
-/* Custom scrollbars */
+.obsidian-card-interactive {
+  background: rgba(9, 13, 22, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(196, 203, 214, 0.12);
+  transition: all 0.45s var(--ease-cinematic);
+}
+
+.obsidian-card-interactive:hover {
+  border-color: rgba(84, 201, 245, 0.35);
+  box-shadow: 0 24px 50px -15px rgba(26, 47, 251, 0.2);
+  transform: translateY(-4px);
+}
+
+.cosmic-badge {
+  background: rgba(16, 24, 42, 0.85);
+  border: 1px solid rgba(196, 203, 214, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Custom Minimalist Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: var(--color-deep-space);
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #1e293b;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--color-stellar-blue);
 }
 
-/* Smooth title entrance animation for model reveals */
-@keyframes titleSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(18px) scale(0.98);
-    filter: blur(4px);
+/* Respect Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-.animate-title-reveal {
-  animation: titleSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

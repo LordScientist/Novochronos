@@ -34,46 +34,58 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
     setOriginRect(null);
   };
 
+  // Ensure Lenis smooth scroll recalculates page dimensions on mount and filter changes
+  React.useEffect(() => {
+    const lenis = (window as any).__lenis;
+    lenis?.start();
+    lenis?.resize();
+    window.dispatchEvent(new Event('resize'));
+  }, [filter]);
+
   // Prevent background page scrolling while an artifact is expanded
   React.useEffect(() => {
+    const lenis = (window as any).__lenis;
     if (selectedArtifact) {
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      lenis?.stop();
       return () => {
         document.body.style.overflow = originalOverflow;
+        lenis?.start();
+        lenis?.resize();
       };
     }
   }, [selectedArtifact]);
 
   return (
-    <div className="relative min-h-screen bg-[#030611] text-slate-100 select-none px-4 sm:px-6 md:px-12 py-8 md:py-12 flex flex-col justify-between">
-      {/* Background Subtle Radial Glow & Deep Space Fog */}
-      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_rgba(15,23,42,0.6)_0%,_rgba(3,6,17,0.95)_70%)]" />
+    <div className="relative min-h-screen bg-deepSpace text-lunarWhite select-none px-4 sm:px-8 md:px-16 py-10 md:py-16 flex flex-col justify-between">
+      {/* Background Subtle Radial Depth */}
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,24,42,0.45)_0%,_rgba(5,7,13,0.98)_70%)]" />
 
       {/* Main Container */}
       <div className="relative z-10 max-w-7xl w-full mx-auto">
         {/* Editorial Top Navigation & Header */}
-        <div className="border-b border-white/10 pb-8 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="border-b border-titanium/15 pb-10 mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="font-mono text-[10px] tracking-[0.25em] text-amber-400 uppercase font-bold">
-                ECHOES OF EXPLORATION // ARTIFACT ARCHIVE
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse" />
+              <span className="font-mono text-[11px] tracking-[0.22em] text-nebulaCyan uppercase font-semibold">
+                ECHOES OF EXPLORATION // PERMANENT MONUMENTS
               </span>
             </div>
 
-            <h1 className="font-orbitron text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-wide leading-tight">
+            <h1 className="type-section text-lunarWhite font-extrabold tracking-tight leading-none mb-4">
               THE EIGHT SENTINELS
             </h1>
 
-            <p className="font-sans text-xs sm:text-sm text-slate-300 font-light mt-2.5 max-w-2xl leading-relaxed">
+            <p className="type-subhead max-w-2xl leading-relaxed text-dustGrey font-normal">
               Humanity's off-world pioneers resting in eternal stillness across the Moon, Mars, and deep space.
-              Click any artifact card to expand into an immersive 3D inspection and voice-acted story.
+              Select any sentinel to inspect its mechanical architecture, sensor arrays, and spoken history.
             </p>
           </div>
 
           {/* Celestial Filter Tabs */}
-          <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/70 border border-white/10 backdrop-blur-md shadow-xl shrink-0 self-start md:self-auto">
+          <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-obsidian/85 border border-titanium/15 backdrop-blur-xl shadow-xl shrink-0 self-start lg:self-auto font-mono">
             {(['ALL', 'Mars', 'Moon', 'Asteroid / Deep Space'] as const).map((cat) => {
               const count =
                 cat === 'ALL'
@@ -86,16 +98,16 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
-                  className={`px-3 py-1.5 rounded-xl font-mono text-xs transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-[11px] tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
                     isActive
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-900/60'
+                      ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_15px_rgba(26,47,251,0.4)]'
+                      : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/50'
                   }`}
                 >
                   <span>{label}</span>
                   <span
-                    className={`text-[9px] px-1.5 py-0.5 rounded-full ${
-                      isActive ? 'bg-slate-950/30 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'
+                    className={`text-[9px] px-1.5 py-0.2 rounded-full ${
+                      isActive ? 'bg-deepSpace/40 text-lunarWhite font-bold' : 'bg-cosmicNavy text-dustGrey'
                     }`}
                   >
                     {count}
@@ -107,7 +119,7 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
         </div>
 
         {/* Artifact Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
           {filteredArtifacts.map((artifact, idx) => (
             <CinematicArtifactCard
               key={artifact.id}
@@ -135,28 +147,28 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
       )}
 
       {/* Bottom Editorial Footer */}
-      <div className="relative z-10 max-w-7xl w-full mx-auto mt-16 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 font-mono text-[11px]">
+      <div className="relative z-10 max-w-7xl w-full mx-auto mt-20 pt-8 border-t border-titanium/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-dustGrey font-mono text-[11px] tracking-wider">
         <div className="flex items-center gap-3">
           <img src="/nasa-logo.svg" alt="NASA" className="w-7 h-5 object-contain" />
           <span>NASA SPACE APPS CHALLENGE 2026 // NOVOCHRONOS</span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           {onBackToCorridor && (
             <button
               onClick={onBackToCorridor}
-              className="text-slate-400 hover:text-amber-400 transition-colors cursor-pointer"
+              className="text-dustGrey hover:text-nebulaCyan transition-colors cursor-pointer"
             >
-              ← Return to 3D Space Shuttle Corridor
+              ← 3D Shuttle Corridor
             </button>
           )}
 
           {onReplayIntro && (
             <button
               onClick={onReplayIntro}
-              className="text-slate-400 hover:text-amber-400 transition-colors cursor-pointer"
+              className="text-dustGrey hover:text-nebulaCyan transition-colors cursor-pointer"
             >
-              Replay 3D Intro
+              Replay Introduction
             </button>
           )}
         </div>

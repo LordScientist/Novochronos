@@ -205,7 +205,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
   const imagePath = `/images/sentinels/${artifact.id}.jpg`;
 
   return (
-    <div className="relative w-full h-full bg-[#02040a] text-slate-100 flex flex-col overflow-hidden select-none">
+    <div className="relative w-full h-full bg-deepSpace text-lunarWhite flex flex-col overflow-hidden select-none font-sans">
       {/* Audio Element */}
       <audio
         ref={audioRef}
@@ -214,29 +214,29 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
       />
 
       {/* Top Bar: Mission Header & Mode Selector */}
-      <div className="relative z-30 h-16 px-6 bg-slate-950/80 border-b border-white/10 backdrop-blur-md flex items-center justify-between">
+      <div className="relative z-30 h-16 px-6 bg-obsidian/85 border-b border-titanium/15 backdrop-blur-xl flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-xs px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold uppercase tracking-wider">
+          <span className="font-mono text-xs px-2.5 py-1 rounded bg-stellarBlue/15 border border-stellarBlue/30 text-nebulaCyan font-semibold uppercase tracking-wider">
             {artifact.celestialBody}
           </span>
           <div>
-            <h1 className="font-orbitron text-sm sm:text-base font-bold text-white tracking-wide">
+            <h1 className="font-display text-base font-bold text-lunarWhite tracking-tight">
               {artifact.name}
             </h1>
-            <span className="font-mono text-[10px] text-slate-400 tracking-wider">
+            <span className="font-mono text-[10px] text-dustGrey tracking-wider">
               {artifact.characterArchetype} • {artifact.landingSite}
             </span>
           </div>
         </div>
 
         {/* View Mode Toggle: SCIENCE ACTION / 3D INSPECT / PHOTO */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-white/10">
+        <div className="flex items-center gap-1.5 p-1 rounded-full bg-deepSpace/90 border border-titanium/20">
           <button
             onClick={() => setActiveMode('action')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs cursor-pointer transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs cursor-pointer transition-all ${
               activeMode === 'action'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-stellarBlue text-lunarWhite font-medium shadow-[0_0_15px_rgba(26,47,251,0.5)]'
+                : 'text-dustGrey hover:text-lunarWhite'
             }`}
           >
             <Activity className="w-3.5 h-3.5" />
@@ -245,10 +245,10 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
 
           <button
             onClick={() => setActiveMode('inspect')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs cursor-pointer transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs cursor-pointer transition-all ${
               activeMode === 'inspect'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-stellarBlue text-lunarWhite font-medium shadow-[0_0_15px_rgba(26,47,251,0.5)]'
+                : 'text-dustGrey hover:text-lunarWhite'
             }`}
           >
             <Box className="w-3.5 h-3.5" />
@@ -257,10 +257,10 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
 
           <button
             onClick={() => setActiveMode('photo')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs cursor-pointer transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs cursor-pointer transition-all ${
               activeMode === 'photo'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)]'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-stellarBlue text-lunarWhite font-medium shadow-[0_0_15px_rgba(26,47,251,0.5)]'
+                : 'text-dustGrey hover:text-lunarWhite'
             }`}
           >
             <ImageIcon className="w-3.5 h-3.5" />
@@ -273,7 +273,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
           {onLaunchGame && (
             <button
               onClick={() => onLaunchGame(artifact)}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono text-xs font-bold uppercase transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono text-xs font-bold uppercase transition-all shadow-[0_0_20px_rgba(245,166,35,0.4)] cursor-pointer active:scale-95"
             >
               <Rocket className="w-3.5 h-3.5 fill-current" />
               <span className="hidden sm:inline">LAUNCH IN POWER RUN</span>
@@ -283,9 +283,9 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
 
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-xs transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-cosmicNavy/80 hover:bg-cosmicNavy text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-xs transition-colors cursor-pointer"
           >
-            <span className="hidden sm:inline text-[11px] font-bold">CLOSE</span>
+            <span className="hidden sm:inline text-[11px] font-semibold tracking-wider">CLOSE</span>
             <X className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -294,7 +294,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
       {/* Main Split Layout: 3D Stage (60%) + Curatorial Intelligence (40%) */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Left: 3D Canvas Stage */}
-        <div className="relative flex-1 lg:flex-[1.4] h-[45vh] lg:h-full bg-black overflow-hidden flex flex-col justify-between">
+        <div className="relative flex-1 lg:flex-[1.4] h-[45vh] lg:h-full bg-deepSpace overflow-hidden flex flex-col justify-between">
           {activeMode !== 'photo' ? (
             <div className="absolute inset-0">
               <Canvas
@@ -302,7 +302,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
                 camera={{ position: [0, 1.4, 4.5], fov: 45 }}
                 gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
               >
-                <color attach="background" args={['#030712']} />
+                <color attach="background" args={['#05070D']} />
 
                 {/* OrbitControls active in 'inspect' mode or secondary in action mode */}
                 <OrbitControls
@@ -396,17 +396,17 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
               </Canvas>
             </div>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center p-8 bg-black/95">
+            <div className="absolute inset-0 flex items-center justify-center p-8 bg-deepSpace/95">
               <img
                 src={imagePath}
                 alt={artifact.name}
-                className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-white/10"
+                className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-titanium/20"
               />
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-slate-950/80 border border-white/10 backdrop-blur-md max-w-md">
-                <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block mb-1">
+              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl obsidian-card border border-titanium/20 backdrop-blur-md max-w-md">
+                <span className="font-mono text-[10px] text-nebulaCyan uppercase tracking-widest block mb-1 font-semibold">
                   OFFICIAL NASA MISSION ARCHIVE
                 </span>
-                <p className="font-sans text-xs text-slate-300">
+                <p className="font-sans text-xs text-dustGrey">
                   Historic imagery of {artifact.name} resting at {artifact.landingSite}.
                 </p>
               </div>
@@ -416,8 +416,8 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
           {/* Synchronized Live Subtitle Overlay */}
           {currentSubtitle && activeMode === 'action' && (
             <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 max-w-xl w-full px-6 text-center pointer-events-none">
-              <div className="inline-block px-5 py-2.5 rounded-full bg-slate-950/85 border border-amber-400/30 backdrop-blur-md shadow-2xl">
-                <p className="font-sans text-xs sm:text-sm font-medium text-amber-200 tracking-wide leading-relaxed">
+              <div className="inline-block px-5 py-2.5 rounded-full obsidian-card border border-nebulaCyan/30 backdrop-blur-xl shadow-2xl">
+                <p className="font-sans text-xs sm:text-sm font-medium text-lunarWhite tracking-wide leading-relaxed">
                   "{currentSubtitle}"
                 </p>
               </div>
@@ -425,18 +425,18 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
           )}
 
           {/* Audio Scrubber & Transport Bar (Docked at Bottom of 3D View) */}
-          <div className="relative z-20 p-4 m-4 rounded-2xl bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-2xl flex flex-col gap-2">
-            <div className="flex items-center justify-between text-xs font-mono text-slate-300">
+          <div className="relative z-20 p-4 m-4 rounded-2xl obsidian-card border border-titanium/15 backdrop-blur-xl shadow-2xl flex flex-col gap-2">
+            <div className="flex items-center justify-between text-xs font-mono text-titanium">
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleTogglePlay}
-                  className="w-8 h-8 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center cursor-pointer transition-transform active:scale-95 shadow-md"
+                  className="w-8 h-8 rounded-full bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite flex items-center justify-center cursor-pointer transition-transform active:scale-95 shadow-[0_0_15px_rgba(26,47,251,0.5)]"
                 >
                   {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                 </button>
                 <button
                   onClick={handleRestart}
-                  className="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center cursor-pointer transition-colors"
+                  className="w-7 h-7 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 flex items-center justify-center cursor-pointer transition-colors"
                   title="Restart Story"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -447,7 +447,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
                   {[0.4, 0.8, 1.0, 0.6, 0.9, 0.5].map((_, i) => (
                     <span
                       key={i}
-                      className="w-0.5 bg-amber-400 rounded-full transition-all duration-150"
+                      className="w-0.5 bg-nebulaCyan rounded-full transition-all duration-150"
                       style={{
                         height: isPlaying ? `${Math.sin(currentTime * 8 + i) * 8 + 10}px` : '4px',
                         opacity: isPlaying ? 0.9 : 0.3,
@@ -456,7 +456,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
                   ))}
                 </div>
 
-                <span className="text-amber-400 font-bold ml-1">
+                <span className="text-nebulaCyan font-mono font-medium ml-1">
                   {formatTime(currentTime)} / {formatTime(audioInfo.duration)}
                 </span>
               </div>
@@ -464,7 +464,7 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsMuted(!isMuted)}
-                  className="text-slate-400 hover:text-white cursor-pointer"
+                  className="text-dustGrey hover:text-lunarWhite cursor-pointer"
                 >
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
@@ -479,51 +479,51 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
               step={0.1}
               value={currentTime}
               onChange={handleSeek}
-              className="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+              className="w-full accent-nebulaCyan cursor-pointer h-1.5 bg-cosmicNavy rounded-lg"
             />
           </div>
         </div>
 
         {/* Right: Curatorial Intelligence & Scientific Dossier (40% Desktop) */}
-        <div className="flex-1 lg:flex-[1.0] h-[55vh] lg:h-full bg-slate-950 border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col overflow-hidden">
+        <div className="flex-1 lg:flex-[1.0] h-[55vh] lg:h-full bg-obsidian border-t lg:border-t-0 lg:border-l border-titanium/15 flex flex-col overflow-hidden">
           {/* Dossier Tabs */}
-          <div className="flex items-center border-b border-white/10 px-4 pt-3 gap-2 overflow-x-auto">
+          <div className="flex items-center border-b border-titanium/15 px-4 pt-3 gap-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab('science')}
-              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap tracking-wider ${
                 activeTab === 'science'
-                  ? 'border-amber-400 text-amber-400 font-bold'
-                  : 'border-transparent text-slate-400 hover:text-white'
+                  ? 'border-stellarBlue text-lunarWhite font-bold'
+                  : 'border-transparent text-dustGrey hover:text-lunarWhite'
               }`}
             >
               SCIENCE OBJECTIVES
             </button>
             <button
               onClick={() => setActiveTab('history')}
-              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap tracking-wider ${
                 activeTab === 'history'
-                  ? 'border-amber-400 text-amber-400 font-bold'
-                  : 'border-transparent text-slate-400 hover:text-white'
+                  ? 'border-stellarBlue text-lunarWhite font-bold'
+                  : 'border-transparent text-dustGrey hover:text-lunarWhite'
               }`}
             >
               MISSION GENESIS
             </button>
             <button
               onClick={() => setActiveTab('hardware')}
-              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap tracking-wider ${
                 activeTab === 'hardware'
-                  ? 'border-amber-400 text-amber-400 font-bold'
-                  : 'border-transparent text-slate-400 hover:text-white'
+                  ? 'border-stellarBlue text-lunarWhite font-bold'
+                  : 'border-transparent text-dustGrey hover:text-lunarWhite'
               }`}
             >
               INSTRUMENTS
             </button>
             <button
               onClick={() => setActiveTab('specs')}
-              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-3 py-2 font-mono text-xs border-b-2 transition-all cursor-pointer whitespace-nowrap tracking-wider ${
                 activeTab === 'specs'
-                  ? 'border-amber-400 text-amber-400 font-bold'
-                  : 'border-transparent text-slate-400 hover:text-white'
+                  ? 'border-stellarBlue text-lunarWhite font-bold'
+                  : 'border-transparent text-dustGrey hover:text-lunarWhite'
               }`}
             >
               TELEMETRY
@@ -531,26 +531,26 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
           </div>
 
           {/* Tab Content Panel */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-6 space-y-6" data-lenis-prevent>
             {activeTab === 'science' && (
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                  <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block mb-1">
+                <div className="p-4 rounded-xl bg-stellarBlue/10 border border-stellarBlue/25">
+                  <span className="font-mono text-[10px] text-nebulaCyan font-semibold uppercase tracking-widest block mb-1">
                     PRIMARY SCIENTIFIC BREAKTHROUGHS
                   </span>
-                  <p className="font-sans text-xs text-amber-200 leading-relaxed">
+                  <p className="font-sans text-xs text-lunarWhite leading-relaxed">
                     {artifact.tagline}
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-mono text-xs text-slate-400 uppercase tracking-wider">
+                  <h3 className="font-mono text-xs text-dustGrey uppercase tracking-wider">
                     Discovered Insights
                   </h3>
                   <ul className="space-y-2">
                     {artifact.breakthroughs.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
+                      <li key={idx} className="flex items-start gap-2.5 text-xs text-titanium leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-nebulaCyan mt-1.5 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -558,10 +558,10 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
                 </div>
 
                 <div className="space-y-2 pt-2">
-                  <h3 className="font-mono text-xs text-slate-400 uppercase tracking-wider">
+                  <h3 className="font-mono text-xs text-dustGrey uppercase tracking-wider">
                     Educational Takeaway
                   </h3>
-                  <p className="font-sans text-xs text-slate-300 bg-slate-900/60 p-3.5 rounded-xl border border-white/5 leading-relaxed">
+                  <p className="font-sans text-xs text-titanium bg-deepSpace/60 p-3.5 rounded-xl border border-titanium/15 leading-relaxed">
                     "{artifact.takeawayForKids}"
                   </p>
                 </div>
@@ -571,21 +571,21 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
             {activeTab === 'history' && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
+                  <span className="font-mono text-[10px] text-dustGrey uppercase tracking-wider block">
                     WHY DISCARDED OR LEFT IN SITU
                   </span>
-                  <p className="font-sans text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-4 rounded-xl border border-white/5">
+                  <p className="font-sans text-xs text-titanium leading-relaxed bg-deepSpace/60 p-4 rounded-xl border border-titanium/15">
                     {artifact.whyLeftBehind}
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
+                  <span className="font-mono text-[10px] text-dustGrey uppercase tracking-wider block">
                     DID YOU KNOW?
                   </span>
                   <div className="space-y-2">
                     {artifact.didYouKnow.map((fact, i) => (
-                      <div key={i} className="text-xs text-slate-300 bg-slate-900/40 p-3 rounded-lg border border-white/5 leading-relaxed">
+                      <div key={i} className="text-xs text-titanium bg-deepSpace/40 p-3 rounded-lg border border-titanium/15 leading-relaxed">
                         • {fact}
                       </div>
                     ))}
@@ -596,15 +596,15 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
 
             {activeTab === 'hardware' && (
               <div className="space-y-3">
-                <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-2">
+                <span className="font-mono text-[10px] text-dustGrey uppercase tracking-wider block mb-2">
                   INSTRUMENT ARCHITECTURE & ONBOARD PAYLOAD
                 </span>
                 {artifact.instruments.map((inst, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-slate-900/60 border border-white/5 space-y-1">
-                    <span className="font-mono text-xs text-white font-bold block">
+                  <div key={i} className="p-3.5 rounded-xl bg-deepSpace/60 border border-titanium/15 space-y-1">
+                    <span className="font-mono text-xs text-lunarWhite font-semibold block">
                       {inst.name}
                     </span>
-                    <p className="font-sans text-xs text-slate-400 leading-relaxed">
+                    <p className="font-sans text-xs text-dustGrey leading-relaxed">
                       {inst.role}
                     </p>
                   </div>
@@ -614,29 +614,29 @@ export const CinematicScienceExperience: React.FC<CinematicScienceExperienceProp
 
             {activeTab === 'specs' && (
               <div className="space-y-3">
-                <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block mb-2">
+                <span className="font-mono text-[10px] text-dustGrey uppercase tracking-wider block mb-2">
                   VERIFIED MISSION SPECIFICATIONS
                 </span>
                 <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-                  <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                    <span className="text-[10px] text-slate-500 block">LAUNCH DATE</span>
-                    <span className="text-slate-200">{artifact.launchDate}</span>
+                  <div className="p-3 rounded-xl bg-deepSpace/60 border border-titanium/15">
+                    <span className="text-[10px] text-dustGrey block">LAUNCH DATE</span>
+                    <span className="text-titanium">{artifact.launchDate}</span>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                    <span className="text-[10px] text-slate-500 block">LANDING DATE</span>
-                    <span className="text-slate-200">{artifact.landingDate}</span>
+                  <div className="p-3 rounded-xl bg-deepSpace/60 border border-titanium/15">
+                    <span className="text-[10px] text-dustGrey block">LANDING DATE</span>
+                    <span className="text-titanium">{artifact.landingDate}</span>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                    <span className="text-[10px] text-slate-500 block">PLANNED LIFESPAN</span>
-                    <span className="text-slate-200">{artifact.missionLifespan.planned}</span>
+                  <div className="p-3 rounded-xl bg-deepSpace/60 border border-titanium/15">
+                    <span className="text-[10px] text-dustGrey block">PLANNED LIFESPAN</span>
+                    <span className="text-titanium">{artifact.missionLifespan.planned}</span>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                    <span className="text-[10px] text-slate-500 block">ACTUAL LIFESPAN</span>
-                    <span className="text-amber-400 font-bold">{artifact.missionLifespan.actual}</span>
+                  <div className="p-3 rounded-xl bg-deepSpace/60 border border-titanium/15">
+                    <span className="text-[10px] text-dustGrey block">ACTUAL LIFESPAN</span>
+                    <span className="text-solarAmber font-semibold">{artifact.missionLifespan.actual}</span>
                   </div>
-                  <div className="col-span-2 p-3 rounded-xl bg-slate-900/60 border border-white/5">
-                    <span className="text-[10px] text-slate-500 block">RESTING COORDINATES</span>
-                    <span className="text-slate-200">{artifact.coordinates}</span>
+                  <div className="col-span-2 p-3 rounded-xl bg-deepSpace/60 border border-titanium/15">
+                    <span className="text-[10px] text-dustGrey block">RESTING COORDINATES</span>
+                    <span className="text-titanium">{artifact.coordinates}</span>
                   </div>
                 </div>
               </div>

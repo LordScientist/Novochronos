@@ -91,7 +91,7 @@ export const CinematicArtifactExpanded: React.FC<CinematicArtifactExpandedProps>
       {/* Background Dimming Backdrop */}
       <div
         onClick={handleClose}
-        className={`absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-500 ${
+        className={`absolute inset-0 bg-deepSpace/92 backdrop-blur-2xl transition-opacity duration-500 ${
           isExpanded ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -100,7 +100,7 @@ export const CinematicArtifactExpanded: React.FC<CinematicArtifactExpandedProps>
       <div
         ref={containerRef}
         style={getContainerStyle()}
-        className="fixed z-50 bg-[#02040a] border border-white/15 overflow-hidden flex flex-col shadow-[0_25px_80px_rgba(0,0,0,0.95)]"
+        className="fixed z-50 bg-deepSpace border border-titanium/20 overflow-hidden flex flex-col shadow-[0_35px_100px_rgba(0,0,0,0.98)]"
       >
         <CinematicScienceExperience
           artifact={artifact}

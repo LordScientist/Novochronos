@@ -34,6 +34,9 @@ export function useSmoothScroll() {
 
     lenisRef.current = instance;
     setLenis(instance);
+    if (typeof window !== 'undefined') {
+      (window as any).__lenis = instance;
+    }
 
     const handleScroll = (e: { progress: number; velocity: number; scroll: number; direction: number }) => {
       setScrollState({
@@ -50,6 +53,9 @@ export function useSmoothScroll() {
       instance.destroy();
       lenisRef.current = null;
       setLenis(null);
+      if (typeof window !== 'undefined') {
+        (window as any).__lenis = null;
+      }
     };
   }, []);
 

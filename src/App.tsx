@@ -11,7 +11,7 @@ import { PowerRunGame } from './components/game/PowerRunGame';
 import { LaunchState } from './types/game';
 import { Artifact } from './types/artifact';
 import { ARTIFACTS } from './data/artifacts';
-import { Grid, Orbit, Flame } from 'lucide-react';
+import { Grid, Orbit, Flame, RotateCcw } from 'lucide-react';
 
 export const App: React.FC = () => {
   // Navigation views:
@@ -29,15 +29,15 @@ export const App: React.FC = () => {
   // Lenis smooth momentum scroll for the 3D Space Shuttle Corridor
   const { lenis, progress, velocity, scrollToProgress } = useSmoothScroll();
 
-  // Control Lenis: activate strictly when in 'corridor' view, no modal is open, and not in launch/game sequence
+  // Control Lenis: activate in both 'corridor' and 'discovery' views when no modal is open and not in launch/game sequence
   useEffect(() => {
-    if (
-      currentView === 'corridor' &&
-      !selectedSentinelId &&
-      !isTransitioning &&
-      launchState === 'GALLERY'
-    ) {
+    const isModalOpen = Boolean(selectedSentinelId);
+    const isGalleryActive = launchState === 'GALLERY';
+    const isScrollableView = currentView === 'corridor' || currentView === 'discovery';
+
+    if (isScrollableView && !isModalOpen && !isTransitioning && isGalleryActive) {
       lenis?.start();
+      lenis?.resize();
     } else {
       lenis?.stop();
     }
@@ -48,7 +48,9 @@ export const App: React.FC = () => {
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentView('corridor');
+      window.scrollTo({ top: 0, behavior: 'instant' });
       lenis?.scrollTo(0, { immediate: true });
+      lenis?.resize();
       setTimeout(() => {
         setIsTransitioning(false);
       }, 300);
@@ -62,6 +64,8 @@ export const App: React.FC = () => {
     setTimeout(() => {
       setCurrentView(view);
       window.scrollTo({ top: 0, behavior: 'instant' });
+      lenis?.scrollTo(0, { immediate: true });
+      lenis?.resize();
       setTimeout(() => {
         setIsTransitioning(false);
       }, 250);
@@ -73,6 +77,8 @@ export const App: React.FC = () => {
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentView('intro');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      lenis?.scrollTo(0, { immediate: true });
       setTimeout(() => {
         setIsTransitioning(false);
       }, 250);
@@ -124,7 +130,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-slate-100 flex flex-col selection:bg-sky-500 selection:text-black">
+    <div className="min-h-screen bg-deepSpace text-lunarWhite flex flex-col selection:bg-stellarBlue selection:text-lunarWhite">
       {/* 
         STAGE 0: Dedicated Cinematic 3D Opening Sequence
         When the user finishes the intro or clicks "ENTER THE ARCHIVE", 
@@ -137,15 +143,15 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Global View Switcher Bar (Visible outside Intro, hidden during active launch & game) */}
+      {/* Global Astronomical Navigation Bar */}
       {currentView !== 'intro' && launchState === 'GALLERY' && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 p-1.5 rounded-full bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-2xl">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 p-1.5 rounded-full bg-obsidian/85 border border-titanium/15 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
           <button
             onClick={() => handleSwitchView('corridor')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-xs transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wider transition-all cursor-pointer ${
               currentView === 'corridor'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)]'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900/60'
+                ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_20px_rgba(26,47,251,0.5)]'
+                : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/60'
             }`}
           >
             <Orbit className="w-3.5 h-3.5" />
@@ -154,26 +160,37 @@ export const App: React.FC = () => {
 
           <button
             onClick={() => handleSwitchView('discovery')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-xs transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[11px] tracking-wider transition-all cursor-pointer ${
               currentView === 'discovery'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)]'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900/60'
+                ? 'bg-stellarBlue text-lunarWhite font-semibold shadow-[0_0_20px_rgba(26,47,251,0.5)]'
+                : 'text-dustGrey hover:text-lunarWhite hover:bg-cosmicNavy/60'
             }`}
           >
             <Grid className="w-3.5 h-3.5" />
-            <span>ARTIFACT DISCOVERY</span>
+            <span>ARTIFACT EXHIBITION</span>
           </button>
 
-          <div className="w-px h-5 bg-white/15 mx-0.5" />
+          <div className="w-px h-4 bg-titanium/20 mx-0.5" />
 
-          {/* Primary High-Visibility "PLAY GAME" Trigger */}
-          <button
-            onClick={() => handleStartGame()}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(245,158,11,0.6)] cursor-pointer active:scale-95 border border-amber-300"
-          >
-            <Flame className="w-3.5 h-3.5 fill-current text-slate-950" />
-            <span>PLAY GAME</span>
-          </button>
+          {/* On Cards/Exhibition page: Return to Intro; On 3D Corridor: Play Game */}
+          {currentView === 'discovery' ? (
+            <button
+              onClick={handleReplayIntro}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-cosmicNavy/90 hover:bg-stellarBlue/30 text-lunarWhite font-mono font-semibold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(26,47,251,0.3)] cursor-pointer active:scale-95 border border-titanium/20"
+              title="Return to Stage 0 Cinematic Introduction"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-nebulaCyan" />
+              <span>RETURN TO INTRO</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => handleStartGame()}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-stellarBlue via-indigo-600 to-blue-700 hover:brightness-110 text-lunarWhite font-mono font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(26,47,251,0.5)] cursor-pointer active:scale-95 border border-nebulaCyan/40"
+            >
+              <Flame className="w-3.5 h-3.5 text-nebulaCyan" />
+              <span>PLAY GAME</span>
+            </button>
+          )}
         </div>
       )}
 
@@ -230,7 +247,7 @@ export const App: React.FC = () => {
                 scrollProgress={progress}
                 scrollVelocity={velocity}
                 onNavigateStep={handleNavigateStep}
-                onPlayGame={() => handleStartGame()}
+                onReturnToIntro={handleReplayIntro}
               />
 
               <SentinelDetailModal
