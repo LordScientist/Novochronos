@@ -562,28 +562,32 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     onMouseLeave={() => setIsAudioHovered(false)}
                     className={`relative flex items-center h-12 sm:h-14 rounded-full border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out overflow-hidden cursor-pointer select-none ${
                       isAudioHovered
-                        ? 'w-auto px-5 gap-3 bg-sky-600 border-sky-400/60 shadow-[0_0_35px_rgba(14,165,233,0.4)]'
-                        : 'w-12 sm:w-14 justify-center px-0 bg-black shadow-[inset_0_0_16px_rgba(0,0,0,1)] hover:border-sky-400/50'
+                        ? 'w-auto px-4 sm:px-5 gap-3 bg-sky-600 border-sky-400/60 shadow-[0_0_35px_rgba(14,165,233,0.4)]'
+                        : 'w-12 sm:w-14 justify-center p-0 gap-0 bg-black shadow-[inset_0_0_16px_rgba(0,0,0,1)] hover:border-sky-400/50'
                     } ${isPlaying && !isAudioHovered ? 'ring-2 ring-sky-400/60 shadow-[0_0_24px_rgba(56,189,248,0.35)]' : ''}`}
                   >
                     <button
                       onClick={handleTogglePlay}
-                      className="flex items-center gap-2 text-white outline-none focus:outline-none"
+                      className={`flex items-center text-white outline-none focus:outline-none transition-all duration-300 ${
+                        isAudioHovered ? 'gap-2.5' : 'justify-center w-full h-full p-0'
+                      }`}
                       aria-label={isPlaying ? 'Pause narration' : 'Listen to story'}
                     >
-                      <span className={`flex items-center justify-center shrink-0 w-6 h-6 transition-transform duration-300 ${isAudioHovered ? 'scale-110' : ''}`}>
+                      <span className={`flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                        isAudioHovered ? 'w-6 h-6 scale-110' : 'w-full h-full'
+                      }`}>
                         {isPlaying ? (
                           <Pause className="w-5 h-5 text-white fill-current" />
                         ) : (
-                          <Play className={`w-5 h-5 fill-current transition-colors duration-300 translate-x-0.5 ${isAudioHovered ? 'text-white' : 'text-sky-400'}`} />
+                          <Play className={`w-5 h-5 fill-current transition-colors duration-300 ${isAudioHovered ? 'text-white' : 'text-sky-400'}`} />
                         )}
                       </span>
 
                       <span
                         className={`whitespace-nowrap text-xs sm:text-sm font-heading font-bold tracking-[0.14em] uppercase transition-all duration-300 ${
                           isAudioHovered
-                            ? 'opacity-100 max-w-[180px] translate-x-0 ml-1 text-white'
-                            : 'opacity-0 max-w-0 -translate-x-3 pointer-events-none overflow-hidden'
+                            ? 'opacity-100 max-w-[200px] translate-x-0 text-white'
+                            : 'opacity-0 max-w-0 w-0 p-0 m-0 pointer-events-none overflow-hidden'
                         }`}
                       >
                         {isPlaying ? 'PAUSE NARRATION' : 'LISTEN TO STORY'}
@@ -595,10 +599,10 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                         e.stopPropagation();
                         handleRestart();
                       }}
-                      className={`flex items-center justify-center p-2 rounded-full hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300 ${
+                      className={`flex items-center justify-center rounded-full hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300 ${
                         isAudioHovered
-                          ? 'opacity-100 translate-x-0 delay-100'
-                          : 'opacity-0 translate-x-3 pointer-events-none w-0 overflow-hidden'
+                          ? 'opacity-100 p-2 translate-x-0 max-w-[40px]'
+                          : 'opacity-0 p-0 max-w-0 w-0 pointer-events-none overflow-hidden m-0 border-0'
                       }`}
                       title="Restart audio"
                       aria-label="Restart audio"
