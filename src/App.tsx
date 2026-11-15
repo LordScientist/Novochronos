@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
+import { LusionHeroPage } from './components/lusion/LusionHeroPage';
 import { CinematicIntro } from './components/journey/CinematicIntro';
 import { SentinelCarouselScene } from './components/canvas/SentinelCarouselScene';
 import { MissionControlHUD } from './components/ui/MissionControlHUD';
@@ -15,12 +16,27 @@ import { Grid, Orbit, Flame } from 'lucide-react';
 
 export const App: React.FC = () => {
   // Navigation views:
+  // - 'lusion-hero': Splash screen with Lusion-inspired 3D floating astronaut, Earth horizon & hyperspace dive
   // - 'intro': Stage 0 dedicated 3D cinematic opening with narration
   // - 'corridor': 3D Space Shuttle launch stack & helical sentinel card corridor
   // - 'discovery': Lusion-inspired cinematic artifact discovery gallery with shared-element card-to-detail expansion
-  const [currentView, setCurrentView] = useState<'intro' | 'corridor' | 'discovery'>('intro');
+  const [currentView, setCurrentView] = useState<'lusion-hero' | 'intro' | 'corridor' | 'discovery'>('lusion-hero');
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [selectedSentinelId, setSelectedSentinelId] = useState<string | null>(null);
+
+  // Audio Engine State for Splash Screen
+  const [isAudioAllowed, setIsAudioAllowed] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+
+  const handleCompleteLusionHero = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentView('intro');
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 400);
+    }, 300);
+  }, []);
 
   // Cinematic Rocket Launch & Power Run Game State
   const [launchState, setLaunchState] = useState<LaunchState>('GALLERY');
@@ -126,7 +142,23 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-slate-100 flex flex-col selection:bg-sky-500 selection:text-black">
       {/* 
-        STAGE 0: Dedicated Cinematic 3D Opening Sequence
+        STAGE 0: Splash Screen with Lusion Floating iPad & 3D Astronaut Dive
+      */}
+      {currentView === 'lusion-hero' && (
+        <LusionHeroPage
+          onComplete={handleCompleteLusionHero}
+          isAudioAllowed={isAudioAllowed}
+          isMuted={isMuted}
+          onEnableAudio={() => {
+            setIsAudioAllowed(true);
+            setIsMuted(false);
+          }}
+          onToggleMute={() => setIsMuted((prev) => !prev)}
+        />
+      )}
+
+      {/* 
+        STAGE 1: Dedicated Cinematic 3D Opening Sequence
         When the user finishes the intro or clicks "ENTER THE ARCHIVE", 
         it smoothly transitions directly to the Space Shuttle corridor or Discovery Gallery!
       */}
@@ -137,9 +169,22 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Global View Switcher Bar (Visible outside Intro, hidden during active launch & game) */}
-      {currentView !== 'intro' && launchState === 'GALLERY' && (
+      {/* Global View Switcher Bar (Visible outside Splash & Intro, hidden during active launch & game) */}
+      {currentView !== 'intro' && currentView !== 'lusion-hero' && launchState === 'GALLERY' && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 p-1.5 rounded-full bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-2xl">
+          <button
+            onClick={() => {
+              setIsTransitioning(true);
+              setTimeout(() => {
+                setCurrentView('lusion-hero');
+                setTimeout(() => setIsTransitioning(false), 200);
+              }, 200);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs text-slate-400 hover:text-white hover:bg-slate-900/60 transition-all cursor-pointer"
+            title="Return to Splash Screen"
+          >
+            <span>SPLASH</span>
+          </button>
           <button
             onClick={() => handleSwitchView('corridor')}
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-mono text-xs transition-all cursor-pointer ${
