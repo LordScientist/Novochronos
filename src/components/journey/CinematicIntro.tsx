@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Play } from 'lucide-react';
+import { Play, SkipForward } from 'lucide-react';
 import { IntroScene } from '../../types/journey';
 import { IntroScene3D } from '../canvas/IntroScene3D';
 import { CinematicIntroOverlay } from './CinematicIntroOverlay';
@@ -179,7 +179,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
 
   return (
     <div
-      className="relative w-full h-screen bg-black overflow-hidden select-none"
+      className="fixed inset-0 w-full h-full h-[100dvh] min-h-[100dvh] bg-black overflow-hidden select-none z-30"
       onClick={() => {
         // Any click on the viewport starts voiceover playback if not yet started
         if (!hasStarted) {
@@ -230,14 +230,14 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
       {!hasStarted && (
         <div
           onClick={startAudio}
-          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-deepSpace/70 backdrop-blur-sm pointer-events-auto cursor-pointer p-4 transition-all duration-500"
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-deepSpace/75 backdrop-blur-md pointer-events-auto cursor-pointer p-4 transition-all duration-500"
         >
           <div
             onClick={(e) => {
               e.stopPropagation();
               startAudio();
             }}
-            className="relative max-w-md w-full mx-auto text-center px-8 py-7 rounded-2xl obsidian-card border border-titanium/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.7),0_0_40px_rgba(26,47,251,0.2)] hover:border-stellarBlue/40 transition-all duration-300"
+            className="relative max-w-md w-full mx-auto text-center px-6 sm:px-8 py-6 sm:py-7 rounded-2xl obsidian-card border border-titanium/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.7),0_0_40px_rgba(26,47,251,0.2)] hover:border-stellarBlue/40 transition-all duration-300"
           >
             {/* Top Micro-Tag */}
             <div className="flex items-center justify-center gap-2 mb-2">
@@ -247,10 +247,10 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
               </span>
             </div>
 
-            <h1 className="font-display text-2xl sm:text-3xl font-bold text-lunarWhite tracking-tight mb-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-lunarWhite tracking-tight mb-1.5 sm:mb-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               NOVOCHRONOS
             </h1>
-            <p className="font-sans text-xs text-dustGrey mb-5 leading-relaxed">
+            <p className="font-sans text-xs text-dustGrey mb-4 sm:mb-5 leading-relaxed">
               Experience humanity's interplanetary pioneers in 3D with authentic spoken narration.
             </p>
 
@@ -259,25 +259,39 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
                 e.stopPropagation();
                 startAudio();
               }}
-              className="w-full py-3.5 px-6 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 shadow-[0_0_25px_rgba(26,47,251,0.5)] hover:shadow-[0_0_40px_rgba(26,47,251,0.7)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full py-3 sm:py-3.5 px-6 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 shadow-[0_0_25px_rgba(26,47,251,0.5)] hover:shadow-[0_0_40px_rgba(26,47,251,0.7)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Play className="w-4 h-4 fill-lunarWhite group-hover:scale-110 transition-transform" />
+              <Play className="w-4 h-4 fill-lunarWhite group-hover:scale-110 transition-transform shrink-0" />
               <span>START CINEMATIC INTRODUCTION</span>
             </button>
 
-            {onPlayGame && (
+            {/* Quick Actions: Play Power Run & Skip Directly to 3D Corridor */}
+            <div className="flex items-center gap-2 mt-2.5 w-full">
+              {onPlayGame && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onPlayGame();
+                  }}
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(245,166,35,0.4)] flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 whitespace-nowrap"
+                >
+                  <span>POWER RUN</span>
+                </button>
+              )}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onPlayGame();
+                  handleSkip();
                 }}
-                className="w-full mt-2.5 py-2.5 px-4 rounded-xl bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(245,166,35,0.4)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+                className="flex-1 py-2.5 px-3 rounded-xl bg-cosmicNavy hover:bg-stellarBlue/30 text-lunarWhite font-mono font-semibold text-xs tracking-wider uppercase transition-all border border-titanium/20 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 whitespace-nowrap"
+                title="Skip directly to 3D Corridor"
               >
-                <span>PLAY POWER RUN: THE LAST SIGNAL</span>
+                <span>SKIP INTRO</span>
+                <SkipForward className="w-3.5 h-3.5 text-nebulaCyan shrink-0" />
               </button>
-            )}
+            </div>
 
-            <div className="flex items-center justify-center gap-1.5 mt-3.5 font-mono text-[10px] text-dustGrey">
+            <div className="flex items-center justify-center gap-1.5 mt-3 sm:mt-3.5 font-mono text-[10px] text-dustGrey">
               <span>🔊</span>
               <span>Click anywhere on screen to begin</span>
             </div>

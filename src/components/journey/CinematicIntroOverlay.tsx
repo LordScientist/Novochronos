@@ -69,9 +69,9 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-3 xs:p-4 sm:p-6 md:p-8 font-sans">
-      {/* Top Header Controls: Timecode readout & Audio Controls (Top-Right) */}
-      <div className="w-full flex justify-between items-center pointer-events-auto gap-2">
+    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-3 xs:p-4 sm:p-6 md:p-8 font-sans pt-[max(0.75rem,env(safe-area-inset-top,0px))] pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] overflow-hidden">
+      {/* Top Header Controls: Timecode readout & Audio Controls + Prominent Top SKIP Button */}
+      <div className="w-full flex justify-between items-center pointer-events-auto gap-2 z-30 shrink-0">
         {/* Master Clock Readout */}
         <div className="flex items-center gap-1.5 sm:gap-2 obsidian-card border border-titanium/15 rounded-full px-2.5 sm:px-3 py-1 backdrop-blur-md shadow-2xl">
           <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse shrink-0" />
@@ -79,62 +79,75 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
             {formatTime(currentTime)} <span className="text-dustGrey">/</span> {formatTime(duration)}
           </span>
           <span className="text-titanium/30 text-xs hidden xs:inline">|</span>
-          <span className="font-mono text-[9px] sm:text-[10px] text-nebulaCyan uppercase tracking-widest font-semibold hidden xs:inline truncate max-w-[100px] sm:max-w-none">
+          <span className="font-mono text-[9px] sm:text-[10px] text-nebulaCyan uppercase tracking-widest font-semibold hidden xs:inline truncate max-w-[90px] sm:max-w-none">
             {scene.replace('-', ' ')}
           </span>
         </div>
 
-        {/* Audio Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 obsidian-card border border-titanium/15 rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5 backdrop-blur-md shadow-2xl shrink-0">
-          {/* Mute Toggle */}
-          {onToggleMute && (
-            <button
-              onClick={onToggleMute}
-              aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-              className="p-1 sm:p-1.5 rounded-full hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer"
-              title={isMuted ? 'Unmute Narration' : 'Mute Narration'}
-            >
-              {isMuted ? (
-                <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400" />
-              ) : (
-                <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-nebulaCyan" />
-              )}
-            </button>
-          )}
+        {/* Right: Audio Controls & Top-Pinned Always-Visible Skip Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Audio Controls */}
+          <div className="flex items-center gap-1 sm:gap-1.5 obsidian-card border border-titanium/15 rounded-full px-2 sm:px-2.5 py-1 backdrop-blur-md shadow-2xl shrink-0">
+            {/* Mute Toggle */}
+            {onToggleMute && (
+              <button
+                onClick={onToggleMute}
+                aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+                className="p-1 sm:p-1.5 rounded-full hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer"
+                title={isMuted ? 'Unmute Narration' : 'Mute Narration'}
+              >
+                {isMuted ? (
+                  <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400" />
+                ) : (
+                  <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-nebulaCyan" />
+                )}
+              </button>
+            )}
 
-          {/* Audio & Animation Play / Pause Toggle */}
-          {onTogglePlay && (
-            <button
-              onClick={onTogglePlay}
-              aria-label={isPlaying ? 'Pause Intro' : 'Play Intro'}
-              className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-xs transition-colors cursor-pointer"
-              title={isPlaying ? 'Pause Intro' : 'Play Intro'}
-            >
-              {isPlaying ? (
-                <>
-                  <Pause className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-solarAmber fill-current" />
-                  <span className="text-[10px] sm:text-[11px] font-semibold">PAUSE</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-signalGreen fill-current ml-0.5" />
-                  <span className="text-[10px] sm:text-[11px] font-semibold text-signalGreen">PLAY</span>
-                </>
-              )}
-            </button>
-          )}
+            {/* Audio & Animation Play / Pause Toggle */}
+            {onTogglePlay && (
+              <button
+                onClick={onTogglePlay}
+                aria-label={isPlaying ? 'Pause Intro' : 'Play Intro'}
+                className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-[10px] sm:text-xs transition-colors cursor-pointer"
+                title={isPlaying ? 'Pause Intro' : 'Play Intro'}
+              >
+                {isPlaying ? (
+                  <>
+                    <Pause className="w-3 h-3 text-solarAmber fill-current" />
+                    <span className="hidden xs:inline text-[10px] font-semibold">PAUSE</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3 h-3 text-signalGreen fill-current ml-0.5" />
+                    <span className="hidden xs:inline text-[10px] font-semibold text-signalGreen">PLAY</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+
+          {/* Top-Pinned Prominent Skip Button (Guaranteed 100% visible on every mobile device) */}
+          <button
+            onClick={onSkip}
+            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-stellarBlue/90 hover:bg-stellarBlue text-lunarWhite font-mono font-bold text-[10px] sm:text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(26,47,251,0.5)] cursor-pointer active:scale-95 border border-nebulaCyan/40 whitespace-nowrap"
+            title="Skip Intro to 3D Corridor"
+          >
+            <span>SKIP</span>
+            <SkipForward className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+          </button>
         </div>
       </div>
 
       {/* Center / Lower-Third: Animated Display for Active Sentinel & Synchronized Narration */}
-      <div className="flex-1 flex flex-col justify-end pointer-events-none pb-4">
+      <div className="flex-1 min-h-0 flex flex-col justify-end pointer-events-none pb-2 sm:pb-4 overflow-hidden">
         {/* Scene 1 Awakening Narrative */}
         {scene === 'awakening' && (
-          <div key="awakening-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
+          <div key="awakening-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-2 sm:mb-4">
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               PROLOGUE // THE MACHINES WE LEFT BEHIND
             </span>
-            <p className="font-sans text-lg sm:text-xl font-light text-lunarWhite italic drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+            <p className="font-sans text-sm xs:text-base sm:text-xl font-light text-lunarWhite italic line-clamp-3 sm:line-clamp-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -144,46 +157,46 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {scene === 'sentinels' && (
           <div
             key={currentSentinel.id}
-            className="animate-title-reveal pointer-events-auto max-w-xl mb-4"
+            className="animate-title-reveal pointer-events-auto max-w-xl mb-2 sm:mb-4"
           >
             {/* Top Micro-Tag */}
-            <div className="flex items-center gap-2 mb-1.5">
+            <div className="flex items-center gap-2 mb-1 sm:mb-1.5">
               <span
                 className="w-2 h-2 rounded-full animate-ping"
                 style={{ backgroundColor: currentSentinel.accentColor }}
               />
-              <span className="font-mono text-[10px] tracking-widest text-nebulaCyan font-semibold uppercase">
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-nebulaCyan font-semibold uppercase">
                 SENTINEL 0{activeSentinelIndex + 1} // {currentSentinel.celestialBody.toUpperCase()}
               </span>
             </div>
 
             {/* Model Name with Smooth Editorial Typography */}
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            <h2 className="font-display text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] leading-tight">
               {currentSentinel.name}
             </h2>
 
             {/* Subtitle Details: Resting Site & Coordinates */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-dustGrey mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              <span className="text-solarAmber font-medium">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] sm:text-xs text-dustGrey mt-1 sm:mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <span className="text-solarAmber font-medium truncate max-w-[200px] xs:max-w-none">
                 📍 {currentSentinel.landingSite}
               </span>
-              <span className="text-titanium/40">•</span>
-              <span className="text-titanium">
+              <span className="text-titanium/40 hidden xs:inline">•</span>
+              <span className="text-titanium hidden xs:inline">
                 {currentSentinel.missionLifespan.actual}
               </span>
             </div>
 
             {/* Synchronized Narration Subtitle */}
-            <p className="font-sans text-sm sm:text-base text-lunarWhite/90 italic mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-xs xs:text-sm sm:text-base text-lunarWhite/90 italic mt-1.5 sm:mt-2 line-clamp-3 sm:line-clamp-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
 
             {/* Animated accent gradient line */}
             <div
-              className="h-0.5 mt-3 rounded-full transition-all duration-700"
+              className="h-0.5 mt-2 sm:mt-3 rounded-full transition-all duration-700"
               style={{
                 background: 'linear-gradient(90deg, #1A2FFB, #54C9F5, transparent)',
-                width: '240px',
+                width: '180px',
               }}
             />
           </div>
@@ -191,14 +204,14 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
         {/* Scene 3 Grand Exhibition */}
         {scene === 'grand-exhibition' && (
-          <div key="exhibition-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
+          <div key="exhibition-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-2 sm:mb-4">
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               THE CIRCULAR EXHIBITION // SACRED MONUMENTS
             </span>
-            <h3 className="font-display text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
+            <h3 className="font-display text-lg xs:text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1 leading-tight">
               ALL EIGHT SENTINELS
             </h3>
-            <p className="font-sans text-sm sm:text-base text-lunarWhite/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-xs xs:text-sm sm:text-base text-lunarWhite/95 italic line-clamp-3 sm:line-clamp-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -206,14 +219,14 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
         {/* Scene 4 Planetary Reveal */}
         {scene === 'planetary-reveal' && (
-          <div key="planetary-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-widest text-solarAmber uppercase font-semibold block mb-1">
+          <div key="planetary-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-2 sm:mb-4">
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-solarAmber uppercase font-semibold block mb-1">
               GEOLOGICAL RECORD // MARTIAN SURFACE
             </span>
-            <h3 className="font-display text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
+            <h3 className="font-display text-lg xs:text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1 leading-tight">
               ACROSS THREE SILENT WORLDS
             </h3>
-            <p className="font-sans text-sm sm:text-base text-lunarWhite/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-xs xs:text-sm sm:text-base text-lunarWhite/95 italic line-clamp-3 sm:line-clamp-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -221,36 +234,36 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
         {/* Scene 5 Title Reveal & Hero CTA */}
         {scene === 'title-reveal' && (
-          <div key="title-text" className="animate-title-reveal pointer-events-auto max-w-2xl mb-4">
-            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
+          <div key="title-text" className="animate-title-reveal pointer-events-auto max-w-2xl mb-2 sm:mb-4">
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               STAGE 0 // NASA SPACE APPS ARCHIVE
             </span>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_6px_24px_rgba(0,0,0,0.95)]">
+            <h1 className="font-display text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_6px_24px_rgba(0,0,0,0.95)] leading-tight">
               NOVOCHRONOS
             </h1>
-            <p className="font-sans text-sm sm:text-base text-dustGrey italic mt-2 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-xs xs:text-sm sm:text-base text-dustGrey italic mt-1.5 sm:mt-2 mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
             <div>
               <button
                 onClick={onEnterArchive}
-                className="px-8 py-3.5 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(26,47,251,0.5)] hover:shadow-[0_0_45px_rgba(26,47,251,0.7)] hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
+                className="px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-[11px] sm:text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(26,47,251,0.5)] hover:shadow-[0_0_45px_rgba(26,47,251,0.7)] hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
               >
                 <span>ENTER THE ARCHIVE</span>
-                <span className="w-2 h-2 rounded-full bg-nebulaCyan group-hover:scale-125 transition-transform" />
+                <span className="w-2 h-2 rounded-full bg-nebulaCyan group-hover:scale-125 transition-transform shrink-0" />
               </button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Bottom Bar: Interactive Timeline Scrubber & Skip Button */}
-      <div className="w-full flex flex-col gap-2 pointer-events-auto">
+      {/* Bottom Bar: Interactive Timeline Scrubber & Action Controls */}
+      <div className="w-full flex flex-col gap-2 pointer-events-auto shrink-0 mb-0.5 sm:mb-0">
         {/* Timeline Scrubber Bar */}
-        <div className="w-full flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 obsidian-card border border-titanium/15 rounded-xl p-2.5 sm:px-4 sm:py-2 backdrop-blur-xl shadow-2xl">
+        <div className="w-full flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 obsidian-card border border-titanium/15 rounded-xl p-2 sm:px-4 sm:py-2 backdrop-blur-xl shadow-2xl">
           {/* Progress bar container (full width on mobile) */}
           <div
-            className="relative w-full sm:flex-1 h-3.5 sm:h-3 bg-cosmicNavy rounded-full cursor-pointer group flex items-center order-1"
+            className="relative w-full sm:flex-1 h-3 sm:h-3 bg-cosmicNavy rounded-full cursor-pointer group flex items-center order-1"
             onClick={handleProgressBarClick}
             title="Click to scrub audio timeline"
           >
