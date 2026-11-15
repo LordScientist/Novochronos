@@ -7,6 +7,8 @@ interface Artifact3DModelProps {
   targetSize?: number;
 }
 
+useGLTF.setDecoderPath('/draco/');
+
 // Official NASA GLB model paths available locally
 const NASA_GLB_MAP: Record<string, string> = {
   'opportunity-rover': '/models/opportunity.glb',
@@ -21,7 +23,7 @@ const NormalizedGLTFModel: React.FC<{ url: string; targetSize?: number }> = ({
   url,
   targetSize = 2.4,
 }) => {
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(url, '/draco/');
 
   const { cloned, normalizedScale, offset } = useMemo(() => {
     const clone = scene.clone(true);
@@ -259,5 +261,5 @@ export const Artifact3DModel: React.FC<Artifact3DModelProps> = ({
 
 // Preload the official NASA GLBs for instant loading
 Object.values(NASA_GLB_MAP).forEach((url) => {
-  useGLTF.preload(url);
+  useGLTF.preload(url, '/draco/');
 });

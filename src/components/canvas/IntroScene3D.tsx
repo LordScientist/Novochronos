@@ -4,7 +4,10 @@ import { ARTIFACTS } from '../../data/artifacts';
 import { IntroScene } from '../../types/journey';
 import { ArtifactModel } from './ArtifactModel';
 import { CircularExhibitionEnvironment } from './CircularExhibitionEnvironment';
-import { PlanetaryMartianEnvironment } from './PlanetaryMartianEnvironment';
+import {
+  PlanetaryMartianEnvironment,
+  getMartianTerrainHeight,
+} from './PlanetaryMartianEnvironment';
 import { IntroCameraController } from './IntroCameraController';
 import { CinematicSpotlightRig } from './CinematicSpotlightRig';
 
@@ -25,37 +28,46 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
   const pedestalRadius = 9.5;
 
   // Calculate circular positions for the 8 sentinels in the exhibition hall
+  // Placed at y = 0.015 so bottom of wheels/footpads rests directly on top of the pedestal surface
   const exhibitionSentinels = useMemo(() => {
     return ARTIFACTS.map((artifact, i) => {
       const angle = (i / 8) * Math.PI * 2;
       const x = Math.cos(angle) * pedestalRadius;
       const z = Math.sin(angle) * pedestalRadius;
-      // Face inward toward the center
+      // Face inward toward the amphitheater center
       const rotY = -angle - Math.PI / 2;
-      return { artifact, position: [x, 0.1, z] as [number, number, number], rotation: [0, rotY, 0] as [number, number, number] };
+      return {
+        artifact,
+        position: [x, 0.015, z] as [number, number, number],
+        rotation: [0, rotY, 0] as [number, number, number],
+      };
     });
   }, [pedestalRadius]);
 
   // Calculate planetary positions for the 8 sentinels in Scene 4 & 5
-  // Staged in a wide, sweeping arc across the Martian terrain
+  // Staged in an authentic, well-spaced panoramic arc across the Martian terrain
+  // Every sentinel's Y coordinate is evaluated via getMartianTerrainHeight(x, z) so they sit 100% flush on the ground
   const planetarySentinels = useMemo(() => {
-    const offsets = [
-      [-7.5, 0.15, -4.0, 0.4],   // Opportunity
-      [-4.5, 0.1, -1.8, -0.2],   // Ingenuity
-      [-2.0, 0.25, -5.5, 0.1],   // Apollo 11 Descent Stage
-      [0.0, 0.1, -2.5, 0.0],     // InSight
-      [2.5, 0.18, -4.5, -0.3],   // Apollo 15 LRV
-      [4.8, 0.05, -2.0, 0.5],    // Sojourner
-      [7.2, 0.4, -6.0, -0.6],    // Pioneer 10
-      [8.5, 0.12, -3.2, 0.2],    // Surveyor 3
+    // Curated non-overlapping coordinates [x, z, rotY]
+    const stagingConfigs = [
+      { x: -6.8, z: -4.2, rotY: 0.3 },   // 0: Opportunity Rover
+      { x: -4.2, z: -2.4, rotY: 0.15 },  // 1: Ingenuity Mars Helicopter (sleek scout drone, forward)
+      { x: -1.8, z: -5.2, rotY: 0.2 },   // 2: Apollo 11 Descent Stage (monumental mid-background)
+      { x: 0.0,  z: -3.2, rotY: 0.0 },   // 3: InSight Mars Lander (central anchor)
+      { x: 2.4,  z: -4.6, rotY: -0.2 },  // 4: Apollo 15 LRV (Moon buggy)
+      { x: 4.6,  z: -2.3, rotY: -0.25 }, // 5: Sojourner Rover (compact historic pioneer, forward)
+      { x: 6.8,  z: -5.4, rotY: -0.35 }, // 6: Pioneer 10 Deep Space Probe (dish pointed upward)
+      { x: 8.6,  z: -3.6, rotY: -0.4 },  // 7: Surveyor 3 Robot Scout (standing tripod flank)
     ];
 
     return ARTIFACTS.map((artifact, i) => {
-      const [x, y, z, rotY] = offsets[i] || [i * 2 - 7, 0.1, -4, 0];
+      const config = stagingConfigs[i] || { x: i * 2.2 - 7, z: -4, rotY: 0 };
+      const groundY = getMartianTerrainHeight(config.x, config.z);
+
       return {
         artifact,
-        position: [x, y, z] as [number, number, number],
-        rotation: [0, rotY, 0] as [number, number, number],
+        position: [config.x, groundY, config.z] as [number, number, number],
+        rotation: [0, config.rotY, 0] as [number, number, number],
       };
     });
   }, []);
@@ -166,12 +178,13 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
             highlightIndex={scene === 'sentinels' ? activeSentinelIndex : null}
           />
 
-          {/* 8 Sentinels in Circular Formation */}
+          {/* 8 Sentinels in Circular Formation: No Spinning in Intro */}
           {exhibitionSentinels.map((item, idx) => (
             <group key={item.artifact.id} position={item.position} rotation={item.rotation}>
               <ArtifactModel
                 artifact={item.artifact}
-                autoRotate={scene === 'grand-exhibition'}
+                autoRotate={false}
+                isActionActive={false}
                 highlightMechanical={scene === 'sentinels' && activeSentinelIndex === idx}
               />
             </group>
@@ -184,12 +197,13 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
         <group>
           <PlanetaryMartianEnvironment />
 
-          {/* 8 Sentinels in Panoramic Martian Staging */}
+          {/* 8 Sentinels in Panoramic Martian Staging: Perfectly Flush on Terrain, No Spinning */}
           {planetarySentinels.map((item) => (
             <group key={item.artifact.id} position={item.position} rotation={item.rotation}>
               <ArtifactModel
                 artifact={item.artifact}
                 autoRotate={false}
+                isActionActive={false}
               />
             </group>
           ))}

@@ -18,9 +18,9 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   const groupRef = useRef<THREE.Group>(null);
 
   // Load the official NASA 3D Models: Orbiter + External Tank + Solid Rocket Booster
-  const orbiterGLTF = useGLTF('/models/space-shuttle.glb');
-  const etGLTF = useGLTF('/models/external-tank.glb');
-  const srbGLTF = useGLTF('/models/srb.glb');
+  const orbiterGLTF = useGLTF('/models/space-shuttle.glb', '/draco/');
+  const etGLTF = useGLTF('/models/external-tank.glb', '/draco/');
+  const srbGLTF = useGLTF('/models/srb.glb', '/draco/');
 
   // Photorealistic Orbiter materials (silica tiles, Inconel engines, flight deck glass)
   const clonedOrbiter = useMemo(() => {
@@ -269,6 +269,6 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   );
 };
 
-useGLTF.preload('/models/space-shuttle.glb');
-useGLTF.preload('/models/external-tank.glb');
-useGLTF.preload('/models/srb.glb');
+useGLTF.preload('/models/space-shuttle.glb', '/draco/');
+useGLTF.preload('/models/external-tank.glb', '/draco/');
+useGLTF.preload('/models/srb.glb', '/draco/');

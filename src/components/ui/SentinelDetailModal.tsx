@@ -35,6 +35,7 @@ import { ARTIFACTS } from '../../data/artifacts';
 interface SentinelDetailModalProps {
   sentinelId: string | null;
   onClose: () => void;
+  onLaunchGame?: (sentinelId: string) => void;
 }
 
 const SENTINEL_AUDIO_MAP: Record<string, string> = {
@@ -99,6 +100,7 @@ const getObservationIcon = (text: string) => {
 export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   sentinelId,
   onClose,
+  onLaunchGame,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -551,10 +553,10 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
 
             {/* Right Column: Narrative Feed & Centered Void-to-Blue Audio Controls */}
             <div className="lg:col-span-7 space-y-3.5 sm:space-y-4 lg:space-y-5">
-              
+
               {/* Centered Void-to-Blue Audio Player Card */}
               <div className="p-4 sm:p-5 rounded-2xl bg-[#1c1c1c]/90 backdrop-blur-md border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4)] flex flex-col items-center justify-center text-center space-y-3">
-                
+
                 {/* Centered Circular Void Button that transitions smoothly to Blue on hover */}
                 <div className="flex items-center justify-center">
                   <div
@@ -697,6 +699,20 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                       </div>
                     ))}
                   </div>
+                </div>
+              )}
+              {onLaunchGame && (
+                <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] text-amber-400 font-mono uppercase tracking-wider">
+                    INTERACTIVE MISSION READY
+                  </span>
+                  <button
+                    onClick={() => onLaunchGame(sentinel.id)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono text-xs font-bold uppercase transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
+                  >
+                    <Rocket className="w-3.5 h-3.5 fill-current" />
+                    <span>LAUNCH IN POWER RUN</span>
+                  </button>
                 </div>
               )}
 
