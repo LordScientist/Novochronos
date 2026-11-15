@@ -11,7 +11,7 @@ import { PowerRunGame } from './components/game/PowerRunGame';
 import { LaunchState } from './types/game';
 import { Artifact } from './types/artifact';
 import { ARTIFACTS } from './data/artifacts';
-import { Grid, Orbit, Flame, FastForward } from 'lucide-react';
+import { Grid, Orbit, Flame } from 'lucide-react';
 
 export const App: React.FC = () => {
   // Navigation views:
@@ -111,8 +111,6 @@ export const App: React.FC = () => {
   const handleReturnToArchive = () => {
     setLaunchState('GALLERY');
   };
-
-  const isLaunching = launchState !== 'GALLERY' && launchState !== 'PLAYING';
 
   return (
     <div className="min-h-screen bg-black text-slate-100 flex flex-col selection:bg-sky-500 selection:text-black">
@@ -233,43 +231,6 @@ export const App: React.FC = () => {
               {/* Lenis Momentum Scroll Track */}
               <div className="relative z-10 w-full h-[600vh] pointer-events-none" />
             </>
-          )}
-
-          {/* Dedicated NASA Mission Control Telemetry Broadcast during Launch Sequence */}
-          {isLaunching && (
-            <div className="fixed top-8 left-1/2 -translate-x-1/2 z-40 max-w-xl w-full px-4 text-center pointer-events-none animate-fadeIn">
-              <div className="bg-slate-950/90 border border-amber-500/40 backdrop-blur-md px-6 py-4 rounded-3xl shadow-[0_0_50px_rgba(245,158,11,0.25)] flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-                  <span className="font-mono text-[10px] tracking-[0.25em] text-amber-400 uppercase font-bold">
-                    NASA LAUNCH CONTROL // {launchState.replace('_', ' ')}
-                  </span>
-                </div>
-
-                <div className="space-y-0.5">
-                  <h2 className="font-orbitron text-base sm:text-lg font-black text-white tracking-wide">
-                    {launchState === 'LAUNCH_PREPARATION' && 'T-00:03 // PRIMARY GUIDANCE LOCKED'}
-                    {launchState === 'ENGINE_IGNITION' && 'T-00:00 // MAIN ENGINE START & SRB IGNITION'}
-                    {launchState === 'LIFTOFF' && 'T+00:05 // LIFTOFF OF SPACE SHUTTLE'}
-                    {launchState === 'ASCENT' && 'T+00:18 // TRANSONIC ASCENT • CLEARING ATMOSPHERE'}
-                    {launchState === 'SPACE_TRANSITION' && `T+00:45 // ARRIVING AT ${activeGameArtifact.celestialBody.toUpperCase()}`}
-                  </h2>
-
-                  <p className="font-mono text-xs text-sky-400">
-                    TARGET VEHICLE: <span className="text-white font-bold">{activeGameArtifact.name}</span> ({activeGameArtifact.landingSite})
-                  </p>
-                </div>
-
-                {/* Skip directly to gameplay */}
-                <button
-                  onClick={() => setLaunchState('PLAYING')}
-                  className="pointer-events-auto mt-1 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white font-mono text-[10px] tracking-wider transition-colors cursor-pointer"
-                >
-                  <FastForward className="w-3 h-3" />
-                  <span>SKIP TO RUN</span>
-                </button>
-              </div>
-            </div>
           )}
         </div>
       )}
