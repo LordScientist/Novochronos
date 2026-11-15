@@ -413,7 +413,7 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
       >
         <Canvas
           shadows
-          camera={{ position: [0, 0, 3.6], fov: 42, near: 0.1, far: 200 }}
+          camera={{ position: [0, 0, 25], fov: 45, near: 0.1, far: 250 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
           dpr={[1, 1.75]}
         >
