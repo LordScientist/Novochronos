@@ -45,9 +45,9 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         if (mesh.material) {
           const orig = mesh.material as THREE.MeshStandardMaterial;
           const enhanced = orig.clone();
-          enhanced.roughness = 0.30;
-          enhanced.metalness = 0.35;
-          enhanced.envMapIntensity = 2.5;
+          enhanced.roughness = 0.22;
+          enhanced.metalness = 0.48;
+          enhanced.envMapIntensity = 2.8;
           mesh.material = enhanced;
         }
       }
@@ -352,8 +352,19 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       delta
     );
 
+    // Lusion's exact Dolly Zoom harmonic formula from GoalTunnels (lines 765712 in hoisted.js):
+    const dollyFovOffset =
+      Math.sin(scrollProgress * 10.0 + time * 1.5) *
+      6.5 *
+      THREE.MathUtils.smoothstep(scrollProgress, 0.35, 0.78);
+
     if (state.camera instanceof THREE.PerspectiveCamera) {
-      state.camera.fov = THREE.MathUtils.damp(state.camera.fov, anim.camFov, 6.0, delta);
+      state.camera.fov = THREE.MathUtils.damp(
+        state.camera.fov,
+        anim.camFov + dollyFovOffset,
+        6.0,
+        delta
+      );
       state.camera.updateProjectionMatrix();
     }
 
