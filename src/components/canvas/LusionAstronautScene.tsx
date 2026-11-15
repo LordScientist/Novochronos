@@ -45,9 +45,9 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         if (mesh.material) {
           const orig = mesh.material as THREE.MeshStandardMaterial;
           const enhanced = orig.clone();
-          enhanced.roughness = 0.32;
-          enhanced.metalness = 0.32;
-          enhanced.envMapIntensity = 2.4;
+          enhanced.roughness = 0.30;
+          enhanced.metalness = 0.35;
+          enhanced.envMapIntensity = 2.5;
           mesh.material = enhanced;
         }
       }
@@ -56,8 +56,8 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   }, [astronautModel]);
 
   // ---------------------------------------------------------------------------
-  // GSAP ANIMATION STATE PROXY & MASTER 3D TIMELINE
-  // Exactly models the multi-stage visual choreography from lucio.webm
+  // GSAP MASTER 3D TIMELINE
+  // Models the multi-stage visual choreography from lucio.webm
   // ---------------------------------------------------------------------------
   const animState = useRef({
     // Camera
@@ -67,11 +67,11 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     camRotZ: 0.0,
     camFov: 42,
 
-    // Astronaut Position & Scale
+    // Astronaut Coordinates (Center offset handled in primitive)
     astroX: 0.0,
-    astroY: -0.32,
+    astroY: -0.05,
     astroZ: 0.0,
-    astroScale: 1.35,
+    astroScale: 1.08,
 
     // Astronaut Rotation (Euler Angles)
     astroRotX: 0.0,
@@ -92,7 +92,6 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    // Construct master GSAP timeline (duration = 1.0 for normalized scrub)
     const tl = gsap.timeline({ paused: true });
 
     // -------------------------------------------------------------
@@ -101,10 +100,10 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     tl.to(
       animState.current,
       {
-        camZ: 3.0,
+        camZ: 3.1,
         camFov: 44,
-        astroScale: 1.55,
-        astroZ: 0.3,
+        astroScale: 1.25,
+        astroZ: 0.2,
         duration: 0.30,
         ease: 'power2.inOut',
       },
@@ -116,18 +115,18 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     // Matches lucio.webm Frames 018 & 024:
     // Astronaut turns completely around to face into depth (-Z),
     // pitches forward head-first into a steep wingsuit dive,
-    // hurtles away from camera toward the glowing Earth horizon!
+    // hurtles away toward the glowing Earth horizon!
     // -------------------------------------------------------------
     tl.to(
       animState.current,
       {
         astroRotY: Math.PI * 2, // Turns around to face -Z
-        astroRotX: 1.1, // Pitches forward head-down into dive
+        astroRotX: 1.0, // Pitches forward head-down into dive
         astroZ: -18.0, // Dives deep into space
-        astroY: -1.1,
-        astroScale: 0.85,
-        camY: -0.38,
-        camRotX: -0.16, // Camera pitches down following dive
+        astroY: -0.85,
+        astroScale: 0.72,
+        camY: -0.35,
+        camRotX: -0.15, // Camera pitches down following dive
         camZ: 2.2,
         duration: 0.25,
         ease: 'power2.in',
@@ -157,9 +156,9 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       animState.current,
       {
         astroZ: -42.0,
-        astroY: -0.75,
-        astroScale: 0.65,
-        astroRotX: 1.1 + Math.PI * 3.5, // 3.5 tumbling rolls
+        astroY: -0.65,
+        astroScale: 0.55,
+        astroRotX: 1.0 + Math.PI * 3.5, // 3.5 tumbling rolls
         astroRotY: Math.PI * 2 + Math.PI * 2.8, // yaw spin
         astroRotZ: Math.PI * 2.4, // barrel rolls
         camZ: -16.0,
@@ -211,12 +210,12 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       animState.current,
       {
         astroZ: -75.0,
-        astroScale: 0.35,
-        astroRotX: 1.1 + Math.PI * 7.5,
+        astroScale: 0.30,
+        astroRotX: 1.0 + Math.PI * 7.5,
         astroRotY: Math.PI * 2 + Math.PI * 6.8,
         astroRotZ: Math.PI * 5.4,
         camZ: -46.0,
-        camFov: 66, // Dramatic warp perspective speed expansion
+        camFov: 66,
         duration: 0.14,
         ease: 'power2.in',
       },
@@ -236,7 +235,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     // -------------------------------------------------------------
     // STAGE 5: Supernova Portal Bloom (0.90 -> 1.00)
     // Matches lucio.webm Frame 036:
-    // Pure radiant white-and-cyan bloom flash engulfs the screen!
+    // Pure radiant white-and-cyan bloom flash floods the screen!
     // -------------------------------------------------------------
     tl.to(
       animState.current,
@@ -330,13 +329,13 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     const time = state.clock.getElapsedTime();
     const anim = animState.current;
 
-    // Organic zero-g idle floating harmonics (fades away as dive speed increases)
+    // Organic zero-g idle floating harmonics (active during landing)
     const idleWeight = Math.max(0, 1 - scrollProgress * 3.0);
-    const idleFloatY = Math.sin(time * 1.6) * 0.05 * idleWeight;
-    const idleFloatX = Math.cos(time * 1.1) * 0.03 * idleWeight;
-    const idleTiltZ = Math.sin(time * 1.0) * 0.03 * idleWeight;
+    const idleFloatY = Math.sin(time * 1.6) * 0.04 * idleWeight;
+    const idleFloatX = Math.cos(time * 1.1) * 0.02 * idleWeight;
+    const idleTiltZ = Math.sin(time * 1.0) * 0.025 * idleWeight;
 
-    // Mouse parallax tracking (active in landing/expansion phase)
+    // Mouse parallax tracking
     const mouseX = pointerPos.x * 0.35 * idleWeight;
     const mouseY = pointerPos.y * 0.25 * idleWeight;
 
@@ -362,13 +361,13 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     if (astronautRef.current) {
       astronautRef.current.position.x = THREE.MathUtils.damp(
         astronautRef.current.position.x,
-        anim.astroX + idleFloatX + mouseX * 0.5,
+        anim.astroX + idleFloatX + mouseX * 0.4,
         8.0,
         delta
       );
       astronautRef.current.position.y = THREE.MathUtils.damp(
         astronautRef.current.position.y,
-        anim.astroY + idleFloatY - mouseY * 0.4,
+        anim.astroY + idleFloatY - mouseY * 0.3,
         8.0,
         delta
       );
@@ -391,7 +390,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       );
       astronautRef.current.rotation.y = THREE.MathUtils.damp(
         astronautRef.current.rotation.y,
-        anim.astroRotY + mouseX * 0.6,
+        anim.astroRotY + mouseX * 0.5,
         8.0,
         delta
       );
@@ -483,9 +482,13 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
 
       {/* -------------------------------------------------------------
           2. THE 3D GSAP-CHOREOGRAPHED ASTRONAUT
+          Offset by Y = -1.0 so center of gravity is at astronaut's torso,
+          ensuring the full astronaut (helmet to boots) is beautifully framed!
           ------------------------------------------------------------- */}
-      <group ref={astronautRef} position={[0, -0.32, 0]} scale={1.35}>
-        <primitive object={astronautScene} />
+      <group ref={astronautRef} position={[0, -0.05, 0]}>
+        <group position={[0, -1.0, 0]}>
+          <primitive object={astronautScene} />
+        </group>
       </group>
 
       {/* -------------------------------------------------------------
@@ -493,7 +496,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
           ------------------------------------------------------------- */}
       <group
         ref={earthGroupRef}
-        position={[0, -12.0, -6.5]}
+        position={[0, -11.6, -6.5]}
         rotation={[0.22, 0, 0]}
         visible={scrollProgress < 0.88}
       >

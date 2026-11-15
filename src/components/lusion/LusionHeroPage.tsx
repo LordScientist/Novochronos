@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Volume2, VolumeX, Play, Pause, RotateCcw, ArrowRight } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, RotateCcw, ArrowRight, ArrowDown } from 'lucide-react';
 import { gsap } from 'gsap';
 import { LusionAstronautScene } from '../canvas/LusionAstronautScene';
 
@@ -221,6 +221,10 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
   const bezelOpacity = Math.max(0, 1 - expandT * 1.6);
   const bezelScale = 1.0 + expandT * 0.35;
 
+  // Editorial UI fade and glide physics
+  const uiOpacity = Math.max(0, 1 - scrollProgress * 3.2);
+  const uiTranslateY = scrollProgress * 70;
+
   const whiteCanvasOpacity = Math.max(0, 1 - Math.pow(scrollProgress * 2.2, 1.2));
 
   const supernovaFlashOpacity =
@@ -310,7 +314,7 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
             className="text-[11px] font-mono tracking-widest uppercase hidden sm:inline-block font-semibold transition-colors duration-500"
             style={{ color: whiteCanvasOpacity > 0.4 ? '#737373' : '#94a3b8' }}
           >
-            NASA SPACE APPS
+            NASA SPACE APPS ARCHIVE
           </span>
         </div>
 
@@ -363,6 +367,45 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
           </button>
         </div>
       </header>
+
+      {/* 
+        -------------------------------------------------------------
+        4. HERO EDITORIAL TYPOGRAPHY & STORYTELLING PROSE
+        Restored from original design & lucio.webm reference:
+        Prominent headline, NASA mission theme, and narrative prose.
+        Glides up and fades away seamlessly as dive begins.
+        -------------------------------------------------------------
+      */}
+      {uiOpacity > 0.01 && (
+        <div
+          className="absolute top-24 sm:top-28 left-6 sm:left-12 lg:left-16 max-w-2xl lg:max-w-3xl z-30 pointer-events-auto transition-all"
+          style={{
+            opacity: uiOpacity,
+            transform: `translateY(-${uiTranslateY * 0.55}px)`,
+          }}
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.22em] text-neutral-500 uppercase font-semibold">
+              HUMANITY'S DISCARDED SENTINELS ON THE MOON & MARS
+            </span>
+          </div>
+
+          <h1 className="font-heading font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-neutral-950 tracking-tight uppercase leading-[1.02] mb-5">
+            WHERE ANCIENT EXPLORERS<br />
+            BECOME LIVING LEGENDS.
+          </h1>
+
+          <div className="space-y-3.5 max-w-xl">
+            <p className="font-sans text-xs sm:text-sm md:text-base text-neutral-600 font-normal leading-relaxed">
+              We do not chase trends or let history gather dust in forgotten textbooks. We build living digital archives that transport you across time and space.
+            </p>
+            <p className="font-sans text-xs sm:text-sm md:text-base text-neutral-600 font-normal leading-relaxed">
+              Step inside eight discarded yet immortal sentinels resting in eternal silence on the Moon, Mars, and deep space—recreated with authentic NASA telemetry and cinematic 3D craft.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* 
         -------------------------------------------------------------
@@ -428,10 +471,66 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
 
       {/* 
         -------------------------------------------------------------
-        6. MINIMAL SCRUBBER CONTROLLER (Bottom Center Floating Pill)
+        6. BOTTOM METADATA & "SCROLL DOWN" CALLOUT
+        Restored to faithfully match lucio.webm and the user request:
+        Left: Brand & Mission metadata
+        Right: "SCROLL DOWN" with the bouncing circular arrow button!
         -------------------------------------------------------------
       */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-2.5 rounded-full bg-neutral-950/80 border border-white/15 backdrop-blur-md shadow-2xl pointer-events-auto">
+      {uiOpacity > 0.01 && (
+        <footer
+          className="absolute bottom-0 left-0 right-0 z-30 flex flex-col sm:flex-row items-start sm:items-end justify-between px-6 sm:px-12 lg:px-16 py-6 pointer-events-auto gap-4 transition-all"
+          style={{
+            opacity: uiOpacity,
+            transform: `translateY(${uiTranslateY * 0.55}px)`,
+          }}
+        >
+          <div className="space-y-1">
+            <p className="text-[11px] font-mono tracking-widest text-neutral-500 uppercase font-semibold">
+              NOVOCHRONOS • NASA SPACE APPS ARCHIVE • 2026
+            </p>
+            <p className="text-xs text-neutral-400 font-mono tracking-wide hidden sm:block">
+              Interactive documentary exploring humanity's discarded technology resting on foreign soil.
+            </p>
+          </div>
+
+          {/* Pulsing "SCROLL DOWN" Indicator with Bouncing Arrow */}
+          <div
+            onClick={handleTogglePlayCinematic}
+            className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-neutral-800 hover:text-black cursor-pointer group transition-all"
+          >
+            <span className="font-bold tracking-[0.2em]">SCROLL DOWN</span>
+            <div className="w-9 h-9 rounded-full border border-neutral-300 group-hover:border-neutral-900 flex items-center justify-center bg-white shadow-sm transition-all group-hover:scale-110">
+              <ArrowDown className="w-4 h-4 text-neutral-800 group-hover:text-black animate-bounce" />
+            </div>
+          </div>
+        </footer>
+      )}
+
+      {/* 
+        -------------------------------------------------------------
+        7. POST-WARP "CONTINUE TO SCROLL" PILL (lucio.webm Frame 022)
+        Appears right after the supernova portal bloom flash clears!
+        -------------------------------------------------------------
+      */}
+      {scrollProgress > 0.88 && (
+        <div
+          onClick={onComplete}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white text-black text-xs font-mono font-bold uppercase tracking-widest shadow-2xl animate-pulse cursor-pointer hover:scale-105 transition-transform"
+        >
+          <ArrowDown className="w-3.5 h-3.5" />
+          <span>CONTINUE TO SCROLL</span>
+          <ArrowDown className="w-3.5 h-3.5" />
+        </div>
+      )}
+
+      {/* 
+        -------------------------------------------------------------
+        8. MINIMAL SCRUBBER CONTROLLER (Bottom Center Floating Pill)
+        Gives full, effortless interactive control over the dive timeline
+        -------------------------------------------------------------
+      */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 flex items-center gap-3 px-5 py-2.5 rounded-full bg-neutral-950/85 border border-white/15 backdrop-blur-md shadow-2xl pointer-events-auto">
         <button
           onClick={handleTogglePlayCinematic}
           className="text-white hover:text-cyan-400 transition-colors cursor-pointer"
@@ -483,7 +582,7 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
 
       {/* 
         -------------------------------------------------------------
-        7. SUPERNOVA PORTAL BLOOM FLASH (Frame 036 of lucio.webm)
+        9. SUPERNOVA PORTAL BLOOM FLASH (Frame 036 of lucio.webm)
         -------------------------------------------------------------
       */}
       <div
