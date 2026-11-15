@@ -1,5 +1,5 @@
 # 🛠️ Novochronos: Technical Architecture & System Documentation
-> **Living Technical Specification — 2026 NASA Space Apps Challenge**  
+> **Living Technical Specification: 2026 NASA Space Apps Challenge**  
 > **Repository:** [https://github.com/LordScientist/Novochronos](https://github.com/LordScientist/Novochronos)
 
 ---
@@ -37,7 +37,7 @@ Novochronos is architected as a high-performance, responsive single-page web app
 | **Tailwind CSS** | `3.4.14` | Aerospace design system, custom grid layouts, and glassmorphic blurs. |
 | **Lucide React** | `0.454.0` | Lightweight aerospace and UI iconography. |
 | **Vite** | `5.4.10` | Instant HMR development server and optimized ES module bundler. |
-| **ElevenLabs** | — | Neural voice synthesis pipeline for emotionally resonant narrations. |
+| **Web Audio API** | Native | Procedural sound synthesizer for rover physics and ambient frequencies. |
 
 ---
 

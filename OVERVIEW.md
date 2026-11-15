@@ -9,7 +9,7 @@
 
 **Novochronos** is an experiential, story-driven web application that transports school-age space enthusiasts, educators, and casual learners from a NASA Mission Control command terminal into the silent resting places of humanity's off-world robotic explorers.
 
-Rather than presenting information as dry historical textbooks, the application is structured as a **seamless cinematic sweep**—from ground telemetry to rocket liftoff, into an overarching mission video montage, and finally descending onto **tactile 3D exhibition podiums** where dormant machines are uncovered, inspected, and brought back to life through voice-acted audio stories.
+Rather than presenting information as dry historical textbooks, the application is structured as a **seamless cinematic sweep** from ground telemetry to rocket liftoff, into an overarching mission video montage, and finally descending onto **tactile 3D exhibition podiums** where dormant machines are uncovered, inspected, and brought back to life through voice-acted audio stories.
 
 ---
 
@@ -73,7 +73,7 @@ flowchart TD
 
 ### Stage 4: Cinematic Video Overview
 * **Media Asset:** An evocative, high-definition video montage playing embedded with custom playback controls.
-* **Narrative Focus:** Introduces school-age visitors to the mystery of the "Silent Sentinels"—why rovers, descent stages, and probes were left behind, and how each one solved a vital question for humanity.
+* **Narrative Focus:** Introduces school-age visitors to the mystery of the "Silent Sentinels": why rovers, descent stages, and probes were left behind, and how each one solved a vital question for humanity.
 * **Transition Trigger:** Seamlessly advances to the first exhibition project on scroll or when the video completes playback.
 
 ---
@@ -95,9 +95,9 @@ flowchart TD
   * Visitors can click and drag to orbit 360° around the authentic 3D model (e.g. rotating Opportunity's camera mast, spinning Ingenuity's blades, inspecting the Apollo retroreflector).
   * Three-point museum gallery spotlights cast dramatic realistic shadows.
 * **The Curated Story Plaque (`MuseumPlaque.tsx`):**
-  * **Tab 1: The Story** — Narrative text written from an inspiring, character-driven perspective, explaining why it was left behind.
-  * **Tab 2: Hardware & Science** — Breakthrough discoveries and instrument cards.
-  * **Tab 3: Young Explorers Dossier** — "Did You Know?" fun cosmic facts for kids and launch/landing timestamps.
+  * **Tab 1: The Story** (Narrative text written from an inspiring, character-driven perspective, explaining why it was left behind).
+  * **Tab 2: Hardware & Science** (Breakthrough discoveries and instrument cards).
+  * **Tab 3: Young Explorers Dossier** ("Did You Know?" fun cosmic facts for kids and launch/landing timestamps).
 * **Voiceover Audio Guide (`AudioNarrator.tsx`):**
   * Prominent **Play / Pause** button that plays the dedicated character voiceover track (generated via ElevenLabs by Justice & Ishmael).
   * Scrub progress bar, playback speed toggles (`1x`, `1.25x`, `1.5x`), and synchronized read-along script modal.
@@ -115,14 +115,14 @@ flowchart TD
 
 ## 🛰️ The 8 Featured Sentinels in the Showcase
 
-1. **Opportunity Rover (MER-B / "Oppy")** — Mars (Perseverance Valley, Endeavour Crater)
-2. **Ingenuity Mars Helicopter ("Ginny")** — Mars (Airfield Valinor Hills, Jezero Crater)
-3. **Apollo 11 Lunar Module Descent Stage & ALSEP** — Moon (Sea of Tranquility)
-4. **InSight Geophysical Lander** — Mars (Elysium Planitia)
-5. **Apollo 15 Lunar Roving Vehicle (LRV-1)** — Moon (Hadley Rille)
-6. **Sojourner Rover & Mars Pathfinder** — Mars (Ares Vallis)
-7. **Pioneer 10 Deep Space Probe** — Deep Space (Aldebaran trajectory)
-8. **Surveyor 3 Robot Scout** — Moon (Ocean of Storms)
+1. **Opportunity Rover (MER-B / "Oppy")**: Mars (Perseverance Valley, Endeavour Crater)
+2. **Ingenuity Mars Helicopter ("Ginny")**: Mars (Airfield Valinor Hills, Jezero Crater)
+3. **Apollo 11 Lunar Module Descent Stage & ALSEP**: Moon (Sea of Tranquility)
+4. **InSight Geophysical Lander**: Mars (Elysium Planitia)
+5. **Apollo 15 Lunar Roving Vehicle (LRV-1)**: Moon (Hadley Rille)
+6. **Sojourner Rover & Mars Pathfinder**: Mars (Ares Vallis)
+7. **Pioneer 10 Deep Space Probe**: Deep Space (Aldebaran trajectory)
+8. **Surveyor 3 Robot Scout**: Moon (Ocean of Storms)
 
 ---
 
