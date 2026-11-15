@@ -1,15 +1,10 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF, Stars, Sparkles, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-import { gsap } from 'gsap';
-import {
-  LUSION_IN_ANIMATION,
-  LUSION_OUT_ANIMATION,
-} from '../../data/lusionAstronautTrajectory';
 
 interface LusionAstronautSceneProps {
-  scrollProgress: number; // 0.0 (idle hero landing) to 1.0 (hyperspace complete)
+  scrollProgress: number; // 0.0 (idle landing) to 1.0 (hyperspace complete)
   pointerPos?: { x: number; y: number };
   isExpanded?: boolean;
 }
@@ -20,25 +15,19 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   isExpanded = false,
 }) => {
   const astronautRef = useRef<THREE.Group>(null);
-  const cloneRefs = useRef<(THREE.Group | null)[]>([]);
   const earthGroupRef = useRef<THREE.Group>(null);
   const earthMeshRef = useRef<THREE.Mesh>(null);
   const cyberCorridorGroupRef = useRef<THREE.Group>(null);
   const crystalTunnelGroupRef = useRef<THREE.Group>(null);
   const supernovaRef = useRef<THREE.Mesh>(null);
 
-  // Dynamic Point Lights
-  const greenLightRef = useRef<THREE.PointLight>(null);
-  const amberLightRef = useRef<THREE.PointLight>(null);
-  const magentaLightRef = useRef<THREE.PointLight>(null);
-
-  // Load authentic Lusion astronaut 3D model (decompressed from lusion.co .buf files)
-  const { scene: astronautModel } = useGLTF('/models/lusion_astronaut.glb');
+  // Load NASA astronaut 3D model
+  const { scene: astronautModel } = useGLTF('/models/astronaut.glb');
 
   // Load photorealistic Earth texture
   const earthTexture = useTexture('/textures/earth.jpg');
 
-  // Configure PBR materials for helmet, visor glass, gloves, boots, and wearpack
+  // Clone astronaut with glossy spacesuit specular highlights and visor reflections
   const astronautScene = useMemo(() => {
     const clone = astronautModel.clone();
     clone.traverse((child) => {
@@ -47,212 +36,70 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         mesh.castShadow = true;
         mesh.receiveShadow = true;
 
-        if (mesh.name === 'helmet_glass') {
-          // Deep gold / chrome reflective space visor
-          mesh.material = new THREE.MeshStandardMaterial({
-            color: '#06101e',
-            roughness: 0.03,
-            metalness: 0.98,
-            envMapIntensity: 3.5,
-          });
-        } else if (mesh.name === 'glove_shoes') {
-          // Reinforced graphite grip pads & boots
-          mesh.material = new THREE.MeshStandardMaterial({
-            color: '#1e293b',
-            roughness: 0.42,
-            metalness: 0.25,
-            envMapIntensity: 1.8,
-          });
-        } else {
-          // Ceramic titanium & Kevlar spacesuit fabric
-          mesh.material = new THREE.MeshStandardMaterial({
-            color: '#f8fafc',
-            roughness: 0.26,
-            metalness: 0.38,
-            envMapIntensity: 2.6,
-          });
+        if (mesh.material) {
+          const orig = mesh.material as THREE.MeshStandardMaterial;
+          const enhanced = orig.clone();
+          // Boost glossiness and specular response
+          enhanced.roughness = 0.32;
+          enhanced.metalness = 0.30;
+          enhanced.envMapIntensity = 2.2;
+          mesh.material = enhanced;
         }
       }
     });
     return clone;
   }, [astronautModel]);
 
-  // Authentic trailing ghost clones (the visual signature from lucio.webm & Lusion GoalTunnelAstronauts)
-  const cloneScenes = useMemo(() => {
-    const colors = ['#00b5a6', '#22c55e', '#f59e0b'];
-    return colors.map((color, i) => {
-      const clone = astronautModel.clone();
-      clone.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          const mesh = child as THREE.Mesh;
-          mesh.material = new THREE.MeshBasicMaterial({
-            color,
-            transparent: true,
-            opacity: 0.32 / (i + 1),
-            wireframe: i === 2,
-            blending: THREE.AdditiveBlending,
-          });
-        }
-      });
-      return clone;
-    });
-  }, [astronautModel]);
-
-  // Interpolation working vectors
-  const _p0 = useMemo(() => new THREE.Vector3(), []);
-  const _p1 = useMemo(() => new THREE.Vector3(), []);
-  const _q0 = useMemo(() => new THREE.Quaternion(), []);
-  const _q1 = useMemo(() => new THREE.Quaternion(), []);
-
   // ---------------------------------------------------------------------------
-  // GSAP MASTER LIGHTING & VOLUMETRIC TUNNEL TIMELINE
-  // ---------------------------------------------------------------------------
-  const animState = useRef({
-    corridorOpacity: 0.0,
-    corridorColorMix: 0.0, // 0 = Emerald Green / Cyan, 1 = Fiery Amber / Crimson
-    crystalOpacity: 0.0,
-    sparklesOpacity: 0.0,
-    supernovaScale: 12.0,
-    supernovaOpacity: 0.0,
-  });
-
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
-
-  useEffect(() => {
-    const tl = gsap.timeline({ paused: true });
-
-    // Stage 1: Card expansion & Earth approach (0.00 -> 0.35)
-    tl.to(
-      animState.current,
-      {
-        duration: 0.35,
-        ease: 'none',
-      },
-      0
-    );
-
-    // Stage 2: Cyber corridor neon activation (0.45 -> 0.76)
-    tl.to(
-      animState.current,
-      {
-        corridorOpacity: 1.0,
-        sparklesOpacity: 1.0,
-        duration: 0.10,
-        ease: 'power1.in',
-      },
-      0.45
-    );
-
-    // Color shift in corridor: Emerald/Cyan -> Fiery Amber/Crimson (Frame 034)
-    tl.to(
-      animState.current,
-      {
-        corridorColorMix: 1.0,
-        duration: 0.14,
-        ease: 'sine.inOut',
-      },
-      0.60
-    );
-
-    tl.to(
-      animState.current,
-      {
-        corridorOpacity: 0.0,
-        duration: 0.06,
-        ease: 'power2.out',
-      },
-      0.74
-    );
-
-    // Stage 3: Crystalline Kaleidoscope Fractal Warp (0.76 -> 0.90)
-    tl.to(
-      animState.current,
-      {
-        crystalOpacity: 1.0,
-        duration: 0.06,
-        ease: 'power1.in',
-      },
-      0.76
-    );
-
-    tl.to(
-      animState.current,
-      {
-        crystalOpacity: 0.0,
-        duration: 0.05,
-        ease: 'power2.out',
-      },
-      0.88
-    );
-
-    // Stage 4: Supernova Portal Bloom (0.88 -> 1.00)
-    tl.to(
-      animState.current,
-      {
-        supernovaScale: 120.0,
-        supernovaOpacity: 1.0,
-        duration: 0.12,
-        ease: 'expo.in',
-      },
-      0.88
-    );
-
-    timelineRef.current = tl;
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (timelineRef.current) {
-      timelineRef.current.progress(Math.max(0, Math.min(1.0, scrollProgress)));
-    }
-  }, [scrollProgress]);
-
-  // ---------------------------------------------------------------------------
-  // PROCEDURAL SCENE GEOMETRIES (Corridor & Crystal Fractal)
-  // Aligned to Lusion native world coordinates (Z = 16 to Z = -50)
+  // 1. DENSE PROCEDURAL SCI-FI ARCHITECTURAL CORRIDOR (Frames 022, 028, 034, 045)
+  // Structural columns, cross-girders, catwalk frames, specular chrome panels,
+  // neon emerald green & cyber cyan LED conduits, warm amber beacons
   // ---------------------------------------------------------------------------
   const corridorFrames = useMemo(() => {
     const count = 24;
     return Array.from({ length: count }, (_, i) => {
-      const z = 16 - i * 2.8; // spans Z = 16 down to Z = -48.4
-      const rotZ = i * 0.08;
-      let themeColor = '#00b5a6'; // emerald teal (COLOR_1[0])
-      let beaconColor = '#22c55e';
+      const z = -8 - i * 3.4;
+      const rotZ = i * 0.06;
+      // Color shifts along corridor depth: Emerald Green -> Warm Amber/Red -> Electric Cyan
+      let themeColor = '#22c55e'; // emerald green (Frame 028 & 045)
+      let beaconColor = '#f59e0b';
       if (i > 8 && i <= 16) {
-        themeColor = '#ba0000'; // fiery red / amber (COLOR_1[1])
+        themeColor = '#ef4444'; // fiery red / amber (Frame 034)
         beaconColor = '#f97316';
       } else if (i > 16) {
-        themeColor = '#0099ff'; // cyber cyan (COLOR_1[3])
+        themeColor = '#06b6d4'; // electric cyber cyan
         beaconColor = '#38bdf8';
       }
       return { z, rotZ, themeColor, beaconColor, index: i };
     });
   }, []);
 
+  // Floating plasma particles and embers drifting in the corridor (Frame 026 & 034)
   const corridorEmbers = useMemo(() => {
     const count = 30;
     return Array.from({ length: count }, (_, i) => {
-      const z = 14 - (i % 20) * 3.2;
-      const angle = i * 0.85;
+      const z = -10 - (i % 20) * 3.8;
+      const angle = (i * 0.85);
       const r = 1.3 + (i % 4) * 0.35;
       const x = Math.cos(angle) * r;
       const y = Math.sin(angle) * r;
       const size = 0.05 + (i % 3) * 0.04;
-      const color = i % 2 === 0 ? '#00b5a6' : i % 3 === 0 ? '#f97316' : '#38bdf8';
+      const color = i % 2 === 0 ? '#22c55e' : i % 3 === 0 ? '#f97316' : '#06b6d4';
       return { x, y, z, size, color };
     });
   }, []);
 
+  // ---------------------------------------------------------------------------
+  // 2. CRYSTALLINE KALEIDOSCOPE FRACTAL TUNNEL (Frame 032)
+  // Geodesic lattice rings, neon magenta & electric cyan struts, crystal shards
+  // ---------------------------------------------------------------------------
   const crystalSegments = useMemo(() => {
     const count = 26;
     return Array.from({ length: count }, (_, i) => {
-      const z = 8 - i * 2.5; // spans Z = 8 down to Z = -54.5
+      const z = -25 - i * 3.0;
       const rotZ = i * 0.24;
       const scale = 1.0 + Math.sin(i * 0.6) * 0.22;
-      const color = i % 2 === 0 ? '#ec4899' : '#00b5a6';
+      const color = i % 2 === 0 ? '#ec4899' : '#06b6d4'; // neon magenta & cyber cyan
       return { z, rotZ, scale, color, index: i };
     });
   }, []);
@@ -260,7 +107,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   const crystalShards = useMemo(() => {
     const count = 36;
     return Array.from({ length: count }, (_, i) => {
-      const z = 7 - i * 2.1;
+      const z = -26 - i * 2.2;
       const angle = i * 1.1;
       const r = 1.8 + (i % 3) * 0.4;
       const x = Math.cos(angle) * r;
@@ -271,255 +118,313 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   }, []);
 
   // ---------------------------------------------------------------------------
-  // 60FPS THREE.JS KINEMATICS LOOP
-  // Directly evaluates the exact unpacked 100-frame trajectories!
+  // KINEMATICS & CAMERA FLIGHT FRAME LOOP
   // ---------------------------------------------------------------------------
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
-    const anim = animState.current;
-
-    // Organic zero-g idle floating harmonics & mouse parallax
-    const hoverFactor = Math.max(0, 1.0 - scrollProgress * 2.5);
-    const idleFloatX = Math.sin(time * 1.2) * 0.02 * hoverFactor;
-    const idleFloatY = Math.cos(time * 0.9) * 0.025 * hoverFactor;
-    const mouseParallaxX = pointerPos.x * 0.08 * hoverFactor;
-    const mouseParallaxY = pointerPos.y * 0.05 * hoverFactor;
 
     // -------------------------------------------------------------
-    // 1. TRAJECTORY SAMPLING (Exact Lusion updateTransforms formula)
+    // A. DYNAMIC CINEMATIC CAMERA FLIGHT & FIELD OF VIEW
+    // Camera actively pushes in, tracks the dive, rolls into turns!
     // -------------------------------------------------------------
-    const isOut = scrollProgress >= 0.80;
-    const track = isOut ? LUSION_OUT_ANIMATION : LUSION_IN_ANIMATION;
-    let frameProgress: number;
+    let camTargetZ = 3.6;
+    let camTargetY = 0.0;
+    let camTargetRotX = 0.0;
+    let camTargetRotZ = 0.0;
+    let targetFov = 42;
 
-    if (!isOut) {
-      // In-animation: card idle -> space turnaround -> wingsuit dive into cyber corridor
-      if (scrollProgress < 0.20) {
-        // Card idle hovering (Frames 0 to 4)
-        frameProgress = (scrollProgress / 0.20) * 4.0;
-      } else {
-        // Deep space dive: cubic acceleration plunging into the corridor
-        const diveT = Math.min(1.0, Math.max(0, (scrollProgress - 0.20) / (0.80 - 0.20)));
-        frameProgress = 4.0 + 95.0 * Math.pow(diveT, 2.6); // cubicIn acceleration
-      }
+    if (scrollProgress <= 0.20) {
+      // Stage 0: Tablet idle landing with mouse parallax tracking
+      camTargetZ = 3.6;
+      camTargetY = 0.0;
+      camTargetRotX = -pointerPos.y * 0.12;
+      camTargetRotZ = pointerPos.x * 0.08;
+      targetFov = 42;
+    } else if (scrollProgress <= 0.38) {
+      // Stage 1: Fullscreen expansion hero push-in
+      const p = (scrollProgress - 0.20) / 0.18;
+      camTargetZ = 3.6 - p * 0.7; // Pushes in close to astronaut
+      camTargetY = -p * 0.15;
+      camTargetRotX = -0.05 * p;
+      targetFov = 42 + p * 4;
+    } else if (scrollProgress <= 0.65) {
+      // Stage 2: Following the astronaut's space dive into the distance
+      const p = (scrollProgress - 0.38) / 0.27;
+      camTargetZ = 2.9 - p * 6.5;
+      camTargetY = -0.15 - p * 0.4;
+      camTargetRotX = -0.05 - p * 0.18; // Pitch down following the diving astronaut
+      camTargetRotZ = Math.sin(time * 1.5) * 0.05 * p; // Subtle cinematic camera bank
+      targetFov = 46 + p * 8;
+    } else if (scrollProgress <= 0.88) {
+      // Stage 3: Corridor & Kaleidoscope acceleration
+      const p = (scrollProgress - 0.65) / 0.23;
+      camTargetZ = -3.6 - p * 18.0;
+      camTargetY = -0.55 + Math.sin(time * 2.0) * 0.1;
+      camTargetRotX = -0.23 + Math.cos(time * 1.8) * 0.08;
+      camTargetRotZ = Math.sin(time * 2.2) * 0.12; // Bank into corridor turns
+      targetFov = 54 + p * 10; // Hyperspace perspective expansion
     } else {
-      // Out-animation: crystalline hyperspace breakout returning to resting position
-      const outT = Math.min(1.0, Math.max(0, (scrollProgress - 0.80) / 0.20));
-      frameProgress = outT * 99.0;
+      // Stage 4: Supernova warp burst
+      const p = (scrollProgress - 0.88) / 0.12;
+      camTargetZ = -21.6 - p * 25.0;
+      camTargetRotX = 0;
+      camTargetRotZ = 0;
+      targetFov = 64 + p * 12;
     }
 
-    const frameA = Math.min(Math.floor(frameProgress), 99);
-    const frameB = Math.min(Math.ceil(frameProgress), 99);
-    const blend = frameProgress - frameA;
-
-    // Interpolate exact position
-    _p0.fromArray(track.position[frameA]);
-    _p1.fromArray(track.position[frameB]);
-    _p0.lerp(_p1, blend);
-
-    // Slerp exact orientation quaternion
-    _q0.fromArray(track.orient[frameA]);
-    _q1.fromArray(track.orient[frameB]);
-    _q0.slerp(_q1, blend);
-
-    // Authentic corridor acrobatic tumbling between 0.52 and 0.80
-    if (scrollProgress >= 0.52 && scrollProgress <= 0.80) {
-      const tunnelT = (scrollProgress - 0.52) / 0.28;
-      const tumbleIntensity = Math.sin(tunnelT * Math.PI);
-      const tumbleRoll = Math.sin(time * 2.4 + scrollProgress * 14.0) * 0.40 * tumbleIntensity;
-      const tumblePitch = Math.cos(time * 1.9 + scrollProgress * 10.0) * 0.28 * tumbleIntensity;
-      const tumbleYaw = Math.sin(time * 1.5 + scrollProgress * 8.0) * 0.22 * tumbleIntensity;
-
-      const tumbleEuler = new THREE.Euler(tumblePitch, tumbleYaw, tumbleRoll);
-      const tumbleQuat = new THREE.Quaternion().setFromEuler(tumbleEuler);
-      _q0.multiply(tumbleQuat);
-    }
-
-    // Apply idle float & mouse tracking
-    _p0.x += idleFloatX + mouseParallaxX;
-    _p0.y += idleFloatY - mouseParallaxY;
-
-    // Smoothly bind to primary astronaut mesh
-    if (astronautRef.current) {
-      astronautRef.current.position.copy(_p0);
-      astronautRef.current.quaternion.copy(_q0);
-    }
-
-    // -------------------------------------------------------------
-    // 2. TRAILING GHOST CLONES (lucio.webm corridor signature)
-    // -------------------------------------------------------------
-    if (scrollProgress >= 0.40 && scrollProgress <= 0.85) {
-      cloneRefs.current.forEach((cloneGroup, idx) => {
-        if (cloneGroup) {
-          const lagFrames = (idx + 1) * 3.5;
-          const lagProgress = Math.max(0, frameProgress - lagFrames);
-          const cA = Math.min(Math.floor(lagProgress), 99);
-          const cB = Math.min(Math.ceil(lagProgress), 99);
-          const cBlend = lagProgress - cA;
-
-          const cloneP = new THREE.Vector3()
-            .fromArray(track.position[cA])
-            .lerp(new THREE.Vector3().fromArray(track.position[cB]), cBlend);
-          const cloneQ = new THREE.Quaternion()
-            .fromArray(track.orient[cA])
-            .slerp(new THREE.Quaternion().fromArray(track.orient[cB]), cBlend);
-
-          cloneGroup.position.copy(cloneP);
-          cloneGroup.quaternion.copy(cloneQ);
-          cloneGroup.visible = true;
-        }
-      });
-    } else {
-      cloneRefs.current.forEach((cloneGroup) => {
-        if (cloneGroup) cloneGroup.visible = false;
-      });
-    }
-
-    // -------------------------------------------------------------
-    // 3. CAMERA KINEMATICS & DOLLY ZOOM HARMONICS
-    // -------------------------------------------------------------
-    const dollyFovOffset =
-      Math.sin(scrollProgress * 10.0 + time * 1.5) *
-      6.5 *
-      THREE.MathUtils.smoothstep(scrollProgress, 0.35, 0.78);
-
+    state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, camTargetZ, 5.0, delta);
+    state.camera.position.y = THREE.MathUtils.damp(state.camera.position.y, camTargetY, 5.0, delta);
     state.camera.position.x = THREE.MathUtils.damp(
       state.camera.position.x,
-      mouseParallaxX * 0.25,
-      8.0,
+      pointerPos.x * 0.35 * (1 - scrollProgress * 0.8),
+      5.0,
       delta
     );
-    state.camera.position.y = THREE.MathUtils.damp(
-      state.camera.position.y,
-      mouseParallaxY * 0.18,
-      8.0,
-      delta
-    );
-    state.camera.position.z = 25.0;
-    state.camera.lookAt(0, 0, 24.0);
+
+    state.camera.rotation.x = THREE.MathUtils.damp(state.camera.rotation.x, camTargetRotX, 5.0, delta);
+    state.camera.rotation.z = THREE.MathUtils.damp(state.camera.rotation.z, camTargetRotZ, 5.0, delta);
 
     if (state.camera instanceof THREE.PerspectiveCamera) {
-      state.camera.fov = 45.0 + dollyFovOffset;
+      state.camera.fov = THREE.MathUtils.damp(state.camera.fov, targetFov, 4.0, delta);
       state.camera.updateProjectionMatrix();
     }
 
     // -------------------------------------------------------------
-    // 4. EARTH ROTATION & KINEMATICS
+    // B. ASTRONAUT CHOREOGRAPHY (Matches lucio.webm Frame 001 -> 045)
+    // - Idle: facing camera, zero-g floating
+    // - Expansion: heroic pose
+    // - Dive: TURNS AWAY (faces -Z), pitches forward head-first, dives into depth!
+    // - Corridor: acrobatic multi-axis zero-g tumble through neon beams!
+    // -------------------------------------------------------------
+    if (astronautRef.current) {
+      const idleFloatY = Math.sin(time * 1.6) * 0.05;
+      const idleFloatX = Math.cos(time * 1.1) * 0.03;
+      const idleTiltZ = Math.sin(time * 1.0) * 0.03;
+
+      let targetX = idleFloatX;
+      let targetY = -0.45 + idleFloatY;
+      let targetZ = 0.0;
+      let targetScale = 1.35;
+      let targetRotX = idleTiltZ;
+      let targetRotY = Math.PI; // Facing camera in landing
+      let targetRotZ = 0.0;
+
+      if (scrollProgress <= 0.20) {
+        // Idle landing in tablet
+        targetZ = 0.0;
+        targetScale = 1.35;
+        targetRotY = Math.PI + pointerPos.x * 0.35;
+        targetRotX = -pointerPos.y * 0.25;
+      } else if (scrollProgress <= 0.35) {
+        // Fullscreen expansion hero scale
+        const p = (scrollProgress - 0.20) / 0.15;
+        targetZ = p * 0.4;
+        targetScale = 1.35 + p * 0.35;
+        targetRotY = Math.PI + pointerPos.x * 0.25 * (1 - p);
+        targetRotX = -pointerPos.y * 0.15 * (1 - p) + p * 0.15;
+      } else if (scrollProgress <= 0.60) {
+        // ---------------------------------------------------------
+        // THE ICONIC SPACE DIVE (Matches Frame 018 & 024 of lucio.webm)
+        // Astronaut turns around (facing away from camera into depth),
+        // pitches forward into a head-first wingsuit/skydiver posture,
+        // and dives rapidly toward the planet horizon center!
+        // ---------------------------------------------------------
+        const p = (scrollProgress - 0.35) / 0.25;
+        targetZ = 0.4 - p * 16.0; // Dives deep along -Z
+        targetY = -0.45 - p * 0.6;
+        targetScale = 1.7 - p * 0.85;
+
+        // Turn around smoothly so back faces camera, facing into depth
+        targetRotY = Math.PI + p * Math.PI; // Rotates to 2*PI (facing -Z)
+        // Pitch forward head-first into dive
+        targetRotX = p * 0.95; // Head tilted down, diving into abyss
+        targetRotZ = Math.sin(p * Math.PI) * 0.25;
+      } else if (scrollProgress <= 0.85) {
+        // ---------------------------------------------------------
+        // CORRIDOR TUMBLE (Matches Frame 028, 034, 045 of lucio.webm)
+        // Fluid, acrobatic zero-g multi-axis roll and pitch through
+        // the neon emerald and amber structural corridor!
+        // ---------------------------------------------------------
+        const p = (scrollProgress - 0.60) / 0.25;
+        targetZ = -15.6 - p * 24.0;
+        targetY = -1.05 + Math.sin(time * 2.5) * 0.3;
+        targetX = Math.cos(time * 2.0) * 0.35;
+        targetScale = 0.85 - p * 0.35;
+
+        // Dynamic 3-axis acrobatic tumbling
+        targetRotX = 0.95 + p * Math.PI * 3.2; // Pitching forward
+        targetRotY = (Math.PI * 2) + p * Math.PI * 2.8; // Yawing
+        targetRotZ = p * Math.PI * 2.2 + Math.sin(time * 3.0) * 0.4; // Barrel rolling
+      } else {
+        // ---------------------------------------------------------
+        // KALEIDOSCOPE & SUPERNOVA WARP (Matches Frame 032 & 036)
+        // High-velocity hyperspace vortex dive
+        // ---------------------------------------------------------
+        const p = (scrollProgress - 0.85) / 0.15;
+        targetZ = -39.6 - p * 35.0;
+        targetScale = 0.5 - p * 0.35;
+        targetRotX = (Math.PI * 4.15) + p * Math.PI * 4.0;
+        targetRotY = (Math.PI * 4.8) + p * Math.PI * 4.0;
+        targetRotZ = (Math.PI * 2.2) + p * Math.PI * 3.0;
+      }
+
+      astronautRef.current.position.x = THREE.MathUtils.damp(
+        astronautRef.current.position.x,
+        targetX,
+        6.0,
+        delta
+      );
+      astronautRef.current.position.y = THREE.MathUtils.damp(
+        astronautRef.current.position.y,
+        targetY,
+        6.0,
+        delta
+      );
+      astronautRef.current.position.z = THREE.MathUtils.damp(
+        astronautRef.current.position.z,
+        targetZ,
+        6.0,
+        delta
+      );
+
+      astronautRef.current.scale.setScalar(
+        THREE.MathUtils.damp(astronautRef.current.scale.x, targetScale, 6.0, delta)
+      );
+
+      astronautRef.current.rotation.x = THREE.MathUtils.damp(
+        astronautRef.current.rotation.x,
+        targetRotX,
+        5.0,
+        delta
+      );
+      astronautRef.current.rotation.y = THREE.MathUtils.damp(
+        astronautRef.current.rotation.y,
+        targetRotY,
+        5.0,
+        delta
+      );
+      astronautRef.current.rotation.z = THREE.MathUtils.damp(
+        astronautRef.current.rotation.z,
+        targetRotZ,
+        5.0,
+        delta
+      );
+    }
+
+    // -------------------------------------------------------------
+    // C. EARTH HORIZON ROTATION
     // -------------------------------------------------------------
     if (earthMeshRef.current) {
       earthMeshRef.current.rotation.y += delta * 0.02;
     }
 
     // -------------------------------------------------------------
-    // 5. CORRIDOR & CRYSTAL ROTATION
+    // D. CORRIDOR KINEMATICS & LIGHT PULSATION
     // -------------------------------------------------------------
     if (cyberCorridorGroupRef.current) {
       const speed = 0.3 + scrollProgress * 2.5;
       cyberCorridorGroupRef.current.rotation.z = Math.sin(time * 0.8) * 0.05 * speed;
     }
 
+    // -------------------------------------------------------------
+    // E. CRYSTALLINE KALEIDOSCOPE ROTATION
+    // -------------------------------------------------------------
     if (crystalTunnelGroupRef.current) {
       const warpSpin = 0.6 + scrollProgress * 3.0;
       crystalTunnelGroupRef.current.rotation.z += delta * warpSpin * 0.45;
     }
 
     // -------------------------------------------------------------
-    // 6. SUPERNOVA BLOOM
+    // F. SUPERNOVA PORTAL BLOOM (Frame 036)
     // -------------------------------------------------------------
     if (supernovaRef.current) {
-      supernovaRef.current.scale.set(anim.supernovaScale, anim.supernovaScale, 1);
-      (supernovaRef.current.material as THREE.MeshBasicMaterial).opacity = anim.supernovaOpacity;
-    }
-
-    // -------------------------------------------------------------
-    // 7. DYNAMIC LIGHT INTENSITIES
-    // -------------------------------------------------------------
-    if (greenLightRef.current) {
-      greenLightRef.current.intensity = (1 - anim.corridorColorMix) * anim.corridorOpacity * 9.0;
-    }
-    if (amberLightRef.current) {
-      amberLightRef.current.intensity = anim.corridorColorMix * anim.corridorOpacity * 8.0;
-    }
-    if (magentaLightRef.current) {
-      magentaLightRef.current.intensity = anim.crystalOpacity * 10.0;
+      if (scrollProgress > 0.88) {
+        const p = (scrollProgress - 0.88) / 0.12;
+        const scale = 8.0 + Math.pow(p, 2.0) * 60.0;
+        supernovaRef.current.scale.set(scale, scale, 1);
+        (supernovaRef.current.material as THREE.MeshBasicMaterial).opacity = Math.min(1, p * 1.8);
+      } else {
+        (supernovaRef.current.material as THREE.MeshBasicMaterial).opacity = 0;
+      }
     }
   });
+
+  // Calculate corridor & crystal visibility opacities based on scroll phase
+  const cyberCorridorOpacity = Math.max(
+    0,
+    Math.min(1, (scrollProgress - 0.45) * 5.0) * (1 - Math.max(0, (scrollProgress - 0.82) * 4.0))
+  );
+
+  const crystalTunnelOpacity = Math.max(
+    0,
+    Math.min(1, (scrollProgress - 0.72) * 5.0) * (1 - Math.max(0, (scrollProgress - 0.95) * 6.0))
+  );
 
   return (
     <group>
       {/* -------------------------------------------------------------
-          1. LIGHTING SUITE
+          1. CINEMATIC HIGH-DYNAMIC-RANGE LIGHTING
           ------------------------------------------------------------- */}
-      <ambientLight intensity={0.7} color="#0b1329" />
+      <ambientLight intensity={0.65} color="#0f172a" />
 
-      {/* Main sun keylight highlighting suit fabric */}
-      <directionalLight position={[15, 22, 28]} intensity={4.5} color="#ffffff" />
+      {/* Main sun keylight casting crisp specular highlights on spacesuit fabric */}
+      <directionalLight position={[6, 9, 6]} intensity={4.5} color="#ffffff" />
 
-      {/* Earth blue Rayleigh bounce light */}
-      <directionalLight position={[-10, -15, 18]} intensity={3.0} color="#38bdf8" />
+      {/* Blue Rayleigh atmospheric bounce from Earth horizon */}
+      <directionalLight position={[-5, -6, 2]} intensity={2.8} color="#38bdf8" />
 
-      {/* Warm sun rim backlight */}
-      <pointLight position={[0, 4, 21]} intensity={3.5} color="#f59e0b" distance={12} />
+      {/* Warm sun rim backlight highlighting astronaut shoulders and helmet contours */}
+      <pointLight position={[0, 4, -3]} intensity={4.0} color="#f59e0b" distance={15} />
 
-      {/* Volumetric Emerald Green Fill */}
-      <pointLight
-        ref={greenLightRef}
-        position={[0, 0, 10]}
-        intensity={0}
-        color="#00b5a6"
-        distance={25}
-      />
+      {/* Dynamic Emerald Green volumetric fill light (Frames 028 & 045) */}
+      {scrollProgress > 0.45 && (
+        <pointLight
+          position={[0, 0, -18]}
+          intensity={9.0 * cyberCorridorOpacity}
+          color="#22c55e"
+          distance={28}
+        />
+      )}
 
-      {/* Volumetric Fiery Amber Fill */}
-      <pointLight
-        ref={amberLightRef}
-        position={[0, 0, 0]}
-        intensity={0}
-        color="#f97316"
-        distance={30}
-      />
+      {/* Dynamic Fiery Amber/Crimson fill light (Frame 034) */}
+      {scrollProgress > 0.58 && (
+        <pointLight
+          position={[0, 0, -28]}
+          intensity={8.0 * cyberCorridorOpacity}
+          color="#f97316"
+          distance={30}
+        />
+      )}
 
-      {/* Volumetric Neon Magenta Warp Fill */}
-      <pointLight
-        ref={magentaLightRef}
-        position={[0, 0, -15]}
-        intensity={0}
-        color="#ec4899"
-        distance={35}
-      />
+      {/* Dynamic Neon Magenta warp fill light (Frame 032) */}
+      {scrollProgress > 0.70 && (
+        <pointLight
+          position={[0, 0, -42]}
+          intensity={10.0 * crystalTunnelOpacity}
+          color="#ec4899"
+          distance={35}
+        />
+      )}
 
       {/* -------------------------------------------------------------
-          2. THE AUTHENTIC LUSION 3D ASTRONAUT
-          Driven directly by the unpacked 100-frame trajectories!
+          2. THE 3D FLOATING & DIVING ASTRONAUT
           ------------------------------------------------------------- */}
-      <group ref={astronautRef} position={[0, -0.7, 23.0]}>
+      <group ref={astronautRef} position={[0, -0.45, 0]} scale={1.35}>
         <primitive object={astronautScene} />
       </group>
 
-      {/* Trailing Ghost Clones (lucio.webm signature) */}
-      {cloneScenes.map((cloneScene, idx) => (
-        <group
-          key={idx}
-          ref={(el) => {
-            cloneRefs.current[idx] = el;
-          }}
-          visible={false}
-        >
-          <primitive object={cloneScene} />
-        </group>
-      ))}
-
       {/* -------------------------------------------------------------
-          3. CURVED EARTH HORIZON (Lusion native world coordinates)
+          3. CURVED EARTH HORIZON (Visible in Landing, Expansion & Dive)
           ------------------------------------------------------------- */}
       <group
         ref={earthGroupRef}
-        position={[0, -22.0, 0]}
-        rotation={[0.18, 0, 0]}
+        position={[0, -12.0, -6.5]}
+        rotation={[0.22, 0, 0]}
         visible={scrollProgress < 0.88}
       >
+        {/* Photorealistic Earth Sphere */}
         <mesh ref={earthMeshRef}>
-          <sphereGeometry args={[18, 64, 64]} />
+          <sphereGeometry args={[10, 64, 64]} />
           <meshStandardMaterial
             map={earthTexture}
             roughness={0.7}
@@ -528,8 +433,8 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         </mesh>
 
         {/* Outer Atmospheric Rayleigh Scattering Rim (Cyan #38bdf8) */}
-        <mesh scale={1.022}>
-          <sphereGeometry args={[18, 64, 64]} />
+        <mesh scale={1.026}>
+          <sphereGeometry args={[10, 64, 64]} />
           <meshBasicMaterial
             color="#38bdf8"
             transparent
@@ -540,8 +445,8 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         </mesh>
 
         {/* Deep Stratosphere Rim (Blue #0ea5e9) */}
-        <mesh scale={1.045}>
-          <sphereGeometry args={[18, 64, 64]} />
+        <mesh scale={1.055}>
+          <sphereGeometry args={[10, 64, 64]} />
           <meshBasicMaterial
             color="#0ea5e9"
             transparent
@@ -553,9 +458,10 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       </group>
 
       {/* -------------------------------------------------------------
-          4. 3D SCI-FI CYBER ARCHITECTURAL CORRIDOR
+          4. 3D SCI-FI CYBER ARCHITECTURAL CORRIDOR (Frames 022, 028, 034, 045)
+          Chrome structural frames, neon green & cyan LED conduits, beacons
           ------------------------------------------------------------- */}
-      {scrollProgress > 0.38 && (
+      {scrollProgress > 0.42 && (
         <group ref={cyberCorridorGroupRef} position={[0, 0, 0]}>
           {corridorFrames.map((frame) => (
             <group
@@ -571,7 +477,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                   metalness={0.94}
                   roughness={0.18}
                   transparent
-                  opacity={animState.current.corridorOpacity}
+                  opacity={cyberCorridorOpacity}
                 />
               </mesh>
               <mesh position={[0, -2.3, 0]}>
@@ -581,7 +487,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                   metalness={0.94}
                   roughness={0.18}
                   transparent
-                  opacity={animState.current.corridorOpacity}
+                  opacity={cyberCorridorOpacity}
                 />
               </mesh>
 
@@ -593,7 +499,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                   metalness={0.94}
                   roughness={0.18}
                   transparent
-                  opacity={animState.current.corridorOpacity}
+                  opacity={cyberCorridorOpacity}
                 />
               </mesh>
               <mesh position={[2.6, 0, 0]}>
@@ -603,17 +509,17 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                   metalness={0.94}
                   roughness={0.18}
                   transparent
-                  opacity={animState.current.corridorOpacity}
+                  opacity={cyberCorridorOpacity}
                 />
               </mesh>
 
-              {/* Glowing Neon LED Conduit Strips */}
+              {/* Glowing Neon LED Conduit Strips (Frame 022 & 028) */}
               <mesh position={[0, 2.18, 0.24]}>
                 <boxGeometry args={[5.0, 0.05, 0.05]} />
                 <meshBasicMaterial
                   color={frame.themeColor}
                   transparent
-                  opacity={animState.current.corridorOpacity * 0.95}
+                  opacity={cyberCorridorOpacity * 0.95}
                   blending={THREE.AdditiveBlending}
                 />
               </mesh>
@@ -622,7 +528,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                 <meshBasicMaterial
                   color={frame.themeColor}
                   transparent
-                  opacity={animState.current.corridorOpacity * 0.95}
+                  opacity={cyberCorridorOpacity * 0.95}
                   blending={THREE.AdditiveBlending}
                 />
               </mesh>
@@ -631,7 +537,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                 <meshBasicMaterial
                   color={frame.themeColor}
                   transparent
-                  opacity={animState.current.corridorOpacity * 0.95}
+                  opacity={cyberCorridorOpacity * 0.95}
                   blending={THREE.AdditiveBlending}
                 />
               </mesh>
@@ -640,12 +546,12 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                 <meshBasicMaterial
                   color={frame.themeColor}
                   transparent
-                  opacity={animState.current.corridorOpacity * 0.95}
+                  opacity={cyberCorridorOpacity * 0.95}
                   blending={THREE.AdditiveBlending}
                 />
               </mesh>
 
-              {/* Corner Specular Chrome Nodes */}
+              {/* Specular Chrome Corner Brackets */}
               {[
                 [-2.5, 2.2],
                 [2.5, 2.2],
@@ -657,21 +563,21 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                   <meshBasicMaterial
                     color={frame.beaconColor}
                     transparent
-                    opacity={animState.current.corridorOpacity}
+                    opacity={cyberCorridorOpacity}
                   />
                 </mesh>
               ))}
             </group>
           ))}
 
-          {/* Floating Plasma Embers (Frame 026 & 034) */}
+          {/* Floating Plasma Embers & Wisps (Frame 026 & 034) */}
           {corridorEmbers.map((ember, eIdx) => (
             <mesh key={eIdx} position={[ember.x, ember.y, ember.z]}>
               <sphereGeometry args={[ember.size, 16, 16]} />
               <meshBasicMaterial
                 color={ember.color}
                 transparent
-                opacity={animState.current.corridorOpacity * 0.9}
+                opacity={cyberCorridorOpacity * 0.9}
                 blending={THREE.AdditiveBlending}
               />
             </mesh>
@@ -680,7 +586,8 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       )}
 
       {/* -------------------------------------------------------------
-          5. CRYSTALLINE KALEIDOSCOPE FRACTAL TUNNEL
+          5. CRYSTALLINE KALEIDOSCOPE FRACTAL TUNNEL (Frame 032)
+          Interlocking hexagonal diamond struts, magenta & cyan vertices
           ------------------------------------------------------------- */}
       {scrollProgress > 0.68 && (
         <group ref={crystalTunnelGroupRef} position={[0, 0, 0]}>
@@ -690,27 +597,30 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
               position={[0, 0, seg.z]}
               rotation={[0, 0, seg.rotZ]}
             >
+              {/* Outer Geodesic Diamond Ring */}
               <mesh>
                 <ringGeometry args={[3.0 * seg.scale, 3.2 * seg.scale, 6]} />
                 <meshBasicMaterial
                   color={seg.color}
                   transparent
-                  opacity={animState.current.crystalOpacity * 0.9}
+                  opacity={crystalTunnelOpacity * 0.9}
                   blending={THREE.AdditiveBlending}
                   wireframe
                 />
               </mesh>
 
+              {/* Inner Concentric Diamond Ring */}
               <mesh rotation={[0, 0, Math.PI / 6]}>
                 <ringGeometry args={[2.2 * seg.scale, 2.35 * seg.scale, 6]} />
                 <meshBasicMaterial
                   color="#ffffff"
                   transparent
-                  opacity={animState.current.crystalOpacity * 0.85}
+                  opacity={crystalTunnelOpacity * 0.85}
                   blending={THREE.AdditiveBlending}
                 />
               </mesh>
 
+              {/* Connecting Radial Geometric Struts */}
               {[0, 1, 2, 3, 4, 5].map((strut) => {
                 const angle = (strut / 6) * Math.PI * 2;
                 const r = 2.6 * seg.scale;
@@ -724,7 +634,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                     <meshBasicMaterial
                       color={seg.color}
                       transparent
-                      opacity={animState.current.crystalOpacity}
+                      opacity={crystalTunnelOpacity}
                     />
                   </mesh>
                 );
@@ -732,7 +642,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
             </group>
           ))}
 
-          {/* Floating Crystal Shards */}
+          {/* Floating Reflective Crystal Shards (Frame 032) */}
           {crystalShards.map((shard, sIdx) => (
             <mesh
               key={sIdx}
@@ -747,7 +657,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
                 metalness={0.92}
                 roughness={0.12}
                 transparent
-                opacity={animState.current.crystalOpacity}
+                opacity={crystalTunnelOpacity}
               />
             </mesh>
           ))}
@@ -755,9 +665,14 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       )}
 
       {/* -------------------------------------------------------------
-          6. SUPERNOVA PORTAL BLOOM
+          6. SUPERNOVA PORTAL BLOOM (Matches Frame 036 of lucio.webm)
+          Radiant white-cyan bloom disk at hyperspace completion
           ------------------------------------------------------------- */}
-      <mesh ref={supernovaRef} position={[0, 0, -60]} scale={[12, 12, 1]}>
+      <mesh
+        ref={supernovaRef}
+        position={[0, 0, -75]}
+        scale={[8, 8, 1]}
+      >
         <planeGeometry args={[1, 1]} />
         <meshBasicMaterial
           color="#ffffff"
@@ -769,7 +684,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       </mesh>
 
       {/* -------------------------------------------------------------
-          7. STARFIELD & SPEED STREAKS
+          7. STARFIELD & HYPERSPACE SPEED STREAKS
           ------------------------------------------------------------- */}
       <Stars
         radius={150}
@@ -781,6 +696,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         speed={1.4}
       />
 
+      {/* High-speed warp particle stream during dive and corridor */}
       {scrollProgress > 0.35 && (
         <Sparkles
           count={650}
@@ -788,12 +704,9 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
           size={5.5}
           speed={7.0}
           color={scrollProgress > 0.70 ? '#ec4899' : '#38bdf8'}
-          opacity={animState.current.sparklesOpacity * 0.95}
+          opacity={Math.min(0.95, (scrollProgress - 0.35) * 2.2)}
         />
       )}
     </group>
   );
 };
-
-useGLTF.preload('/models/lusion_astronaut.glb');
-useTexture.preload('/textures/earth.jpg');
