@@ -9,7 +9,8 @@ export default {
       fontFamily: {
         sans: ['"General Sans"', '"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
         heading: ['"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
-        mono: ['"General Sans"', '"Inter Tight"', 'Inter', 'monospace'],
+        editorial: ['"Literata"', 'Charter', 'Georgia', 'serif'],
+        mono: ['"DM Mono"', '"Space Mono"', 'monospace'],
         orbitron: ['"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
       },
       colors: {
