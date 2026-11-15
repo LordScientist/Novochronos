@@ -69,35 +69,35 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-4 sm:p-6 md:p-8">
+    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-between p-4 sm:p-6 md:p-8 font-sans">
       {/* Top Header Controls: Timecode readout & Audio Controls (Top-Right) */}
       <div className="w-full flex justify-between items-center pointer-events-auto">
-        {/* Subtle Audio Master Clock Readout */}
-        <div className="flex items-center gap-2 bg-slate-950/70 border border-slate-800/80 rounded-full px-3 py-1 backdrop-blur-md shadow-2xl">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-mono text-[11px] tracking-wider text-slate-300 font-medium">
-            {formatTime(currentTime)} <span className="text-slate-600">/</span> {formatTime(duration)}
+        {/* Master Clock Readout */}
+        <div className="flex items-center gap-2 obsidian-card border border-titanium/15 rounded-full px-3 py-1 backdrop-blur-md shadow-2xl">
+          <span className="w-2 h-2 rounded-full bg-signalGreen animate-pulse" />
+          <span className="font-mono text-[11px] tracking-wider text-titanium font-medium">
+            {formatTime(currentTime)} <span className="text-dustGrey">/</span> {formatTime(duration)}
           </span>
-          <span className="text-slate-600 text-xs">|</span>
-          <span className="font-mono text-[10px] text-amber-400 uppercase tracking-widest font-semibold">
+          <span className="text-titanium/30 text-xs">|</span>
+          <span className="font-mono text-[10px] text-nebulaCyan uppercase tracking-widest font-semibold">
             {scene.replace('-', ' ')}
           </span>
         </div>
 
         {/* Audio Controls */}
-        <div className="flex items-center gap-2 bg-slate-950/70 border border-slate-800/80 rounded-full px-3 py-1.5 backdrop-blur-md shadow-2xl">
+        <div className="flex items-center gap-2 obsidian-card border border-titanium/15 rounded-full px-3 py-1.5 backdrop-blur-md shadow-2xl">
           {/* Mute Toggle */}
           {onToggleMute && (
             <button
               onClick={onToggleMute}
               aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-              className="p-1.5 rounded-full hover:bg-slate-800 text-slate-300 hover:text-white transition-colors"
+              className="p-1.5 rounded-full hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer"
               title={isMuted ? 'Unmute Narration' : 'Mute Narration'}
             >
               {isMuted ? (
                 <VolumeX className="w-4 h-4 text-rose-400" />
               ) : (
-                <Volume2 className="w-4 h-4 text-emerald-400" />
+                <Volume2 className="w-4 h-4 text-nebulaCyan" />
               )}
             </button>
           )}
@@ -107,18 +107,18 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
             <button
               onClick={onTogglePlay}
               aria-label={isPlaying ? 'Pause Intro' : 'Play Intro'}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/60 font-mono text-xs transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-xs transition-colors cursor-pointer"
               title={isPlaying ? 'Pause Intro' : 'Play Intro'}
             >
               {isPlaying ? (
                 <>
-                  <Pause className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                  <Pause className="w-3.5 h-3.5 text-solarAmber fill-current" />
                   <span className="text-[11px] font-semibold">PAUSE</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400 ml-0.5" />
-                  <span className="text-[11px] font-semibold text-emerald-400">PLAY</span>
+                  <Play className="w-3.5 h-3.5 text-signalGreen fill-current ml-0.5" />
+                  <span className="text-[11px] font-semibold text-signalGreen">PLAY</span>
                 </>
               )}
             </button>
@@ -131,10 +131,10 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Scene 1 Awakening Narrative */}
         {scene === 'awakening' && (
           <div key="awakening-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-[0.28em] text-cyan-400 uppercase font-bold block mb-1">
+            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               PROLOGUE // THE MACHINES WE LEFT BEHIND
             </span>
-            <p className="font-sans text-lg sm:text-xl font-light text-slate-200 italic drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+            <p className="font-sans text-lg sm:text-xl font-light text-lunarWhite italic drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -152,29 +152,29 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
                 className="w-2 h-2 rounded-full animate-ping"
                 style={{ backgroundColor: currentSentinel.accentColor }}
               />
-              <span className="font-mono text-[10px] tracking-[0.25em] text-amber-400 font-bold uppercase">
+              <span className="font-mono text-[10px] tracking-widest text-nebulaCyan font-semibold uppercase">
                 SENTINEL 0{activeSentinelIndex + 1} // {currentSentinel.celestialBody.toUpperCase()}
               </span>
             </div>
 
-            {/* Model Name with Smooth Typography */}
-            <h2 className="font-orbitron text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-wider drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+            {/* Model Name with Smooth Editorial Typography */}
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
               {currentSentinel.name}
             </h2>
 
             {/* Subtitle Details: Resting Site & Coordinates */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-slate-300 mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-              <span className="text-amber-300/90 font-medium">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-dustGrey mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <span className="text-solarAmber font-medium">
                 📍 {currentSentinel.landingSite}
               </span>
-              <span className="text-slate-500">•</span>
-              <span className="text-slate-400">
+              <span className="text-titanium/40">•</span>
+              <span className="text-titanium">
                 {currentSentinel.missionLifespan.actual}
               </span>
             </div>
 
             {/* Synchronized Narration Subtitle */}
-            <p className="font-sans text-sm sm:text-base text-slate-200/90 italic mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-sm sm:text-base text-lunarWhite/90 italic mt-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
 
@@ -182,7 +182,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
             <div
               className="h-0.5 mt-3 rounded-full transition-all duration-700"
               style={{
-                background: `linear-gradient(90deg, ${currentSentinel.accentColor}, #38bdf8, transparent)`,
+                background: 'linear-gradient(90deg, #1A2FFB, #54C9F5, transparent)',
                 width: '240px',
               }}
             />
@@ -192,13 +192,13 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Scene 3 Grand Exhibition */}
         {scene === 'grand-exhibition' && (
           <div key="exhibition-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-[0.28em] text-sky-400 uppercase font-bold block mb-1">
+            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               THE CIRCULAR EXHIBITION // SACRED MONUMENTS
             </span>
-            <h3 className="font-orbitron text-xl sm:text-2xl font-black text-white tracking-wide drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
               ALL EIGHT SENTINELS
             </h3>
-            <p className="font-sans text-sm sm:text-base text-slate-200/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-sm sm:text-base text-lunarWhite/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -207,13 +207,13 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Scene 4 Planetary Reveal */}
         {scene === 'planetary-reveal' && (
           <div key="planetary-text" className="animate-title-reveal pointer-events-auto max-w-xl mb-4">
-            <span className="font-mono text-[10px] tracking-[0.28em] text-amber-500 uppercase font-bold block mb-1">
+            <span className="font-mono text-[10px] tracking-widest text-solarAmber uppercase font-semibold block mb-1">
               GEOLOGICAL RECORD // MARTIAN SURFACE
             </span>
-            <h3 className="font-orbitron text-xl sm:text-2xl font-black text-white tracking-wide drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] mb-1">
               ACROSS THREE SILENT WORLDS
             </h3>
-            <p className="font-sans text-sm sm:text-base text-slate-200/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-sm sm:text-base text-lunarWhite/95 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
           </div>
@@ -222,22 +222,22 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
         {/* Scene 5 Title Reveal & Hero CTA */}
         {scene === 'title-reveal' && (
           <div key="title-text" className="animate-title-reveal pointer-events-auto max-w-2xl mb-4">
-            <span className="font-mono text-[10px] tracking-[0.3em] text-amber-400 uppercase font-bold block mb-1">
+            <span className="font-mono text-[10px] tracking-widest text-nebulaCyan uppercase font-semibold block mb-1">
               STAGE 0 // NASA SPACE APPS ARCHIVE
             </span>
-            <h1 className="font-orbitron text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-widest drop-shadow-[0_6px_24px_rgba(0,0,0,0.95)]">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-lunarWhite tracking-tight drop-shadow-[0_6px_24px_rgba(0,0,0,0.95)]">
               NOVOCHRONOS
             </h1>
-            <p className="font-sans text-sm sm:text-base text-slate-200 italic mt-2 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-sm sm:text-base text-dustGrey italic mt-2 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               “{activeCue.spokenWords}”
             </p>
             <div>
               <button
                 onClick={onEnterArchive}
-                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:shadow-[0_0_45px_rgba(245,158,11,0.8)] hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
+                className="px-8 py-3.5 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(26,47,251,0.5)] hover:shadow-[0_0_45px_rgba(26,47,251,0.7)] hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
               >
                 <span>ENTER THE ARCHIVE</span>
-                <span className="w-2 h-2 rounded-full bg-slate-950 group-hover:scale-125 transition-transform" />
+                <span className="w-2 h-2 rounded-full bg-nebulaCyan group-hover:scale-125 transition-transform" />
               </button>
             </div>
           </div>
@@ -247,17 +247,17 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
       {/* Bottom Bar: Interactive Timeline Scrubber & Skip Button */}
       <div className="w-full flex flex-col gap-2 pointer-events-auto">
         {/* Timeline Scrubber Bar */}
-        <div className="w-full flex items-center gap-3 bg-slate-950/70 border border-slate-800/80 rounded-xl px-4 py-2 backdrop-blur-md shadow-2xl">
+        <div className="w-full flex items-center gap-3 obsidian-card border border-titanium/15 rounded-xl px-4 py-2 backdrop-blur-xl shadow-2xl">
           {/* Progress bar container */}
           <div
-            className="relative flex-1 h-3 bg-slate-900 rounded-full cursor-pointer group flex items-center"
+            className="relative flex-1 h-3 bg-cosmicNavy rounded-full cursor-pointer group flex items-center"
             onClick={handleProgressBarClick}
             title="Click to scrub audio timeline"
           >
             {/* Background track */}
             <div className="absolute inset-0 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-sky-500 via-amber-500 to-emerald-400 transition-all duration-75"
+                className="h-full bg-gradient-to-r from-stellarBlue via-nebulaCyan to-signalGreen transition-all duration-75"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
@@ -276,8 +276,8 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
                   <div
                     className={`w-1.5 h-1.5 rounded-full border transition-all ${
                       isPast
-                        ? 'bg-amber-400 border-amber-300 scale-110'
-                        : 'bg-slate-700 border-slate-600'
+                        ? 'bg-nebulaCyan border-nebulaCyan scale-110 shadow-[0_0_6px_#54C9F5]'
+                        : 'bg-titanium/40 border-titanium/20'
                     }`}
                   />
                 </div>
@@ -286,7 +286,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
 
             {/* Playhead thumb */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] border-2 border-amber-500 pointer-events-none group-hover:scale-125 transition-transform"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-lunarWhite shadow-[0_0_8px_rgba(255,255,255,0.8)] border-2 border-stellarBlue pointer-events-none group-hover:scale-125 transition-transform"
               style={{ left: `${progress * 100}%` }}
             />
           </div>
@@ -295,7 +295,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
           {onPlayGame && (
             <button
               onClick={onPlayGame}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-[11px] tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(245,166,35,0.4)] cursor-pointer active:scale-95"
             >
               <span>PLAY POWER RUN</span>
             </button>
@@ -304,7 +304,7 @@ export const CinematicIntroOverlay: React.FC<CinematicIntroOverlayProps> = ({
           {/* Skip Intro button */}
           <button
             onClick={onSkip}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 font-mono text-[11px] tracking-wider transition-colors cursor-pointer group"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cosmicNavy hover:bg-stellarBlue/20 text-titanium hover:text-lunarWhite border border-titanium/20 font-mono text-[11px] tracking-wider transition-colors cursor-pointer group"
             title="Skip Intro to Stage 1: Command Terminal"
           >
             <span>SKIP INTRO</span>

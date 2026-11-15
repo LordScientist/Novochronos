@@ -213,7 +213,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
           camera={{ position: [0, 15, 27], fov: 45 }}
           gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         >
-          <color attach="background" args={['#030712']} />
+          <color attach="background" args={['#05070D']} />
           <IntroScene3D
             scene={currentScene}
             activeSentinelIndex={activeSentinelIndex}
@@ -230,27 +230,27 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
       {!hasStarted && (
         <div
           onClick={startAudio}
-          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/10 pointer-events-auto cursor-pointer p-4 transition-all duration-500"
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-deepSpace/70 backdrop-blur-sm pointer-events-auto cursor-pointer p-4 transition-all duration-500"
         >
           <div
             onClick={(e) => {
               e.stopPropagation();
               startAudio();
             }}
-            className="relative max-w-md w-full mx-auto text-center px-8 py-7 rounded-2xl bg-slate-950/40 border border-white/20 backdrop-blur-[2px] shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_30px_rgba(56,189,248,0.12)] hover:border-amber-400/40 transition-all duration-300"
+            className="relative max-w-md w-full mx-auto text-center px-8 py-7 rounded-2xl obsidian-card border border-titanium/20 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.7),0_0_40px_rgba(26,47,251,0.2)] hover:border-stellarBlue/40 transition-all duration-300"
           >
             {/* Top Micro-Tag */}
             <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              <span className="font-mono text-[10px] tracking-[0.3em] text-amber-400 font-bold uppercase">
+              <span className="w-2 h-2 rounded-full bg-signalGreen animate-ping" />
+              <span className="font-mono text-[10px] tracking-widest text-nebulaCyan font-semibold uppercase">
                 STAGE 0 // NASA SPACE APPS ARCHIVE
               </span>
             </div>
 
-            <h1 className="font-orbitron text-2xl sm:text-3xl font-black text-white tracking-wider mb-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-lunarWhite tracking-tight mb-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               NOVOCHRONOS
             </h1>
-            <p className="font-sans text-xs text-slate-200/90 mb-5 leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)]">
+            <p className="font-sans text-xs text-dustGrey mb-5 leading-relaxed">
               Experience humanity's interplanetary pioneers in 3D with authentic spoken narration.
             </p>
 
@@ -259,9 +259,9 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
                 e.stopPropagation();
                 startAudio();
               }}
-              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-orbitron font-extrabold text-xs tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(245,158,11,0.5)] hover:shadow-[0_0_40px_rgba(245,158,11,0.8)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full py-3.5 px-6 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 shadow-[0_0_25px_rgba(26,47,251,0.5)] hover:shadow-[0_0_40px_rgba(26,47,251,0.7)] flex items-center justify-center gap-2.5 cursor-pointer group hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Play className="w-4 h-4 fill-slate-950 group-hover:scale-110 transition-transform" />
+              <Play className="w-4 h-4 fill-lunarWhite group-hover:scale-110 transition-transform" />
               <span>START CINEMATIC INTRODUCTION</span>
             </button>
 
@@ -271,13 +271,13 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({ onComplete, onPl
                   e.stopPropagation();
                   onPlayGame();
                 }}
-                className="w-full mt-2.5 py-2.5 px-4 rounded-xl bg-slate-900/90 border border-amber-500/40 hover:bg-slate-800 text-amber-400 font-orbitron font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full mt-2.5 py-2.5 px-4 rounded-xl bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-mono font-bold text-xs tracking-wider uppercase transition-all shadow-[0_0_20px_rgba(245,166,35,0.4)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
                 <span>PLAY POWER RUN: THE LAST SIGNAL</span>
               </button>
             )}
 
-            <div className="flex items-center justify-center gap-1.5 mt-3.5 font-mono text-[11px] text-slate-300/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+            <div className="flex items-center justify-center gap-1.5 mt-3.5 font-mono text-[10px] text-dustGrey">
               <span>🔊</span>
               <span>Click anywhere on screen to begin</span>
             </div>

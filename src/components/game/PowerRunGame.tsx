@@ -630,7 +630,7 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
 
   return (
     <div
-      className="relative w-full h-screen bg-black overflow-hidden select-none font-mono"
+      className="relative w-full h-screen bg-deepSpace overflow-hidden select-none font-mono"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -643,44 +643,44 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
         {/* Left: Artifact & Environment Identification */}
         <div className="flex items-center gap-3">
-          <div className="bg-slate-950/85 border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 shadow-lg">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-white font-bold text-xs uppercase tracking-wider">
+          <div className="obsidian-card border border-titanium/15 px-3.5 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 shadow-lg">
+            <span className="w-2.5 h-2.5 rounded-full bg-signalGreen animate-pulse" />
+            <span className="text-lunarWhite font-bold text-xs uppercase tracking-wider">
               {selectedArtifact.name}
             </span>
-            <span className="text-slate-400 text-[11px] font-normal">
+            <span className="text-dustGrey text-[11px] font-normal">
               // {destination.toUpperCase()}
             </span>
           </div>
 
-          <div className="bg-slate-950/85 border border-white/15 px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 text-slate-300 text-xs shadow-lg">
-            <span className="text-sky-400 font-bold">{telemetry.distance}</span>
-            <span className="text-[10px] text-slate-400 uppercase">METERS</span>
+          <div className="obsidian-card border border-titanium/15 px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-2 text-titanium text-xs shadow-lg">
+            <span className="text-nebulaCyan font-bold">{telemetry.distance}</span>
+            <span className="text-[10px] text-dustGrey uppercase">METERS</span>
           </div>
         </div>
 
         {/* Center: High-Clarity Battery & Power Meter */}
-        <div className="bg-slate-950/85 border border-white/15 px-5 py-2 rounded-full backdrop-blur-md flex items-center gap-3.5 shadow-2xl">
+        <div className="obsidian-card border border-titanium/15 px-5 py-2 rounded-full backdrop-blur-md flex items-center gap-3.5 shadow-2xl">
           <div className="flex items-center gap-1.5">
             <Zap
               className={`w-4 h-4 ${
                 telemetry.power < 25
                   ? 'text-red-500 animate-bounce'
-                  : 'text-amber-400 fill-amber-400'
+                  : 'text-solarAmber fill-current'
               }`}
             />
-            <span className="text-xs text-slate-300 font-bold">POWER:</span>
+            <span className="text-xs text-dustGrey font-bold">POWER:</span>
           </div>
 
           {/* Dynamic Power Bar Container */}
-          <div className="w-32 sm:w-44 h-3 bg-slate-900 rounded-full overflow-hidden border border-white/15 p-0.5 relative">
+          <div className="w-32 sm:w-44 h-3 bg-cosmicNavy rounded-full overflow-hidden border border-titanium/20 p-0.5 relative">
             <div
               className={`h-full rounded-full transition-all duration-150 ${
                 telemetry.power > 50
-                  ? 'bg-gradient-to-r from-emerald-500 to-sky-400'
+                  ? 'bg-gradient-to-r from-stellarBlue to-nebulaCyan'
                   : telemetry.power > 25
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-400'
-                  : 'bg-gradient-to-r from-red-600 to-red-500 animate-pulse'
+                  ? 'bg-solarAmber'
+                  : 'bg-red-500 animate-pulse'
               }`}
               style={{ width: `${telemetry.power}%` }}
             />
@@ -688,7 +688,7 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
 
           <span
             className={`text-xs font-bold font-mono min-w-[3rem] text-right ${
-              telemetry.power < 25 ? 'text-red-400' : 'text-white'
+              telemetry.power < 25 ? 'text-red-400' : 'text-lunarWhite'
             }`}
           >
             {telemetry.power}%
@@ -699,18 +699,18 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
         <div className="flex items-center gap-2 pointer-events-auto">
           <button
             onClick={() => setIsMuted(gameAudio.toggleMute())}
-            className="p-2 rounded-full bg-slate-950/85 border border-white/15 hover:bg-slate-900 text-slate-300 hover:text-white transition-colors cursor-pointer backdrop-blur-md shadow-lg"
+            className="p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
             title={isMuted ? 'Unmute Audio' : 'Mute Audio'}
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-sky-400" />}
+            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-nebulaCyan" />}
           </button>
 
           <button
             onClick={() => setIsPaused((prev) => !prev)}
-            className="p-2 rounded-full bg-slate-950/85 border border-white/15 hover:bg-slate-900 text-slate-300 hover:text-white transition-colors cursor-pointer backdrop-blur-md shadow-lg"
+            className="p-2 rounded-full obsidian-card border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite transition-colors cursor-pointer backdrop-blur-md shadow-lg"
             title="Pause Game (P or Esc)"
           >
-            {isPaused ? <Play className="w-4 h-4 text-emerald-400" /> : <Pause className="w-4 h-4 text-amber-400" />}
+            {isPaused ? <Play className="w-4 h-4 text-signalGreen" /> : <Pause className="w-4 h-4 text-solarAmber" />}
           </button>
         </div>
       </div>
@@ -721,13 +721,13 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       <div className="absolute bottom-6 right-6 z-20 flex flex-col gap-2.5 sm:hidden">
         <button
           onClick={() => changeLane('up')}
-          className="w-14 h-14 rounded-full bg-slate-950/90 border-2 border-sky-400/60 active:bg-sky-500/30 flex items-center justify-center text-sky-400 shadow-xl"
+          className="w-14 h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl"
         >
           <ChevronUp className="w-7 h-7" />
         </button>
         <button
           onClick={() => changeLane('down')}
-          className="w-14 h-14 rounded-full bg-slate-950/90 border-2 border-sky-400/60 active:bg-sky-500/30 flex items-center justify-center text-sky-400 shadow-xl"
+          className="w-14 h-14 rounded-full obsidian-card border-2 border-stellarBlue/60 active:bg-stellarBlue/30 flex items-center justify-center text-nebulaCyan shadow-xl"
         >
           <ChevronDown className="w-7 h-7" />
         </button>
@@ -738,12 +738,12 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* ------------------------------------------------------------- */}
       {showTutorial && !gameOver && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none animate-fadeIn">
-          <div className="bg-slate-950/90 border border-white/15 px-6 py-2.5 rounded-full backdrop-blur-md flex items-center gap-3 text-xs text-slate-200 shadow-2xl">
-            <span className="px-2 py-0.5 rounded bg-white/10 font-bold text-sky-400">↑ / W</span>
-            <span className="px-2 py-0.5 rounded bg-white/10 font-bold text-sky-400">↓ / S</span>
-            <span className="text-slate-400">NAVIGATE LANES</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-amber-400 font-bold">COLLECT CELLS TO MAINTAIN POWER</span>
+          <div className="obsidian-card border border-titanium/20 px-6 py-2.5 rounded-full backdrop-blur-md flex items-center gap-3 text-xs text-titanium shadow-2xl">
+            <span className="px-2 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↑ / W</span>
+            <span className="px-2 py-0.5 rounded bg-cosmicNavy border border-titanium/20 font-bold text-nebulaCyan">↓ / S</span>
+            <span className="text-dustGrey">NAVIGATE LANES</span>
+            <span className="text-titanium/30">•</span>
+            <span className="text-solarAmber font-semibold">COLLECT CELLS TO MAINTAIN POWER</span>
           </div>
         </div>
       )}
@@ -752,30 +752,30 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* PAUSE SCREEN OVERLAY                                          */}
       {/* ------------------------------------------------------------- */}
       {isPaused && !gameOver && (
-        <div className="absolute inset-0 z-30 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-slate-950 border border-white/20 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-6 shadow-2xl">
-            <h2 className="text-xl font-orbitron font-black text-white tracking-widest uppercase">
+        <div className="absolute inset-0 z-30 bg-deepSpace/90 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+          <div className="obsidian-card border border-titanium/20 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-6 shadow-2xl">
+            <h2 className="text-xl font-display font-bold text-lunarWhite tracking-tight uppercase">
               MISSION PAUSED
             </h2>
 
             <div className="space-y-3 font-mono text-xs">
               <button
                 onClick={() => setIsPaused(false)}
-                className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold transition-all shadow-lg cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-stellarBlue hover:bg-stellarBlue/90 text-lunarWhite font-bold transition-all shadow-[0_0_20px_rgba(26,47,251,0.5)] cursor-pointer"
               >
                 RESUME RUN
               </button>
 
               <button
                 onClick={handleRestart}
-                className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-cosmicNavy hover:bg-cosmicNavy/80 text-titanium hover:text-lunarWhite border border-titanium/20 font-bold transition-all cursor-pointer"
               >
                 RESTART RUN (R)
               </button>
 
               <button
                 onClick={() => setReduceMotion(!reduceMotion)}
-                className="w-full py-2 rounded-xl bg-slate-900 border border-white/10 hover:bg-slate-800 text-slate-400 text-[11px] transition-colors cursor-pointer"
+                className="w-full py-2 rounded-xl bg-deepSpace/60 border border-titanium/15 hover:bg-cosmicNavy text-dustGrey hover:text-lunarWhite text-[11px] transition-colors cursor-pointer"
               >
                 SCREEN SHAKE: {reduceMotion ? 'OFF' : 'ON'}
               </button>
@@ -796,62 +796,62 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
       {/* CLEAN GAME-OVER RESULTS SCREEN                                */}
       {/* ------------------------------------------------------------- */}
       {gameOver && (
-        <div className="absolute inset-0 z-30 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-slate-950 border border-amber-500/30 rounded-3xl p-6 sm:p-9 max-w-lg w-full text-center space-y-6 shadow-[0_0_60px_rgba(245,158,11,0.2)]">
+        <div className="absolute inset-0 z-30 bg-deepSpace/95 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+          <div className="obsidian-card border border-solarAmber/40 rounded-3xl p-6 sm:p-9 max-w-lg w-full text-center space-y-6 shadow-[0_0_60px_rgba(245,166,35,0.25)]">
             <div className="space-y-1">
-              <div className="flex items-center justify-center gap-2 text-amber-400 text-xs font-mono tracking-widest uppercase">
+              <div className="flex items-center justify-center gap-2 text-solarAmber text-xs font-mono tracking-widest uppercase font-semibold">
                 <ShieldAlert className="w-4 h-4" />
                 <span>POWER DEPLETED // THE LAST SIGNAL</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-orbitron font-black text-white tracking-wide">
+              <h2 className="text-2xl sm:text-3xl font-display font-bold text-lunarWhite tracking-tight">
                 MISSION CONCLUDED
               </h2>
             </div>
 
             {/* Run Statistics Grid */}
-            <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-900/80 border border-white/10 text-left">
+            <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-deepSpace/80 border border-titanium/15 text-left">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-mono block">
+                <span className="text-[10px] text-dustGrey uppercase font-mono block">
                   DISTANCE TRAVERSED
                 </span>
-                <span className="text-xl sm:text-2xl font-bold font-mono text-white">
-                  {telemetry.distance} <span className="text-xs font-normal text-slate-400">m</span>
+                <span className="text-xl sm:text-2xl font-bold font-mono text-lunarWhite">
+                  {telemetry.distance} <span className="text-xs font-normal text-dustGrey">m</span>
                 </span>
               </div>
 
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-mono block">
+                <span className="text-[10px] text-dustGrey uppercase font-mono block">
                   POWER CELLS COLLECTED
                 </span>
-                <span className="text-xl sm:text-2xl font-bold font-mono text-sky-400">
+                <span className="text-xl sm:text-2xl font-bold font-mono text-nebulaCyan">
                   {telemetry.batteriesCollected}
                 </span>
               </div>
 
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-mono block">
+                <span className="text-[10px] text-dustGrey uppercase font-mono block">
                   SPACECRAFT VEHICLE
                 </span>
-                <span className="text-xs font-bold text-slate-200">
+                <span className="text-xs font-bold text-titanium">
                   {selectedArtifact.name}
                 </span>
               </div>
 
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-mono block">
+                <span className="text-[10px] text-dustGrey uppercase font-mono block">
                   CELESTIAL REALM
                 </span>
-                <span className="text-xs font-bold text-slate-200">
+                <span className="text-xs font-bold text-titanium">
                   {destination.toUpperCase()}
                 </span>
               </div>
             </div>
 
             {/* Historical Fact Archival Box */}
-            <div className="p-4 rounded-xl bg-slate-900/40 border border-white/5 text-left text-xs text-slate-300 font-sans leading-relaxed flex gap-3">
-              <Info className="w-5 h-5 text-sky-400 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-cosmicNavy/40 border border-titanium/15 text-left text-xs text-titanium font-sans leading-relaxed flex gap-3">
+              <Info className="w-5 h-5 text-nebulaCyan shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono text-[10px] text-sky-400 font-bold block uppercase tracking-wider mb-1">
+                <span className="font-mono text-[10px] text-nebulaCyan font-semibold block uppercase tracking-wider mb-1">
                   NASA HISTORICAL RECORD
                 </span>
                 <p>{ARTIFACT_FACTS[selectedArtifact.id] || selectedArtifact.tagline}</p>
@@ -862,7 +862,7 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
             <div className="flex flex-col sm:flex-row items-center gap-3 font-mono text-xs">
               <button
                 onClick={handleRestart}
-                className="w-full sm:flex-1 py-3 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold uppercase transition-all shadow-[0_0_20px_rgba(245,158,11,0.5)] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 py-3 rounded-full bg-solarAmber hover:bg-solarAmber/90 text-deepSpace font-bold uppercase transition-all shadow-[0_0_20px_rgba(245,166,35,0.4)] cursor-pointer flex items-center justify-center gap-2 active:scale-95"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>PLAY AGAIN (R)</span>
@@ -870,7 +870,7 @@ export const PowerRunGame: React.FC<PowerRunGameProps> = ({
 
               <button
                 onClick={onExit}
-                className="w-full sm:flex-1 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 py-3 rounded-full bg-cosmicNavy hover:bg-cosmicNavy/80 text-titanium hover:text-lunarWhite border border-titanium/20 transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 <LogOut className="w-4 h-4" />
                 <span>RETURN TO ARCHIVE</span>
