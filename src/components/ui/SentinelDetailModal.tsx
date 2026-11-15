@@ -7,17 +7,26 @@ import {
   RotateCcw,
   Volume2,
   ChevronDown,
-  Compass,
-  Target,
+  Navigation2,
+  Timer,
+  History,
+  MapPin,
+  Rocket,
+  CheckCircle2,
+  FileText,
+  Award,
+  Milestone,
+  Droplets,
   ShieldCheck,
-  Radio,
-  Quote,
+  Shield,
+  Scan,
   Camera,
-  Activity,
-  Wrench,
-  Crosshair,
-  Info,
-  Landmark,
+  Flame,
+  Atom,
+  Disc,
+  Radio,
+  HelpCircle,
+  Mountain,
 } from 'lucide-react';
 import { ArtifactPodiumViewer } from '../canvas/ArtifactPodiumViewer';
 import narrationScripts from '../../data/narrationScripts.json';
@@ -41,43 +50,50 @@ const SENTINEL_AUDIO_MAP: Record<string, string> = {
 
 const getInstrumentIcon = (name: string, role: string) => {
   const text = `${name} ${role}`.toLowerCase();
-  if (text.includes('camera') || text.includes('pancam') || text.includes('vidicon') || text.includes('imaging')) {
-    return <Camera className="w-3.5 h-3.5 text-sky-400 shrink-0" />;
+  if (text.includes('pancam') || text.includes('camera') || text.includes('vidicon') || text.includes('imaging')) {
+    return <Camera className="w-4 h-4 text-sky-400 shrink-0" />;
   }
-  if (
-    text.includes('spectrometer') ||
-    text.includes('seis') ||
-    text.includes('seismic') ||
-    text.includes('apxs') ||
-    text.includes('magnetometer') ||
-    text.includes('tes') ||
-    text.includes('heat')
-  ) {
-    return <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" />;
+  if (text.includes('mini-tes') || text.includes('thermal') || text.includes('heat')) {
+    return <Flame className="w-4 h-4 text-rose-400 shrink-0" />;
   }
-  if (
-    text.includes('rat') ||
-    text.includes('abrasion') ||
-    text.includes('arm') ||
-    text.includes('tool') ||
-    text.includes('sampler') ||
-    text.includes('claw') ||
-    text.includes('mole') ||
-    text.includes('wheel') ||
-    text.includes('joystick')
-  ) {
-    return <Wrench className="w-3.5 h-3.5 text-amber-400 shrink-0" />;
+  if (text.includes('mössbauer') || text.includes('mossbauer') || text.includes('atom') || text.includes('mineral')) {
+    return <Atom className="w-4 h-4 text-amber-400 shrink-0" />;
   }
-  if (text.includes('retroreflector') || text.includes('laser') || text.includes('lrrr') || text.includes('cube')) {
-    return <Crosshair className="w-3.5 h-3.5 text-amber-400 shrink-0" />;
+  if (text.includes('rat') || text.includes('abrasion') || text.includes('wheel') || text.includes('grind') || text.includes('disc')) {
+    return <Disc className="w-4 h-4 text-emerald-400 shrink-0" />;
   }
-  if (text.includes('antenna') || text.includes('dish') || text.includes('radio') || text.includes('transmitter')) {
-    return <Radio className="w-3.5 h-3.5 text-cyan-400 shrink-0" />;
+  if (text.includes('spectrometer') || text.includes('seis') || text.includes('seismic') || text.includes('apxs')) {
+    return <Scan className="w-4 h-4 text-emerald-400 shrink-0" />;
   }
-  if (text.includes('plaque') || text.includes('marker') || text.includes('fabric') || text.includes('tribute')) {
-    return <Landmark className="w-3.5 h-3.5 text-amber-300 shrink-0" />;
+  return <Scan className="w-4 h-4 text-sky-400 shrink-0" />;
+};
+
+const getBreakthroughIcon = (text: string) => {
+  const lower = text.toLowerCase();
+  if (lower.includes('water') || lower.includes('blueberries') || lower.includes('hematite')) {
+    return <Droplets className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />;
   }
-  return <Target className="w-3.5 h-3.5 text-sky-400 shrink-0" />;
+  if (lower.includes('marathon') || lower.includes('mile') || lower.includes('km') || lower.includes('travers')) {
+    return <Milestone className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />;
+  }
+  if (lower.includes('image') || lower.includes('photo') || lower.includes('camera')) {
+    return <Camera className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />;
+  }
+  return <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />;
+};
+
+const getObservationIcon = (text: string) => {
+  const lower = text.toLowerCase();
+  if (lower.includes('airbag') || lower.includes('cocoon') || lower.includes('bounc')) {
+    return <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />;
+  }
+  if (lower.includes('battery') || lower.includes('dark') || lower.includes('transmi') || lower.includes('telemetry')) {
+    return <Radio className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />;
+  }
+  if (lower.includes('crater') || lower.includes('eagle') || lower.includes('endeavour') || lower.includes('hill')) {
+    return <Mountain className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />;
+  }
+  return <HelpCircle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />;
 };
 
 export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
@@ -89,6 +105,10 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   const [duration, setDuration] = useState(0);
   const [useSpeechFallback, setUseSpeechFallback] = useState(false);
   const [isAudioHovered, setIsAudioHovered] = useState(false);
+
+  // Typewriter effect state for Opportunity's heading
+  const [typewriterText, setTypewriterText] = useState('');
+  const [isTypingDone, setIsTypingDone] = useState(false);
 
   const [isRendered, setIsRendered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -105,11 +125,40 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   const indexStr = `${String(sentinelIndex >= 0 ? sentinelIndex + 1 : 1).padStart(2, '0')} / ${String(narrationScripts.length).padStart(2, '0')}`;
   const audioSrc = sentinelId ? SENTINEL_AUDIO_MAP[sentinelId] : undefined;
 
-  // The background image is strictly for Opportunity's page ONLY
   const isOpportunity = sentinelId === 'opportunity-rover';
   const opportunityBgImage = isOpportunity ? '/images/sentinels/opportunity-rover.jpg' : null;
 
   const storyText = sentinel ? (sentinel.ttsCleanScript || sentinel.directorScript).trim() : '';
+
+  // Typewriter effect execution for Opportunity's main heading
+  useEffect(() => {
+    if (!sentinelId || !sentinel) {
+      setTypewriterText('');
+      setIsTypingDone(false);
+      return;
+    }
+
+    if (isOpportunity) {
+      const fullTitle = sentinel.name;
+      setTypewriterText('');
+      setIsTypingDone(false);
+
+      let currentIdx = 0;
+      const timer = setInterval(() => {
+        currentIdx++;
+        setTypewriterText(fullTitle.slice(0, currentIdx));
+        if (currentIdx >= fullTitle.length) {
+          clearInterval(timer);
+          setIsTypingDone(true);
+        }
+      }, 35);
+
+      return () => clearInterval(timer);
+    } else {
+      setTypewriterText(sentinel.name);
+      setIsTypingDone(true);
+    }
+  }, [sentinelId, sentinel, isOpportunity]);
 
   useEffect(() => {
     if (sentinelId) {
@@ -393,12 +442,12 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
         {/* Content Layer (Overlaid above canvas) */}
         <div className="relative z-10">
           <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-3 sm:mb-5 pb-2 sm:pb-3 border-b border-white/10 pr-9 sm:pr-12">
-            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-heading font-normal tracking-[0.16em] sm:tracking-[0.2em] text-sky-400 uppercase">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono tracking-[0.18em] text-sky-400 uppercase">
               <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-sky-400 animate-pulse" />
               <span>NASA HISTORIC ARTIFACT DOSSIER • {indexStr}</span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[11px] font-sans font-light tracking-[0.14em] sm:tracking-[0.16em] uppercase text-neutral-400">
-              <Radio className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-400" />
+            <div className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[11px] font-mono tracking-[0.14em] uppercase text-neutral-400">
+              <Radio className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
               <span>{artifactData?.status || 'PERMANENT ARCHIVE'}</span>
             </div>
           </div>
@@ -408,18 +457,25 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
             <div className="lg:col-span-5 lg:sticky lg:top-0 space-y-2.5 sm:space-y-4">
               <div>
                 <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 mb-1 sm:mb-2 text-[9px] sm:text-xs">
-                  <span className="px-2 sm:px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
+                  <span className="px-2 sm:px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 font-mono tracking-[0.18em] uppercase">
                     {sentinel.celestialBody}
                   </span>
-                  <span className="px-2 sm:px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-sans font-light tracking-[0.12em] sm:tracking-[0.14em] uppercase">
+                  <span className="px-2 sm:px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30 font-mono tracking-[0.14em] uppercase">
                     {artifactData?.characterArchetype || sentinel.characterArchetype}
                   </span>
                 </div>
-                <h1 className="text-xl xs:text-2xl sm:text-3xl xl:text-4xl font-heading font-extrabold text-white tracking-tight uppercase leading-tight mb-1 sm:mb-2">
-                  {sentinel.name}
+
+                {/* Main Heading with Authentic Typewriter Effect */}
+                <h1 className="text-xl xs:text-2xl sm:text-3xl xl:text-4xl font-heading font-extrabold text-white tracking-tight uppercase leading-tight mb-1 sm:mb-2 min-h-[1.2em]">
+                  {isOpportunity ? typewriterText : sentinel.name}
+                  {isOpportunity && !isTypingDone && (
+                    <span className="inline-block w-2 sm:w-2.5 h-5 sm:h-7 ml-1 bg-sky-400 align-middle animate-pulse" />
+                  )}
                 </h1>
+
+                {/* Tagline set in award-winning Literata font */}
                 {artifactData?.tagline && (
-                  <p className="text-[11px] sm:text-xs md:text-sm text-neutral-300 font-sans font-light leading-snug sm:leading-relaxed">
+                  <p className="font-editorial italic text-xs sm:text-sm md:text-[15px] text-neutral-300 leading-snug sm:leading-relaxed">
                     {artifactData.tagline}
                   </p>
                 )}
@@ -429,10 +485,11 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 <ArtifactPodiumViewer sentinelId={sentinel.id} />
               </div>
 
+              {/* Mission Telemetry with Real Navigation & Instrument Icons */}
               <div className="p-2.5 sm:p-4 rounded-xl bg-[#1c1c1c]/90 backdrop-blur-md border border-white/10 space-y-2 sm:space-y-3">
-                <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] text-neutral-400 uppercase border-b border-white/5 pb-1.5 sm:pb-2">
+                <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono tracking-[0.16em] text-neutral-400 uppercase border-b border-white/5 pb-1.5 sm:pb-2">
                   <span className="flex items-center gap-1.5 text-sky-400">
-                    <Compass className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <Navigation2 className="w-3.5 h-3.5" />
                     <span>MISSION TELEMETRY</span>
                   </span>
                   <span className="font-mono text-neutral-400 text-[9px] sm:text-[11px]">
@@ -441,38 +498,54 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-1.5 sm:gap-2 text-xs">
-                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#232323] border border-white/5">
-                    <span className="block text-[9px] sm:text-[10px] font-heading font-normal tracking-[0.14em] sm:tracking-[0.16em] uppercase text-neutral-400 mb-0.5">
-                      PLANNED LIFESPAN
-                    </span>
-                    <span className="font-mono text-neutral-200 font-medium text-[10px] sm:text-xs">
+                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#232323] border border-white/5 space-y-1">
+                    <div className="flex items-center gap-1.5 text-neutral-400">
+                      <Timer className="w-3.5 h-3.5 text-neutral-400" />
+                      <span className="text-[9px] sm:text-[10px] font-mono tracking-[0.14em] uppercase">
+                        PLANNED
+                      </span>
+                    </div>
+                    <span className="block font-mono text-neutral-200 font-medium text-[10px] sm:text-xs">
                       {artifactData?.missionLifespan.planned || 'Design Phase'}
                     </span>
                   </div>
-                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#2a2a2a] border border-white/10">
-                    <span className="block text-[9px] sm:text-[10px] font-heading font-normal tracking-[0.14em] sm:tracking-[0.16em] uppercase text-neutral-400 mb-0.5">
-                      ACTUAL LIFESPAN
-                    </span>
-                    <span className="font-mono text-sky-300 font-semibold text-[10px] sm:text-xs">
+
+                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#2a2a2a] border border-white/10 space-y-1">
+                    <div className="flex items-center gap-1.5 text-sky-400">
+                      <History className="w-3.5 h-3.5 text-sky-400" />
+                      <span className="text-[9px] sm:text-[10px] font-mono tracking-[0.14em] uppercase">
+                        ACTUAL
+                      </span>
+                    </div>
+                    <span className="block font-mono text-sky-300 font-semibold text-[10px] sm:text-xs">
                       {artifactData?.missionLifespan.actual || 'Operational'}
                     </span>
                   </div>
                 </div>
 
                 {artifactData?.landingSite && (
-                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#232323] border border-white/5 text-xs">
-                    <span className="block text-[9px] sm:text-[10px] font-heading font-normal tracking-[0.14em] sm:tracking-[0.16em] uppercase text-neutral-400 mb-0.5">
-                      RESTING SITE / LANDING LOCATION
-                    </span>
-                    <span className="text-neutral-200 font-sans font-light text-[10px] sm:text-xs leading-snug">
+                  <div className="p-2 sm:p-2.5 rounded-lg bg-[#232323] border border-white/5 text-xs space-y-1">
+                    <div className="flex items-center gap-1.5 text-neutral-400">
+                      <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                      <span className="text-[9px] sm:text-[10px] font-mono tracking-[0.14em] uppercase">
+                        RESTING SITE / LOCATION
+                      </span>
+                    </div>
+                    <span className="block text-neutral-200 font-editorial text-[11px] sm:text-xs leading-snug">
                       {artifactData.landingSite}
                     </span>
                   </div>
                 )}
 
                 <div className="flex items-center justify-between text-[9px] sm:text-[11px] text-neutral-400 px-1 pt-0.5 font-mono">
-                  <span>LAUNCH: {artifactData?.launchDate || 'Historic'}</span>
-                  <span>LANDED: {artifactData?.landingDate || 'Historic'}</span>
+                  <span className="flex items-center gap-1">
+                    <Rocket className="w-3 h-3 text-neutral-400" />
+                    <span>LAUNCH: {artifactData?.launchDate || 'Historic'}</span>
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                    <span>LANDED: {artifactData?.landingDate || 'Historic'}</span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -582,31 +655,31 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 )}
               </div>
 
-              {/* Mission Log / Historical Account */}
+              {/* Mission Log / Historical Account set in award-winning Literata font */}
               <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
+                <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-mono tracking-[0.16em] uppercase">
                   <span className="text-sky-400 flex items-center gap-1.5">
-                    <Quote className="w-3.5 h-3.5" />
+                    <FileText className="w-3.5 h-3.5" />
                     <span>MISSION LOG & HISTORICAL ACCOUNT</span>
                   </span>
-                  <span className="text-neutral-400">ARCHIVAL RECORD</span>
+                  <span className="text-neutral-400">ARCHIVAL DISPATCH</span>
                 </div>
 
-                <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-[#1c1c1c]/90 backdrop-blur-md border border-white/10 text-[11px] sm:text-sm leading-normal sm:leading-relaxed text-neutral-200 font-sans font-light space-y-2 sm:space-y-3">
+                <div className="p-3.5 sm:p-5 md:p-6 rounded-xl bg-[#1c1c1c]/90 backdrop-blur-md border border-white/10 text-xs sm:text-[14px] md:text-[15px] leading-relaxed sm:leading-loose text-neutral-200 font-editorial tracking-[0.01em] space-y-3">
                   {storyText.split('\n\n').map((paragraph, idx) => (
-                    <p key={idx} className="leading-normal sm:leading-relaxed">
+                    <p key={idx} className="leading-relaxed sm:leading-loose">
                       {paragraph}
                     </p>
                   ))}
                 </div>
               </div>
 
-              {/* Historic Breakthroughs */}
+              {/* Historic Breakthroughs with Real Contextual Milestone Icons */}
               {artifactData?.breakthroughs && artifactData.breakthroughs.length > 0 && (
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-mono tracking-[0.16em] uppercase">
                     <span className="text-emerald-400 flex items-center gap-1.5">
-                      <Target className="w-3.5 h-3.5" />
+                      <Award className="w-3.5 h-3.5" />
                       <span>HISTORIC BREAKTHROUGHS</span>
                     </span>
                     <span className="text-neutral-400">{artifactData.breakthroughs.length} ACHIEVEMENTS</span>
@@ -616,9 +689,9 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     {artifactData.breakthroughs.map((breakthrough, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 text-[10px] sm:text-xs text-neutral-200 font-sans font-light leading-snug sm:leading-relaxed"
+                        className="flex items-start gap-2.5 p-2.5 sm:p-3 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 text-[11px] sm:text-xs text-neutral-200 font-editorial leading-relaxed"
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                        {getBreakthroughIcon(breakthrough)}
                         <span>{breakthrough}</span>
                       </div>
                     ))}
@@ -628,23 +701,23 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
 
               {/* Why Left Behind / Heritage */}
               {artifactData?.whyLeftBehind && (
-                <div className="p-2.5 sm:p-3.5 rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/10 space-y-1 sm:space-y-2">
-                  <div className="flex items-center gap-1.5 text-sky-300 text-[10px] sm:text-[11px] font-heading font-normal uppercase tracking-[0.16em] sm:tracking-[0.18em]">
+                <div className="p-2.5 sm:p-3.5 rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/10 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-sky-300 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.16em]">
                     <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
                     <span>WHY LEFT BEHIND • HERITAGE</span>
                   </div>
-                  <p className="text-[11px] sm:text-sm text-neutral-300 leading-snug sm:leading-relaxed font-sans font-light">
+                  <p className="font-editorial text-xs sm:text-sm leading-relaxed text-neutral-300">
                     {artifactData.whyLeftBehind}
                   </p>
                 </div>
               )}
 
-              {/* Scientific Instrumentation */}
+              {/* Scientific Instrumentation with Specific Payload Sensor Icons */}
               {artifactData?.instruments && artifactData.instruments.length > 0 && (
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-mono tracking-[0.16em] uppercase">
                     <span className="text-indigo-400 flex items-center gap-1.5">
-                      <Crosshair className="w-3.5 h-3.5" />
+                      <Scan className="w-3.5 h-3.5" />
                       <span>SCIENTIFIC INSTRUMENTATION</span>
                     </span>
                     <span className="text-neutral-400">{artifactData.instruments.length} SENSORS</span>
@@ -654,15 +727,15 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     {artifactData.instruments.map((inst, idx) => (
                       <div
                         key={idx}
-                        className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 space-y-1"
+                        className="p-2.5 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 space-y-1"
                       >
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-2">
                           {getInstrumentIcon(inst.name, inst.role)}
                           <span className="text-[10px] sm:text-[11px] font-mono text-sky-300 font-medium truncate">
                             {inst.name}
                           </span>
                         </div>
-                        <span className="block text-[9px] sm:text-[11px] text-neutral-400 font-sans font-light leading-snug sm:leading-relaxed">
+                        <span className="block text-[10px] sm:text-[11px] text-neutral-400 font-editorial leading-snug">
                           {inst.role}
                         </span>
                       </div>
@@ -674,9 +747,9 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               {/* Field Observations / Archival Notes */}
               {artifactData?.didYouKnow && artifactData.didYouKnow.length > 0 && (
                 <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-heading font-normal tracking-[0.16em] sm:tracking-[0.18em] uppercase">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-neutral-400 border-b border-white/10 pb-1.5 sm:pb-2 font-mono tracking-[0.16em] uppercase">
                     <span className="text-amber-400 flex items-center gap-1.5">
-                      <Info className="w-3.5 h-3.5" />
+                      <HelpCircle className="w-3.5 h-3.5" />
                       <span>FIELD OBSERVATIONS</span>
                     </span>
                     <span className="text-neutral-400">HISTORICAL NOTES</span>
@@ -686,9 +759,9 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     {artifactData.didYouKnow.map((fact, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-2 p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 text-[10px] sm:text-xs text-amber-100/90 font-sans font-light leading-snug sm:leading-relaxed"
+                        className="flex items-start gap-2.5 p-2.5 rounded-lg sm:rounded-xl bg-[#1c1c1c]/80 backdrop-blur-md border border-white/5 text-[10px] sm:text-xs text-amber-100/90 font-editorial leading-relaxed"
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 shrink-0" />
+                        {getObservationIcon(fact)}
                         <span>{fact}</span>
                       </div>
                     ))}
@@ -701,7 +774,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                 onClick={handleTriggerExit}
                 className="mt-4 sm:mt-6 p-2.5 sm:p-4 rounded-xl border border-white/10 bg-[#1c1c1c]/80 hover:bg-[#282828] backdrop-blur-md cursor-pointer flex flex-col items-center justify-center gap-1 transition-all text-center group"
               >
-                <div className="flex items-center gap-1.5 text-sky-400 text-[10px] sm:text-[11px] font-heading font-normal uppercase tracking-[0.16em] sm:tracking-[0.18em]">
+                <div className="flex items-center gap-1.5 text-sky-400 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.16em]">
                   <span>Scroll down or tap to exit to orbital helix</span>
                   <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-y-1 transition-transform animate-bounce" />
                 </div>
@@ -714,7 +787,7 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
               <div className="pt-1 sm:pt-2 flex justify-end">
                 <button
                   onClick={handleTriggerExit}
-                  className="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] sm:text-xs font-heading font-bold tracking-[0.14em] sm:tracking-[0.16em] uppercase transition-colors text-center"
+                  className="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] sm:text-xs font-mono font-bold tracking-[0.14em] uppercase transition-colors text-center"
                 >
                   RETURN TO SHUTTLE CORRIDOR
                 </button>
