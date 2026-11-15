@@ -27,13 +27,13 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
   const amberLightRef = useRef<THREE.PointLight>(null);
   const magentaLightRef = useRef<THREE.PointLight>(null);
 
-  // Load NASA astronaut 3D model
-  const { scene: astronautModel } = useGLTF('/models/astronaut.glb');
+  // Load authentic Lusion astronaut 3D model (extracted from lusion.co)
+  const { scene: astronautModel } = useGLTF('/models/lusion_astronaut.glb');
 
   // Load photorealistic Earth texture
   const earthTexture = useTexture('/textures/earth.jpg');
 
-  // Clone astronaut with glossy spacesuit specular highlights and visor reflections
+  // Configure materials for helmet, visor glass, gloves, boots, and wearpack
   const astronautScene = useMemo(() => {
     const clone = astronautModel.clone();
     clone.traverse((child) => {
@@ -42,13 +42,30 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         mesh.castShadow = true;
         mesh.receiveShadow = true;
 
-        if (mesh.material) {
-          const orig = mesh.material as THREE.MeshStandardMaterial;
-          const enhanced = orig.clone();
-          enhanced.roughness = 0.22;
-          enhanced.metalness = 0.48;
-          enhanced.envMapIntensity = 2.8;
-          mesh.material = enhanced;
+        if (mesh.name === 'helmet_glass') {
+          // Deep gold / chrome reflective space visor
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: '#06101e',
+            roughness: 0.03,
+            metalness: 0.98,
+            envMapIntensity: 3.5,
+          });
+        } else if (mesh.name === 'glove_shoes') {
+          // Reinforced graphite grip pads & boots
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: '#1e293b',
+            roughness: 0.42,
+            metalness: 0.25,
+            envMapIntensity: 1.8,
+          });
+        } else {
+          // Ceramic titanium & Kevlar spacesuit fabric
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: '#f8fafc',
+            roughness: 0.26,
+            metalness: 0.38,
+            envMapIntensity: 2.6,
+          });
         }
       }
     });
@@ -71,11 +88,11 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     astroX: 0.0,
     astroY: -0.05,
     astroZ: 0.0,
-    astroScale: 1.08,
+    astroScale: 1.05,
 
     // Astronaut Rotation (Euler Angles)
     astroRotX: 0.0,
-    astroRotY: Math.PI, // Facing camera in landing
+    astroRotY: 0.0, // Naturally facing forward towards camera on landing
     astroRotZ: 0.0,
 
     // Environment & Volumetric Lighting
@@ -120,7 +137,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     tl.to(
       animState.current,
       {
-        astroRotY: Math.PI * 2, // Turns around to face -Z
+        astroRotY: Math.PI, // Turns 180° around to face -Z
         astroRotX: 1.0, // Pitches forward head-down into dive
         astroZ: -18.0, // Dives deep into space
         astroY: -0.85,
@@ -159,7 +176,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         astroY: -0.65,
         astroScale: 0.55,
         astroRotX: 1.0 + Math.PI * 3.5, // 3.5 tumbling rolls
-        astroRotY: Math.PI * 2 + Math.PI * 2.8, // yaw spin
+        astroRotY: Math.PI + Math.PI * 2.8, // yaw spin
         astroRotZ: Math.PI * 2.4, // barrel rolls
         camZ: -16.0,
         camFov: 52,
@@ -212,7 +229,7 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
         astroZ: -75.0,
         astroScale: 0.30,
         astroRotX: 1.0 + Math.PI * 7.5,
-        astroRotY: Math.PI * 2 + Math.PI * 6.8,
+        astroRotY: Math.PI + Math.PI * 6.8,
         astroRotZ: Math.PI * 5.4,
         camZ: -46.0,
         camFov: 66,
@@ -492,12 +509,12 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
       />
 
       {/* -------------------------------------------------------------
-          2. THE 3D GSAP-CHOREOGRAPHED ASTRONAUT
-          Offset by Y = -1.0 so center of gravity is at astronaut's torso,
-          ensuring the full astronaut (helmet to boots) is beautifully framed!
+          2. THE AUTHENTIC LUSION 3D ASTRONAUT
+          Offset by Y = -0.915 so center of gravity is at astronaut's chest,
+          ensuring the full helmet, visor, suit, and boots are perfectly framed!
           ------------------------------------------------------------- */}
       <group ref={astronautRef} position={[0, -0.05, 0]}>
-        <group position={[0, -1.0, 0]}>
+        <group position={[0, -0.915, 0]}>
           <primitive object={astronautScene} />
         </group>
       </group>
@@ -787,3 +804,6 @@ export const LusionAstronautScene: React.FC<LusionAstronautSceneProps> = ({
     </group>
   );
 };
+
+useGLTF.preload('/models/lusion_astronaut.glb');
+useTexture.preload('/textures/earth.jpg');

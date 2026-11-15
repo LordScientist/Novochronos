@@ -370,40 +370,30 @@ export const LusionHeroPage: React.FC<LusionHeroPageProps> = ({
 
       {/* 
         -------------------------------------------------------------
-        4. HERO EDITORIAL TYPOGRAPHY & STORYTELLING PROSE
-        Restored from original design & lucio.webm reference:
-        Prominent headline, NASA mission theme, and narrative prose.
-        Glides up and fades away seamlessly as dive begins.
+        4. HERO EDITORIAL HEADLINE (Cleanly Formatted, No Overlap)
+        Paragraphs removed per instruction. Bold headline positioned
+        cleanly above the tablet with responsive sizing.
         -------------------------------------------------------------
       */}
       {uiOpacity > 0.01 && (
         <div
-          className="absolute top-24 sm:top-28 left-6 sm:left-12 lg:left-16 max-w-2xl lg:max-w-3xl z-30 pointer-events-auto transition-all"
+          className="absolute top-20 sm:top-24 left-6 sm:left-12 lg:left-16 right-6 sm:right-12 z-30 pointer-events-none transition-all"
           style={{
             opacity: uiOpacity,
             transform: `translateY(-${uiTranslateY * 0.55}px)`,
           }}
         >
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.22em] text-neutral-500 uppercase font-semibold">
               HUMANITY'S DISCARDED SENTINELS ON THE MOON & MARS
             </span>
           </div>
 
-          <h1 className="font-heading font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-neutral-950 tracking-tight uppercase leading-[1.02] mb-5">
+          <h1 className="font-heading font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-neutral-950 tracking-tight uppercase leading-[1.05] max-w-2xl sm:max-w-3xl">
             WHERE ANCIENT EXPLORERS<br />
             BECOME LIVING LEGENDS.
           </h1>
-
-          <div className="space-y-3.5 max-w-xl">
-            <p className="font-sans text-xs sm:text-sm md:text-base text-neutral-600 font-normal leading-relaxed">
-              We do not chase trends or let history gather dust in forgotten textbooks. We build living digital archives that transport you across time and space.
-            </p>
-            <p className="font-sans text-xs sm:text-sm md:text-base text-neutral-600 font-normal leading-relaxed">
-              Step inside eight discarded yet immortal sentinels resting in eternal silence on the Moon, Mars, and deep space—recreated with authentic NASA telemetry and cinematic 3D craft.
-            </p>
-          </div>
         </div>
       )}
 
