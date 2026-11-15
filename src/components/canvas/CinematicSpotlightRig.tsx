@@ -9,6 +9,7 @@ interface CinematicSpotlightRigProps {
   activeSentinelIndex: number;
   pedestalRadius?: number;
   timeInScene: number;
+  currentTime?: number;
 }
 
 interface SentinelLightState {
@@ -26,6 +27,7 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
   activeSentinelIndex,
   pedestalRadius = 9.5,
   timeInScene,
+  currentTime,
 }) => {
   // Pre-calculate positions and targets for each of the 8 sentinels
   const sentinelConfigs = useMemo(() => {
@@ -34,20 +36,20 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
       const sentX = Math.cos(angle) * pedestalRadius;
       const sentZ = Math.sin(angle) * pedestalRadius;
 
-      // Primary key spotlight position: positioned above and slightly offset to cast depth shadows
-      const lightX = sentX + Math.cos(angle + 0.25) * 1.4;
-      const lightY = 5.2;
-      const lightZ = sentZ + Math.sin(angle + 0.25) * 1.4;
+      // Primary key spotlight position: positioned in front and above to illuminate the model's face
+      const lightX = sentX - Math.cos(angle - 0.25) * 2.2;
+      const lightY = 4.8;
+      const lightZ = sentZ - Math.sin(angle - 0.25) * 2.2;
 
-      // Soft fill light position: lower and offset opposite to reveal mechanical shadow detail
-      const fillX = sentX - Math.cos(angle) * 1.8;
-      const fillY = 1.8;
-      const fillZ = sentZ - Math.sin(angle) * 1.8;
+      // Soft fill light position: offset opposite side in front to reveal mechanical shadow detail
+      const fillX = sentX - Math.cos(angle + 0.35) * 2.5;
+      const fillY = 2.0;
+      const fillZ = sentZ - Math.sin(angle + 0.35) * 2.5;
 
-      // Rim light position: behind the sentinel pointing inward to create edge separation
-      const rimX = sentX + Math.cos(angle) * 2.2;
-      const rimY = 2.5;
-      const rimZ = sentZ + Math.sin(angle) * 2.2;
+      // Rim light position: positioned behind the sentinel pointing inward to create edge separation
+      const rimX = sentX + Math.cos(angle) * 1.8;
+      const rimY = 2.8;
+      const rimZ = sentZ + Math.sin(angle) * 1.8;
 
       // Target anchor object placed directly at the model center
       const targetObj = new THREE.Object3D();
@@ -87,33 +89,33 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
       const state = lightsState.current[idx];
       if (!state) return;
 
-      let targetKey = 1.0;  // Base ambient pedestal illumination
-      let targetFill = 0.35; // Base fill
-      let targetRim = 0.45;   // Base rim
+      let targetKey = 0.55;  // Base ambient pedestal illumination
+      let targetFill = 0.15; // Base fill
+      let targetRim = 0.2;   // Base rim
 
       if (scene === 'awakening') {
-        // Lights gradually power on as the hall awakens
-        const awakenFactor = Math.max(0.35, Math.min(timeInScene / 4.0, 1.0));
-        targetKey = 1.3 * awakenFactor;
-        targetFill = 0.45 * awakenFactor;
-        targetRim = 0.55 * awakenFactor;
+        // Lights gradually power on as the hall awakens (0.0 - 11.5s)
+        const awakenFactor = Math.min((currentTime ?? timeInScene) / 10.0, 1.0);
+        targetKey = 0.55 * awakenFactor;
+        targetFill = 0.15 * awakenFactor;
+        targetRim = 0.2 * awakenFactor;
       } else if (scene === 'sentinels') {
         if (activeSentinelIndex === idx) {
           // Focused spacecraft receives primary cinematic key, fill, and rim lighting
-          targetKey = 5.8;  // Prominent key illumination revealing materials and geometry
-          targetFill = 1.9; // Soft side fill to illuminate mechanical details
-          targetRim = 2.2;  // Crisp back-edge separation
+          targetKey = 5.4;  // Prominent key illumination revealing materials and geometry
+          targetFill = 1.1; // Soft side fill to illuminate shadowed mechanics
+          targetRim = 1.6;  // Crisp back-edge separation
         } else {
-          // Other spacecraft remain visible in the environment at clear ambient levels
-          targetKey = 0.9;
-          targetFill = 0.3;
-          targetRim = 0.4;
+          // Other spacecraft remain visible in the environment at subtle ambient levels
+          targetKey = 0.6;
+          targetFill = 0.18;
+          targetRim = 0.22;
         }
       } else if (scene === 'grand-exhibition') {
         // All eight spacecraft are balanced and illuminated together for the 360° panoramic sweep
-        targetKey = 3.0;
-        targetFill = 1.0;
-        targetRim = 1.3;
+        targetKey = 2.6;
+        targetFill = 0.65;
+        targetRim = 0.85;
       } else {
         // In planetary scenes, circular lights dim out
         targetKey = 0;
@@ -152,58 +154,52 @@ export const CinematicSpotlightRig: React.FC<CinematicSpotlightRigProps> = ({
   });
 
   return (
-    <group name="CinematicSpotlightRig">
+    <group>
       {sentinelConfigs.map((cfg, idx) => (
         <group key={cfg.id}>
-          {/* Target object anchor added to the scene */}
+          {/* Target anchor in scene graph for directional and spot aiming */}
           <primitive object={cfg.targetObj} />
 
-          {/* 1. Primary Directional Key Spotlight */}
+          {/* 1. Primary Focused SpotLight (Key Light from above & offset) */}
           <spotLight
-            ref={(light) => {
-              if (lightsState.current[idx]) {
-                lightsState.current[idx].keyLight = light;
-                if (light) {
-                  light.target = cfg.targetObj;
-                }
-              }
+            ref={(el) => {
+              if (lightsState.current[idx]) lightsState.current[idx].keyLight = el;
             }}
             position={cfg.keyPos}
-            angle={0.46}
-            penumbra={0.85}
+            target={cfg.targetObj}
+            color="#ffffff"
+            intensity={0}
+            angle={0.52}
+            penumbra={0.65}
+            distance={16}
             decay={2}
-            distance={14}
-            color="#fffbeb"
             castShadow
-            shadow-mapSize={[1024, 1024]}
-            shadow-bias={-0.0001}
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-bias={-0.0005}
           />
 
-          {/* 2. Subtle Fill Light (reveals mechanical wheel & chassis shadows) */}
+          {/* 2. Soft Fill Light (PointLight to open up deep shadows) */}
           <pointLight
-            ref={(light) => {
-              if (lightsState.current[idx]) {
-                lightsState.current[idx].fillLight = light;
-              }
+            ref={(el) => {
+              if (lightsState.current[idx]) lightsState.current[idx].fillLight = el;
             }}
             position={cfg.fillPos}
-            color="#e2e8f0"
-            distance={7}
+            color="#e0f2fe"
+            intensity={0}
+            distance={10}
             decay={2}
           />
 
-          {/* 3. Restrained Rim Light (separates spacecraft from dark background) */}
+          {/* 3. Rim / Edge Directional Light (Color-coded to spacecraft accent color) */}
           <directionalLight
-            ref={(light) => {
-              if (lightsState.current[idx]) {
-                lightsState.current[idx].rimLight = light;
-                if (light) {
-                  light.target = cfg.targetObj;
-                }
-              }
+            ref={(el) => {
+              if (lightsState.current[idx]) lightsState.current[idx].rimLight = el;
             }}
             position={cfg.rimPos}
-            color="#38bdf8"
+            target={cfg.targetObj}
+            color={cfg.accentColor}
+            intensity={0}
           />
         </group>
       ))}

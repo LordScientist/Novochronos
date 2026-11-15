@@ -25,7 +25,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   // Photorealistic Orbiter materials (silica tiles, Inconel engines, flight deck glass)
   const clonedOrbiter = useMemo(() => {
     const clone = orbiterGLTF.scene.clone(true);
-    clone.traverse((child) => {
+    clone.traverse((child: any) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
@@ -57,7 +57,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   // Photorealistic External Tank with spray-on terracotta foam insulation
   const clonedET = useMemo(() => {
     const clone = etGLTF.scene.clone(true);
-    clone.traverse((child) => {
+    clone.traverse((child: any) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
@@ -85,7 +85,7 @@ export const SpaceShuttleSpine: React.FC<SpaceShuttleSpineProps> = ({
   // Port and Starboard Solid Rocket Boosters (white steel casing, dark aft skirts)
   const clonedPortSRB = useMemo(() => {
     const clone = srbGLTF.scene.clone(true);
-    clone.traverse((child) => {
+    clone.traverse((child: any) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;

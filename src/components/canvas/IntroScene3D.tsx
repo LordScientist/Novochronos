@@ -12,12 +12,14 @@ interface IntroScene3DProps {
   scene: IntroScene;
   activeSentinelIndex: number;
   timeInScene: number;
+  currentTime?: number;
 }
 
 export const IntroScene3D: React.FC<IntroScene3DProps> = ({
   scene,
   activeSentinelIndex,
   timeInScene,
+  currentTime,
 }) => {
   const isPlanetary = scene === 'planetary-reveal' || scene === 'title-reveal';
   const pedestalRadius = 9.5;
@@ -65,7 +67,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
         radius={100}
         depth={60}
         count={3500}
-        factor={scene === 'awakening' ? Math.min(timeInScene * 0.8, 4) : 4}
+        factor={scene === 'awakening' ? Math.max(3.0, timeInScene * 0.8) : 4}
         saturation={0.5}
         fade
         speed={1}
@@ -87,6 +89,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
         activeSentinelIndex={activeSentinelIndex}
         pedestalRadius={pedestalRadius}
         timeInScene={timeInScene}
+        currentTime={currentTime}
       />
 
       {/* Exhibition Lighting Rig (Active during Scenes 1, 2, 3) */}
@@ -96,7 +99,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
           <ambientLight
             intensity={
               scene === 'awakening'
-                ? Math.max(0.6, timeInScene * 0.3)
+                ? Math.max(0.75, timeInScene * 0.3)
                 : 1.2
             }
             color="#e2e8f0"
@@ -155,6 +158,7 @@ export const IntroScene3D: React.FC<IntroScene3DProps> = ({
             activeSentinelIndex={activeSentinelIndex}
             pedestalRadius={pedestalRadius}
             timeInScene={timeInScene}
+            currentTime={currentTime}
           />
 
           <CircularExhibitionEnvironment
