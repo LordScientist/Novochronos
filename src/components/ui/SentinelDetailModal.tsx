@@ -18,6 +18,7 @@ import {
   Crosshair,
   Info,
   Landmark,
+  Rocket,
 } from 'lucide-react';
 import { ArtifactPodiumViewer } from '../canvas/ArtifactPodiumViewer';
 import narrationScripts from '../../data/narrationScripts.json';
@@ -26,6 +27,7 @@ import { ARTIFACTS } from '../../data/artifacts';
 interface SentinelDetailModalProps {
   sentinelId: string | null;
   onClose: () => void;
+  onLaunchGame?: (sentinelId: string) => void;
 }
 
 const SENTINEL_AUDIO_MAP: Record<string, string> = {
@@ -83,6 +85,7 @@ const getInstrumentIcon = (name: string, role: string) => {
 export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
   sentinelId,
   onClose,
+  onLaunchGame,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -523,6 +526,21 @@ export const SentinelDetailModal: React.FC<SentinelDetailModalProps> = ({
                     className="w-full h-1 sm:h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-400"
                   />
                   <span className="font-mono">{formatTime(duration || sentinel.estimatedDurationSec)}</span>
+                </div>
+              )}
+
+              {onLaunchGame && (
+                <div className="pt-2 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-[10px] text-amber-400 font-mono uppercase tracking-wider">
+                    INTERACTIVE MISSION READY
+                  </span>
+                  <button
+                    onClick={() => onLaunchGame(sentinel.id)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono text-xs font-bold uppercase transition-all shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
+                  >
+                    <Rocket className="w-3.5 h-3.5 fill-current" />
+                    <span>LAUNCH IN POWER RUN</span>
+                  </button>
                 </div>
               )}
             </div>

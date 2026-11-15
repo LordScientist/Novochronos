@@ -1,44 +1,70 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
 
+// Exact mathematical terrain elevation function across the Martian surface
+export function getMartianTerrainHeight(x: number, z: number): number {
+  // Gentle, scenic rolling dunes and ripples across the Martian staging ground
+  const d1 = Math.sin(x * 0.1) * Math.cos(z * 0.1) * 0.45;
+  const d2 = Math.sin(x * 0.25 + 0.8) * 0.2;
+  const d3 = Math.cos(z * 0.2) * 0.15;
+  // Natural subtle rim elevation in the far background
+  const distantRise = Math.max(0, -z - 5) * 0.08;
+  return -0.4 + d1 + d2 + d3 + distantRise;
+}
+
 export const PlanetaryMartianEnvironment: React.FC = () => {
   // Generate procedurally displaced terrain vertices for authentic Martian surface
   const { terrainGeometry, rocks } = useMemo(() => {
-    const size = 60;
-    const segments = 48;
+    const size = 64;
+    const segments = 64;
     const geom = new THREE.PlaneGeometry(size, size, segments, segments);
     const pos = geom.attributes.position;
 
-    // Displace vertices to create dunes, ripples, and shallow craters
+    // Displace vertices so after rotation [-Math.PI / 2, 0, 0]
+    // the world position (x, y, z) satisfies y = getMartianTerrainHeight(x, z)
     for (let i = 0; i < pos.count; i++) {
       const vx = pos.getX(i);
       const vy = pos.getY(i);
-      // Combine multiple harmonic frequencies for natural topography
-      const z =
-        Math.sin(vx * 0.12) * Math.cos(vy * 0.12) * 0.9 +
-        Math.sin(vx * 0.28 + 1.2) * 0.35 +
-        Math.cos(vy * 0.35) * 0.25 -
-        // Shallow crater dip in center-left
-        Math.exp(-((vx + 6) ** 2 + (vy - 4) ** 2) / 60) * 1.2;
-      pos.setZ(i, z);
+      const worldZ = -vy; // plane Y maps to world -Z
+      const yWorld = getMartianTerrainHeight(vx, worldZ);
+      pos.setZ(i, yWorld);
     }
     geom.computeVertexNormals();
 
-    // Generate random boulders and rocks scattered on surface
-    const rockList: { x: number; y: number; z: number; scale: [number, number, number]; rot: [number, number, number] }[] = [];
-    const rockCount = 45;
+    // Generate random boulders and rocks scattered naturally on the terrain
+    const rockList: {
+      x: number;
+      y: number;
+      z: number;
+      scale: [number, number, number];
+      rot: [number, number, number];
+    }[] = [];
+    const rockCount = 48;
+
     for (let r = 0; r < rockCount; r++) {
-      const rx = (Math.random() - 0.5) * 45;
-      const rz = (Math.random() - 0.5) * 45;
-      // Skip placing rocks directly where sentinels sit
-      if (Math.abs(rx) < 3 && Math.abs(rz) < 3) continue;
-      const s = 0.2 + Math.random() * 0.6;
+      const rx = (Math.random() - 0.5) * 48;
+      const rz = (Math.random() - 0.5) * 48;
+
+      // Keep rock-free clearance corridor around sentinel staging arc
+      if (Math.abs(rx) < 10 && rz > -7 && rz < 0) continue;
+
+      const s = 0.2 + Math.random() * 0.55;
+      const groundY = getMartianTerrainHeight(rx, rz);
+
       rockList.push({
         x: rx,
-        y: 0.1,
+        y: groundY + s * 0.25, // Bottom firmly grounded in sand
         z: rz,
-        scale: [s * (0.8 + Math.random() * 0.4), s * (0.6 + Math.random() * 0.4), s * (0.8 + Math.random() * 0.4)],
-        rot: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI],
+        scale: [
+          s * (0.8 + Math.random() * 0.4),
+          s * (0.6 + Math.random() * 0.4),
+          s * (0.8 + Math.random() * 0.4),
+        ],
+        rot: [
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+        ],
       });
     }
 
@@ -46,7 +72,7 @@ export const PlanetaryMartianEnvironment: React.FC = () => {
   }, []);
 
   return (
-    <group position={[0, -0.6, 0]}>
+    <group position={[0, 0, 0]}>
       {/* Martian Terrain Plane */}
       <mesh
         geometry={terrainGeometry}
@@ -82,8 +108,8 @@ export const PlanetaryMartianEnvironment: React.FC = () => {
 
       {/* Dramatic Martian Sun */}
       <directionalLight
-        position={[25, 18, -20]}
-        intensity={3.8}
+        position={[25, 20, -18]}
+        intensity={3.6}
         color="#fff1e6"
         castShadow
         shadow-mapSize={[1024, 1024]}
@@ -102,7 +128,7 @@ export const PlanetaryMartianEnvironment: React.FC = () => {
       {/* Front fill light for balanced model visibility */}
       <directionalLight
         position={[-15, 14, 18]}
-        intensity={2.2}
+        intensity={2.0}
         color="#ffffff"
       />
 

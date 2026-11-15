@@ -7,11 +7,13 @@ import { CinematicArtifactExpanded } from './CinematicArtifactExpanded';
 interface CinematicArtifactDiscoveryProps {
   onBackToCorridor?: () => void;
   onReplayIntro?: () => void;
+  onLaunchGame?: (artifact: Artifact) => void;
 }
 
 export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProps> = ({
   onBackToCorridor,
   onReplayIntro,
+  onLaunchGame,
 }) => {
   const [filter, setFilter] = useState<'ALL' | CelestialBody>('ALL');
   const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
@@ -31,6 +33,17 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
     setSelectedArtifact(null);
     setOriginRect(null);
   };
+
+  // Prevent background page scrolling while an artifact is expanded
+  React.useEffect(() => {
+    if (selectedArtifact) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [selectedArtifact]);
 
   return (
     <div className="relative min-h-screen bg-[#030611] text-slate-100 select-none px-4 sm:px-6 md:px-12 py-8 md:py-12 flex flex-col justify-between">
@@ -114,6 +127,10 @@ export const CinematicArtifactDiscovery: React.FC<CinematicArtifactDiscoveryProp
           artifact={selectedArtifact}
           originRect={originRect}
           onClose={handleCloseExpanded}
+          onLaunchGame={(art) => {
+            handleCloseExpanded();
+            onLaunchGame?.(art);
+          }}
         />
       )}
 
