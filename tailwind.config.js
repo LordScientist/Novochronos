@@ -7,11 +7,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Manrope"', '"General Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"Manrope"', '"General Sans"', '"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
         display: ['"Manrope"', '"General Sans"', 'sans-serif'],
-        heading: ['"Manrope"', '"General Sans"', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
-        orbitron: ['"Manrope"', '"General Sans"', 'sans-serif'],
+        heading: ['"Manrope"', '"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
+        editorial: ['"Literata"', 'Charter', 'Georgia', 'serif'],
+        mono: ['"IBM Plex Mono"', '"DM Mono"', 'ui-monospace', 'monospace'],
+        orbitron: ['"Manrope"', '"General Sans"', '"Inter Tight"', 'Inter', 'sans-serif'],
       },
       colors: {
         deepSpace: '#05070D',
