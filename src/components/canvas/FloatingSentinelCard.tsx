@@ -30,13 +30,6 @@ const SENTINEL_SHORT_NAMES: Record<string, string> = {
   'surveyor-3': 'SURVEYOR 3',
 };
 
-const getCelestialColor = (body: string): string => {
-  const b = body.toLowerCase();
-  if (b.includes('mar')) return '#E26D5C'; // Martian Amber
-  if (b.includes('moon')) return '#54C9F5'; // Nebula Cyan
-  return '#9DB4FF'; // Stellar Blue / Deep Space
-};
-
 export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
   id,
   name,
@@ -51,9 +44,8 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 }) => {
   const cardRef = useRef<THREE.Group>(null);
 
-  const indexStr = `${String(index + 1).padStart(2, '0')} // ${String(totalCards).padStart(2, '0')}`;
+  const indexStr = `${String(index + 1).padStart(2, '0')} / ${String(totalCards).padStart(2, '0')}`;
   const headlineName = SENTINEL_SHORT_NAMES[id] || name.split('(')[0].trim().toUpperCase();
-  const celestialColor = getCelestialColor(celestialBody);
 
   const isFrontFacing = distanceFromCenter < 1.3;
 
@@ -136,32 +128,11 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
       </mesh>
 
       {/* 
-        Layer 1: Obsidian Architectural Backplate
-        Clean solid rounded box with dark luxury surface
+        Sleek Obsidian & Cyan Backing Rim:
+        Clean solid rounded box with luminous rim that stays visible across the entire 3D depth
       */}
       <RoundedBox
-        args={[3.52, 2.27, 0.04]}
-        radius={0.14}
-        smoothness={4}
-        position={[0, 0, -0.02]}
-        onClick={handleSelect}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        <meshBasicMaterial
-          color="#090D16"
-          transparent
-          opacity={0.96}
-          side={THREE.DoubleSide}
-        />
-      </RoundedBox>
-
-      {/* 
-        Layer 2: Luminous Precision Bezel Rim
-        Dynamic rim responding to orientation and active selection
-      */}
-      <RoundedBox
-        args={[3.46, 2.21, 0.03]}
+        args={[3.46, 2.21, 0.04]}
         radius={0.12}
         smoothness={4}
         position={[0, 0, -0.01]}
@@ -170,19 +141,19 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         onPointerOut={handlePointerOut}
       >
         <meshBasicMaterial
-          color={isActive ? '#F4F6FA' : isFrontFacing ? '#54C9F5' : '#1A2FFB'}
+          color={isActive ? '#38bdf8' : isFrontFacing ? '#38bdf8' : '#0284c7'}
           transparent
-          opacity={isActive ? 1.0 : isFrontFacing ? 0.85 : 0.45}
+          opacity={isActive ? 1.0 : isFrontFacing ? 0.9 : 0.65}
           side={THREE.DoubleSide}
         />
       </RoundedBox>
 
       {/* 
-        Layer 3: Edge-to-Edge NASA Image:
-        Fills the 3.4 x 2.15 card with crisp rounded corners
+        Full Edge-to-Edge NASA Image:
+        Fills the entire 3.4 x 2.15 card without any black boxes cutting it off!
       */}
       <group
-        position={[0, 0, 0.015]}
+        position={[0, 0, 0.02]}
         onClick={handleSelect}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -190,7 +161,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         <Image
           url={`/images/sentinels/${id}.jpg`}
           scale={[3.4, 2.15]}
-          radius={0.11}
+          radius={0.12}
           transparent
           opacity={cardOpacity}
           toneMapped={true}
@@ -201,38 +172,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         />
       </group>
 
-      {/* Layer 4: Lower Third Contrast Gradient Mesh */}
-      <mesh position={[0, -0.55, 0.025]}>
-        <planeGeometry args={[3.38, 1.0]} />
-        <meshBasicMaterial
-          color="#05070D"
-          transparent
-          opacity={0.7}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-
-      {/* 4 Optical Corner Crosshair Reticles in 3D */}
-      <Text position={[-1.56, 0.96, 0.035]} fontSize={0.08} color={isFrontFacing ? '#54C9F5' : '#8E9AA8'} fillOpacity={cardOpacity * 0.75}>
-        +
-      </Text>
-      <Text position={[1.56, 0.96, 0.035]} fontSize={0.08} color={isFrontFacing ? '#54C9F5' : '#8E9AA8'} fillOpacity={cardOpacity * 0.75}>
-        +
-      </Text>
-      <Text position={[-1.56, -0.96, 0.035]} fontSize={0.08} color={isFrontFacing ? '#54C9F5' : '#8E9AA8'} fillOpacity={cardOpacity * 0.75}>
-        +
-      </Text>
-      <Text position={[1.56, -0.96, 0.035]} fontSize={0.08} color={isFrontFacing ? '#54C9F5' : '#8E9AA8'} fillOpacity={cardOpacity * 0.75}>
-        +
-      </Text>
-
-      {/* Glowing Signal Beacon LED in 3D */}
-      <mesh position={[-1.48, 0.8, 0.045]}>
-        <circleGeometry args={[0.024, 16]} />
-        <meshBasicMaterial color="#00F5A0" transparent opacity={cardOpacity} />
-      </mesh>
-
-      {/* Top Header: Monospace Counter & Celestial Body */}
+      {/* Top Header: Monospace Counter & Celestial Body with Text Stroke for 100% Readability */}
       <group
         position={[0, 0.8, 0.04]}
         onClick={handleSelect}
@@ -240,14 +180,14 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         onPointerOut={handlePointerOut}
       >
         <Text
-          position={[-1.38, 0, 0]}
+          position={[-1.4, 0, 0]}
           fontSize={0.09}
-          color="#F4F6FA"
+          color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.12}
           outlineWidth={0.018}
-          outlineColor="#05070D"
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
           onClick={handleSelect}
         >
@@ -257,12 +197,12 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         <Text
           position={[1.4, 0, 0]}
           fontSize={0.09}
-          color={celestialColor}
+          color="#38bdf8"
           anchorX="right"
           anchorY="middle"
-          letterSpacing={0.14}
+          letterSpacing={0.12}
           outlineWidth={0.018}
-          outlineColor="#05070D"
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
           onClick={handleSelect}
         >
@@ -270,7 +210,7 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         </Text>
       </group>
 
-      {/* Bottom Title & Action Pill */}
+      {/* Bottom Title: Clean, Punchy, Crisp White with Dark Outline to Pop Over Any Photo */}
       <group
         position={[0, -0.74, 0.04]}
         onClick={handleSelect}
@@ -280,15 +220,15 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
         <Text
           position={[-1.4, 0, 0]}
           fontSize={0.2}
-          color="#F4F6FA"
+          color="#ffffff"
           anchorX="left"
           anchorY="middle"
           letterSpacing={0.08}
-          maxWidth={2.2}
+          maxWidth={2.6}
           overflowWrap="break-word"
           lineHeight={1.1}
           outlineWidth={0.022}
-          outlineColor="#05070D"
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
           onClick={handleSelect}
         >
@@ -297,17 +237,16 @@ export const FloatingSentinelCard: React.FC<FloatingSentinelCardProps> = ({
 
         <Text
           position={[1.4, 0, 0]}
-          fontSize={0.11}
-          color={isFrontFacing ? '#54C9F5' : '#8E9AA8'}
+          fontSize={0.16}
+          color={isFrontFacing ? '#38bdf8' : '#ffffff'}
           anchorX="right"
           anchorY="middle"
-          letterSpacing={0.12}
-          outlineWidth={0.016}
-          outlineColor="#05070D"
+          outlineWidth={0.02}
+          outlineColor="#000000"
           fillOpacity={cardOpacity}
           onClick={handleSelect}
         >
-          {isFrontFacing ? 'INSPECT →' : '→'}
+          →
         </Text>
       </group>
     </group>
